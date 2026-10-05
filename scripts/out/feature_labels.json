@@ -1,0 +1,3476 @@
+[
+  {
+    "index": 0,
+    "block": "numeric",
+    "level": 0,
+    "label": "Precipitation"
+  },
+  {
+    "index": 1,
+    "block": "numeric",
+    "level": 1,
+    "label": "Snow"
+  },
+  {
+    "index": 2,
+    "block": "numeric",
+    "level": 2,
+    "label": "Snow depth"
+  },
+  {
+    "index": 3,
+    "block": "numeric",
+    "level": 3,
+    "label": "TAVG"
+  },
+  {
+    "index": 4,
+    "block": "numeric",
+    "level": 4,
+    "label": "WT01"
+  },
+  {
+    "index": 5,
+    "block": "numeric",
+    "level": 5,
+    "label": "WT02"
+  },
+  {
+    "index": 6,
+    "block": "numeric",
+    "level": 6,
+    "label": "WT03"
+  },
+  {
+    "index": 7,
+    "block": "numeric",
+    "level": 7,
+    "label": "WT06"
+  },
+  {
+    "index": 8,
+    "block": "numeric",
+    "level": 8,
+    "label": "WT08"
+  },
+  {
+    "index": 9,
+    "block": "numeric",
+    "level": 9,
+    "label": "number_of_event"
+  },
+  {
+    "index": 10,
+    "block": "numeric",
+    "level": 10,
+    "label": "number_of_collision"
+  },
+  {
+    "index": 11,
+    "block": "weekday",
+    "level": 0,
+    "label": "(unused)"
+  },
+  {
+    "index": 12,
+    "block": "weekday",
+    "level": 1,
+    "label": "Sunday"
+  },
+  {
+    "index": 13,
+    "block": "weekday",
+    "level": 2,
+    "label": "Monday"
+  },
+  {
+    "index": 14,
+    "block": "weekday",
+    "level": 3,
+    "label": "Tuesday"
+  },
+  {
+    "index": 15,
+    "block": "weekday",
+    "level": 4,
+    "label": "Wednesday"
+  },
+  {
+    "index": 16,
+    "block": "weekday",
+    "level": 5,
+    "label": "Thursday"
+  },
+  {
+    "index": 17,
+    "block": "weekday",
+    "level": 6,
+    "label": "Friday"
+  },
+  {
+    "index": 18,
+    "block": "weekday",
+    "level": 7,
+    "label": "Saturday"
+  },
+  {
+    "index": 19,
+    "block": "hour",
+    "level": 0,
+    "label": "00:00"
+  },
+  {
+    "index": 20,
+    "block": "hour",
+    "level": 1,
+    "label": "01:00"
+  },
+  {
+    "index": 21,
+    "block": "hour",
+    "level": 2,
+    "label": "02:00"
+  },
+  {
+    "index": 22,
+    "block": "hour",
+    "level": 3,
+    "label": "03:00"
+  },
+  {
+    "index": 23,
+    "block": "hour",
+    "level": 4,
+    "label": "04:00"
+  },
+  {
+    "index": 24,
+    "block": "hour",
+    "level": 5,
+    "label": "05:00"
+  },
+  {
+    "index": 25,
+    "block": "hour",
+    "level": 6,
+    "label": "06:00"
+  },
+  {
+    "index": 26,
+    "block": "hour",
+    "level": 7,
+    "label": "07:00"
+  },
+  {
+    "index": 27,
+    "block": "hour",
+    "level": 8,
+    "label": "08:00"
+  },
+  {
+    "index": 28,
+    "block": "hour",
+    "level": 9,
+    "label": "09:00"
+  },
+  {
+    "index": 29,
+    "block": "hour",
+    "level": 10,
+    "label": "10:00"
+  },
+  {
+    "index": 30,
+    "block": "hour",
+    "level": 11,
+    "label": "11:00"
+  },
+  {
+    "index": 31,
+    "block": "hour",
+    "level": 12,
+    "label": "12:00"
+  },
+  {
+    "index": 32,
+    "block": "hour",
+    "level": 13,
+    "label": "13:00"
+  },
+  {
+    "index": 33,
+    "block": "hour",
+    "level": 14,
+    "label": "14:00"
+  },
+  {
+    "index": 34,
+    "block": "hour",
+    "level": 15,
+    "label": "15:00"
+  },
+  {
+    "index": 35,
+    "block": "hour",
+    "level": 16,
+    "label": "16:00"
+  },
+  {
+    "index": 36,
+    "block": "hour",
+    "level": 17,
+    "label": "17:00"
+  },
+  {
+    "index": 37,
+    "block": "hour",
+    "level": 18,
+    "label": "18:00"
+  },
+  {
+    "index": 38,
+    "block": "hour",
+    "level": 19,
+    "label": "19:00"
+  },
+  {
+    "index": 39,
+    "block": "hour",
+    "level": 20,
+    "label": "20:00"
+  },
+  {
+    "index": 40,
+    "block": "hour",
+    "level": 21,
+    "label": "21:00"
+  },
+  {
+    "index": 41,
+    "block": "hour",
+    "level": 22,
+    "label": "22:00"
+  },
+  {
+    "index": 42,
+    "block": "hour",
+    "level": 23,
+    "label": "23:00"
+  },
+  {
+    "index": 43,
+    "block": "ratecode",
+    "level": 0,
+    "label": "0"
+  },
+  {
+    "index": 44,
+    "block": "ratecode",
+    "level": 1,
+    "label": "1"
+  },
+  {
+    "index": 45,
+    "block": "ratecode",
+    "level": 2,
+    "label": "2"
+  },
+  {
+    "index": 46,
+    "block": "ratecode",
+    "level": 3,
+    "label": "3"
+  },
+  {
+    "index": 47,
+    "block": "ratecode",
+    "level": 4,
+    "label": "4"
+  },
+  {
+    "index": 48,
+    "block": "ratecode",
+    "level": 5,
+    "label": "5"
+  },
+  {
+    "index": 49,
+    "block": "ratecode",
+    "level": 6,
+    "label": "6"
+  },
+  {
+    "index": 50,
+    "block": "passenger_count",
+    "level": 0,
+    "label": "0"
+  },
+  {
+    "index": 51,
+    "block": "passenger_count",
+    "level": 1,
+    "label": "1"
+  },
+  {
+    "index": 52,
+    "block": "passenger_count",
+    "level": 2,
+    "label": "2"
+  },
+  {
+    "index": 53,
+    "block": "passenger_count",
+    "level": 3,
+    "label": "3"
+  },
+  {
+    "index": 54,
+    "block": "passenger_count",
+    "level": 4,
+    "label": "4"
+  },
+  {
+    "index": 55,
+    "block": "passenger_count",
+    "level": 5,
+    "label": "5"
+  },
+  {
+    "index": 56,
+    "block": "passenger_count",
+    "level": 6,
+    "label": "6"
+  },
+  {
+    "index": 57,
+    "block": "pickup_zone",
+    "level": 0,
+    "label": "Upper East Side South"
+  },
+  {
+    "index": 58,
+    "block": "pickup_zone",
+    "level": 1,
+    "label": "Midtown Center"
+  },
+  {
+    "index": 59,
+    "block": "pickup_zone",
+    "level": 2,
+    "label": "Upper East Side North"
+  },
+  {
+    "index": 60,
+    "block": "pickup_zone",
+    "level": 3,
+    "label": "Midtown East"
+  },
+  {
+    "index": 61,
+    "block": "pickup_zone",
+    "level": 4,
+    "label": "Penn Station/Madison Sq West"
+  },
+  {
+    "index": 62,
+    "block": "pickup_zone",
+    "level": 5,
+    "label": "Times Sq/Theatre District"
+  },
+  {
+    "index": 63,
+    "block": "pickup_zone",
+    "level": 6,
+    "label": "Clinton East"
+  },
+  {
+    "index": 64,
+    "block": "pickup_zone",
+    "level": 7,
+    "label": "JFK Airport"
+  },
+  {
+    "index": 65,
+    "block": "pickup_zone",
+    "level": 8,
+    "label": "Murray Hill"
+  },
+  {
+    "index": 66,
+    "block": "pickup_zone",
+    "level": 9,
+    "label": "Union Sq"
+  },
+  {
+    "index": 67,
+    "block": "pickup_zone",
+    "level": 10,
+    "label": "Lincoln Square East"
+  },
+  {
+    "index": 68,
+    "block": "pickup_zone",
+    "level": 11,
+    "label": "Midtown North"
+  },
+  {
+    "index": 69,
+    "block": "pickup_zone",
+    "level": 12,
+    "label": "Upper West Side South"
+  },
+  {
+    "index": 70,
+    "block": "pickup_zone",
+    "level": 13,
+    "label": "LaGuardia Airport"
+  },
+  {
+    "index": 71,
+    "block": "pickup_zone",
+    "level": 14,
+    "label": "East Village"
+  },
+  {
+    "index": 72,
+    "block": "pickup_zone",
+    "level": 15,
+    "label": "East Chelsea"
+  },
+  {
+    "index": 73,
+    "block": "pickup_zone",
+    "level": 16,
+    "label": "Midtown South"
+  },
+  {
+    "index": 74,
+    "block": "pickup_zone",
+    "level": 17,
+    "label": "Lenox Hill West"
+  },
+  {
+    "index": 75,
+    "block": "pickup_zone",
+    "level": 18,
+    "label": "Gramercy"
+  },
+  {
+    "index": 76,
+    "block": "pickup_zone",
+    "level": 19,
+    "label": "Garment District"
+  },
+  {
+    "index": 77,
+    "block": "pickup_zone",
+    "level": 20,
+    "label": "Upper West Side North"
+  },
+  {
+    "index": 78,
+    "block": "pickup_zone",
+    "level": 21,
+    "label": "West Village"
+  },
+  {
+    "index": 79,
+    "block": "pickup_zone",
+    "level": 22,
+    "label": "Sutton Place/Turtle Bay North"
+  },
+  {
+    "index": 80,
+    "block": "pickup_zone",
+    "level": 23,
+    "label": "Yorkville West"
+  },
+  {
+    "index": 81,
+    "block": "pickup_zone",
+    "level": 24,
+    "label": "Lenox Hill East"
+  },
+  {
+    "index": 82,
+    "block": "pickup_zone",
+    "level": 25,
+    "label": "Flatiron"
+  },
+  {
+    "index": 83,
+    "block": "pickup_zone",
+    "level": 26,
+    "label": "West Chelsea/Hudson Yards"
+  },
+  {
+    "index": 84,
+    "block": "pickup_zone",
+    "level": 27,
+    "label": "TriBeCa/Civic Center"
+  },
+  {
+    "index": 85,
+    "block": "pickup_zone",
+    "level": 28,
+    "label": "Central Park"
+  },
+  {
+    "index": 86,
+    "block": "pickup_zone",
+    "level": 29,
+    "label": "Greenwich Village North"
+  },
+  {
+    "index": 87,
+    "block": "pickup_zone",
+    "level": 30,
+    "label": "UN/Turtle Bay South"
+  },
+  {
+    "index": 88,
+    "block": "pickup_zone",
+    "level": 31,
+    "label": "Greenwich Village South"
+  },
+  {
+    "index": 89,
+    "block": "pickup_zone",
+    "level": 32,
+    "label": "Lower East Side"
+  },
+  {
+    "index": 90,
+    "block": "pickup_zone",
+    "level": 33,
+    "label": "Yorkville East"
+  },
+  {
+    "index": 91,
+    "block": "pickup_zone",
+    "level": 34,
+    "label": "Kips Bay"
+  },
+  {
+    "index": 92,
+    "block": "pickup_zone",
+    "level": 35,
+    "label": "Lincoln Square West"
+  },
+  {
+    "index": 93,
+    "block": "pickup_zone",
+    "level": 36,
+    "label": "Meatpacking/West Village West"
+  },
+  {
+    "index": 94,
+    "block": "pickup_zone",
+    "level": 37,
+    "label": "Little Italy/NoLiTa"
+  },
+  {
+    "index": 95,
+    "block": "pickup_zone",
+    "level": 38,
+    "label": "Clinton West"
+  },
+  {
+    "index": 96,
+    "block": "pickup_zone",
+    "level": 39,
+    "label": "Battery Park City"
+  },
+  {
+    "index": 97,
+    "block": "pickup_zone",
+    "level": 40,
+    "label": "Manhattan Valley"
+  },
+  {
+    "index": 98,
+    "block": "pickup_zone",
+    "level": 41,
+    "label": "SoHo"
+  },
+  {
+    "index": 99,
+    "block": "pickup_zone",
+    "level": 42,
+    "label": "East Harlem South"
+  },
+  {
+    "index": 100,
+    "block": "pickup_zone",
+    "level": 43,
+    "label": "Financial District North"
+  },
+  {
+    "index": 101,
+    "block": "pickup_zone",
+    "level": 44,
+    "label": "World Trade Center"
+  },
+  {
+    "index": 102,
+    "block": "pickup_zone",
+    "level": 45,
+    "label": "Hudson Sq"
+  },
+  {
+    "index": 103,
+    "block": "pickup_zone",
+    "level": 46,
+    "label": "Morningside Heights"
+  },
+  {
+    "index": 104,
+    "block": "pickup_zone",
+    "level": 47,
+    "label": "East Harlem North"
+  },
+  {
+    "index": 105,
+    "block": "pickup_zone",
+    "level": 48,
+    "label": "Central Harlem"
+  },
+  {
+    "index": 106,
+    "block": "pickup_zone",
+    "level": 49,
+    "label": "Financial District South"
+  },
+  {
+    "index": 107,
+    "block": "pickup_zone",
+    "level": 50,
+    "label": "Bloomingdale"
+  },
+  {
+    "index": 108,
+    "block": "pickup_zone",
+    "level": 51,
+    "label": "Seaport"
+  },
+  {
+    "index": 109,
+    "block": "pickup_zone",
+    "level": 52,
+    "label": "Stuy Town/Peter Cooper Village"
+  },
+  {
+    "index": 110,
+    "block": "pickup_zone",
+    "level": 53,
+    "label": "Chinatown"
+  },
+  {
+    "index": 111,
+    "block": "pickup_zone",
+    "level": 54,
+    "label": "Alphabet City"
+  },
+  {
+    "index": 112,
+    "block": "pickup_zone",
+    "level": 55,
+    "label": "Central Harlem North"
+  },
+  {
+    "index": 113,
+    "block": "pickup_zone",
+    "level": 56,
+    "label": "Two Bridges/Seward Park"
+  },
+  {
+    "index": 114,
+    "block": "pickup_zone",
+    "level": 57,
+    "label": "Sunnyside"
+  },
+  {
+    "index": 115,
+    "block": "pickup_zone",
+    "level": 58,
+    "label": "Astoria"
+  },
+  {
+    "index": 116,
+    "block": "pickup_zone",
+    "level": 59,
+    "label": "Downtown Brooklyn/MetroTech"
+  },
+  {
+    "index": 117,
+    "block": "pickup_zone",
+    "level": 60,
+    "label": "Hamilton Heights"
+  },
+  {
+    "index": 118,
+    "block": "pickup_zone",
+    "level": 61,
+    "label": "Washington Heights South"
+  },
+  {
+    "index": 119,
+    "block": "pickup_zone",
+    "level": 62,
+    "label": "Brooklyn Heights"
+  },
+  {
+    "index": 120,
+    "block": "pickup_zone",
+    "level": 63,
+    "label": "Manhattanville"
+  },
+  {
+    "index": 121,
+    "block": "pickup_zone",
+    "level": 64,
+    "label": "Long Island City/Queens Plaza"
+  },
+  {
+    "index": 122,
+    "block": "pickup_zone",
+    "level": 65,
+    "label": "Long Island City/Hunters Point"
+  },
+  {
+    "index": 123,
+    "block": "pickup_zone",
+    "level": 66,
+    "label": "Boerum Hill"
+  },
+  {
+    "index": 124,
+    "block": "pickup_zone",
+    "level": 67,
+    "label": "Park Slope"
+  },
+  {
+    "index": 125,
+    "block": "pickup_zone",
+    "level": 68,
+    "label": "Fort Greene"
+  },
+  {
+    "index": 126,
+    "block": "pickup_zone",
+    "level": 69,
+    "label": "Williamsburg (North Side)"
+  },
+  {
+    "index": 127,
+    "block": "pickup_zone",
+    "level": 70,
+    "label": "Williamsburg (South Side)"
+  },
+  {
+    "index": 128,
+    "block": "pickup_zone",
+    "level": 71,
+    "label": "Cobble Hill"
+  },
+  {
+    "index": 129,
+    "block": "pickup_zone",
+    "level": 72,
+    "label": "DUMBO/Vinegar Hill"
+  },
+  {
+    "index": 130,
+    "block": "pickup_zone",
+    "level": 73,
+    "label": "Old Astoria"
+  },
+  {
+    "index": 131,
+    "block": "pickup_zone",
+    "level": 74,
+    "label": "Woodside"
+  },
+  {
+    "index": 132,
+    "block": "pickup_zone",
+    "level": 75,
+    "label": "Steinway"
+  },
+  {
+    "index": 133,
+    "block": "pickup_zone",
+    "level": 76,
+    "label": "Jackson Heights"
+  },
+  {
+    "index": 134,
+    "block": "pickup_zone",
+    "level": 77,
+    "label": "Battery Park"
+  },
+  {
+    "index": 135,
+    "block": "pickup_zone",
+    "level": 78,
+    "label": "Carroll Gardens"
+  },
+  {
+    "index": 136,
+    "block": "pickup_zone",
+    "level": 79,
+    "label": "Queensbridge/Ravenswood"
+  },
+  {
+    "index": 137,
+    "block": "pickup_zone",
+    "level": 80,
+    "label": "Baisley Park"
+  },
+  {
+    "index": 138,
+    "block": "pickup_zone",
+    "level": 81,
+    "label": "East Williamsburg"
+  },
+  {
+    "index": 139,
+    "block": "pickup_zone",
+    "level": 82,
+    "label": "Elmhurst"
+  },
+  {
+    "index": 140,
+    "block": "pickup_zone",
+    "level": 83,
+    "label": "Flushing Meadows-Corona Park"
+  },
+  {
+    "index": 141,
+    "block": "pickup_zone",
+    "level": 84,
+    "label": "Greenpoint"
+  },
+  {
+    "index": 142,
+    "block": "pickup_zone",
+    "level": 85,
+    "label": "East Elmhurst"
+  },
+  {
+    "index": 143,
+    "block": "pickup_zone",
+    "level": 86,
+    "label": "Clinton Hill"
+  },
+  {
+    "index": 144,
+    "block": "pickup_zone",
+    "level": 87,
+    "label": "Crown Heights North"
+  },
+  {
+    "index": 145,
+    "block": "pickup_zone",
+    "level": 88,
+    "label": "Mott Haven/Port Morris"
+  },
+  {
+    "index": 146,
+    "block": "pickup_zone",
+    "level": 89,
+    "label": "Prospect Heights"
+  },
+  {
+    "index": 147,
+    "block": "pickup_zone",
+    "level": 90,
+    "label": "Washington Heights North"
+  },
+  {
+    "index": 148,
+    "block": "pickup_zone",
+    "level": 91,
+    "label": "Corona"
+  },
+  {
+    "index": 149,
+    "block": "pickup_zone",
+    "level": 92,
+    "label": "Jamaica"
+  },
+  {
+    "index": 150,
+    "block": "pickup_zone",
+    "level": 93,
+    "label": "Bedford"
+  },
+  {
+    "index": 151,
+    "block": "pickup_zone",
+    "level": 94,
+    "label": "Forest Hills"
+  },
+  {
+    "index": 152,
+    "block": "pickup_zone",
+    "level": 95,
+    "label": "Bushwick South"
+  },
+  {
+    "index": 153,
+    "block": "pickup_zone",
+    "level": 96,
+    "label": "West Concourse"
+  },
+  {
+    "index": 154,
+    "block": "pickup_zone",
+    "level": 97,
+    "label": "South Jamaica"
+  },
+  {
+    "index": 155,
+    "block": "pickup_zone",
+    "level": 98,
+    "label": "Prospect-Lefferts Gardens"
+  },
+  {
+    "index": 156,
+    "block": "pickup_zone",
+    "level": 99,
+    "label": "Briarwood/Jamaica Hills"
+  },
+  {
+    "index": 157,
+    "block": "pickup_zone",
+    "level": 100,
+    "label": "Flatbush/Ditmas Park"
+  },
+  {
+    "index": 158,
+    "block": "pickup_zone",
+    "level": 101,
+    "label": "East New York"
+  },
+  {
+    "index": 159,
+    "block": "pickup_zone",
+    "level": 102,
+    "label": "South Ozone Park"
+  },
+  {
+    "index": 160,
+    "block": "pickup_zone",
+    "level": 103,
+    "label": "Stuyvesant Heights"
+  },
+  {
+    "index": 161,
+    "block": "pickup_zone",
+    "level": 104,
+    "label": "Gowanus"
+  },
+  {
+    "index": 162,
+    "block": "pickup_zone",
+    "level": 105,
+    "label": "Rego Park"
+  },
+  {
+    "index": 163,
+    "block": "pickup_zone",
+    "level": 106,
+    "label": "Inwood"
+  },
+  {
+    "index": 164,
+    "block": "pickup_zone",
+    "level": 107,
+    "label": "Elmhurst/Maspeth"
+  },
+  {
+    "index": 165,
+    "block": "pickup_zone",
+    "level": 108,
+    "label": "Bushwick North"
+  },
+  {
+    "index": 166,
+    "block": "pickup_zone",
+    "level": 109,
+    "label": "East Concourse/Concourse Village"
+  },
+  {
+    "index": 167,
+    "block": "pickup_zone",
+    "level": 110,
+    "label": "Maspeth"
+  },
+  {
+    "index": 168,
+    "block": "pickup_zone",
+    "level": 111,
+    "label": "Melrose South"
+  },
+  {
+    "index": 169,
+    "block": "pickup_zone",
+    "level": 112,
+    "label": "Kew Gardens"
+  },
+  {
+    "index": 170,
+    "block": "pickup_zone",
+    "level": 113,
+    "label": "Sunset Park West"
+  },
+  {
+    "index": 171,
+    "block": "pickup_zone",
+    "level": 114,
+    "label": "Randalls Island"
+  },
+  {
+    "index": 172,
+    "block": "pickup_zone",
+    "level": 115,
+    "label": "Springfield Gardens South"
+  },
+  {
+    "index": 173,
+    "block": "pickup_zone",
+    "level": 116,
+    "label": "Canarsie"
+  },
+  {
+    "index": 174,
+    "block": "pickup_zone",
+    "level": 117,
+    "label": "Brownsville"
+  },
+  {
+    "index": 175,
+    "block": "pickup_zone",
+    "level": 118,
+    "label": "Red Hook"
+  },
+  {
+    "index": 176,
+    "block": "pickup_zone",
+    "level": 119,
+    "label": "Richmond Hill"
+  },
+  {
+    "index": 177,
+    "block": "pickup_zone",
+    "level": 120,
+    "label": "Crown Heights South"
+  },
+  {
+    "index": 178,
+    "block": "pickup_zone",
+    "level": 121,
+    "label": "Bay Ridge"
+  },
+  {
+    "index": 179,
+    "block": "pickup_zone",
+    "level": 122,
+    "label": "South Williamsburg"
+  },
+  {
+    "index": 180,
+    "block": "pickup_zone",
+    "level": 123,
+    "label": "East Flatbush/Remsen Village"
+  },
+  {
+    "index": 181,
+    "block": "pickup_zone",
+    "level": 124,
+    "label": "Flatlands"
+  },
+  {
+    "index": 182,
+    "block": "pickup_zone",
+    "level": 125,
+    "label": "Borough Park"
+  },
+  {
+    "index": 183,
+    "block": "pickup_zone",
+    "level": 126,
+    "label": "East Flatbush/Farragut"
+  },
+  {
+    "index": 184,
+    "block": "pickup_zone",
+    "level": 127,
+    "label": "Flushing"
+  },
+  {
+    "index": 185,
+    "block": "pickup_zone",
+    "level": 128,
+    "label": "Soundview/Castle Hill"
+  },
+  {
+    "index": 186,
+    "block": "pickup_zone",
+    "level": 129,
+    "label": "Saint Albans"
+  },
+  {
+    "index": 187,
+    "block": "pickup_zone",
+    "level": 130,
+    "label": "Ocean Hill"
+  },
+  {
+    "index": 188,
+    "block": "pickup_zone",
+    "level": 131,
+    "label": "Co-Op City"
+  },
+  {
+    "index": 189,
+    "block": "pickup_zone",
+    "level": 132,
+    "label": "University Heights/Morris Heights"
+  },
+  {
+    "index": 190,
+    "block": "pickup_zone",
+    "level": 133,
+    "label": "Kensington"
+  },
+  {
+    "index": 191,
+    "block": "pickup_zone",
+    "level": 134,
+    "label": "Kew Gardens Hills"
+  },
+  {
+    "index": 192,
+    "block": "pickup_zone",
+    "level": 135,
+    "label": "Midwood"
+  },
+  {
+    "index": 193,
+    "block": "pickup_zone",
+    "level": 136,
+    "label": "Highbridge"
+  },
+  {
+    "index": 194,
+    "block": "pickup_zone",
+    "level": 137,
+    "label": "Prospect Park"
+  },
+  {
+    "index": 195,
+    "block": "pickup_zone",
+    "level": 138,
+    "label": "Erasmus"
+  },
+  {
+    "index": 196,
+    "block": "pickup_zone",
+    "level": 139,
+    "label": "Van Nest/Morris Park"
+  },
+  {
+    "index": 197,
+    "block": "pickup_zone",
+    "level": 140,
+    "label": "Roosevelt Island"
+  },
+  {
+    "index": 198,
+    "block": "pickup_zone",
+    "level": 141,
+    "label": "Williamsbridge/Olinville"
+  },
+  {
+    "index": 199,
+    "block": "pickup_zone",
+    "level": 142,
+    "label": "Spuyten Duyvil/Kingsbridge"
+  },
+  {
+    "index": 200,
+    "block": "pickup_zone",
+    "level": 143,
+    "label": "Marine Park/Mill Basin"
+  },
+  {
+    "index": 201,
+    "block": "pickup_zone",
+    "level": 144,
+    "label": "Springfield Gardens North"
+  },
+  {
+    "index": 202,
+    "block": "pickup_zone",
+    "level": 145,
+    "label": "North Corona"
+  },
+  {
+    "index": 203,
+    "block": "pickup_zone",
+    "level": 146,
+    "label": "Morrisania/Melrose"
+  },
+  {
+    "index": 204,
+    "block": "pickup_zone",
+    "level": 147,
+    "label": "Windsor Terrace"
+  },
+  {
+    "index": 205,
+    "block": "pickup_zone",
+    "level": 148,
+    "label": "Parkchester"
+  },
+  {
+    "index": 206,
+    "block": "pickup_zone",
+    "level": 149,
+    "label": "Kingsbridge Heights"
+  },
+  {
+    "index": 207,
+    "block": "pickup_zone",
+    "level": 150,
+    "label": "Mount Hope"
+  },
+  {
+    "index": 208,
+    "block": "pickup_zone",
+    "level": 151,
+    "label": "Bensonhurst West"
+  },
+  {
+    "index": 209,
+    "block": "pickup_zone",
+    "level": 152,
+    "label": "Columbia Street"
+  },
+  {
+    "index": 210,
+    "block": "pickup_zone",
+    "level": 153,
+    "label": "Ridgewood"
+  },
+  {
+    "index": 211,
+    "block": "pickup_zone",
+    "level": 154,
+    "label": "Claremont/Bathgate"
+  },
+  {
+    "index": 212,
+    "block": "pickup_zone",
+    "level": 155,
+    "label": "East Tremont"
+  },
+  {
+    "index": 213,
+    "block": "pickup_zone",
+    "level": 156,
+    "label": "Sheepshead Bay"
+  },
+  {
+    "index": 214,
+    "block": "pickup_zone",
+    "level": 157,
+    "label": "Homecrest"
+  },
+  {
+    "index": 215,
+    "block": "pickup_zone",
+    "level": 158,
+    "label": "Starrett City"
+  },
+  {
+    "index": 216,
+    "block": "pickup_zone",
+    "level": 159,
+    "label": "Queens Village"
+  },
+  {
+    "index": 217,
+    "block": "pickup_zone",
+    "level": 160,
+    "label": "East New York/Pennsylvania Avenue"
+  },
+  {
+    "index": 218,
+    "block": "pickup_zone",
+    "level": 161,
+    "label": "Norwood"
+  },
+  {
+    "index": 219,
+    "block": "pickup_zone",
+    "level": 162,
+    "label": "Madison"
+  },
+  {
+    "index": 220,
+    "block": "pickup_zone",
+    "level": 163,
+    "label": "Bensonhurst East"
+  },
+  {
+    "index": 221,
+    "block": "pickup_zone",
+    "level": 164,
+    "label": "Hillcrest/Pomonok"
+  },
+  {
+    "index": 222,
+    "block": "pickup_zone",
+    "level": 165,
+    "label": "Westchester Village/Unionport"
+  },
+  {
+    "index": 223,
+    "block": "pickup_zone",
+    "level": 166,
+    "label": "Soundview/Bruckner"
+  },
+  {
+    "index": 224,
+    "block": "pickup_zone",
+    "level": 167,
+    "label": "Coney Island"
+  },
+  {
+    "index": 225,
+    "block": "pickup_zone",
+    "level": 168,
+    "label": "Woodhaven"
+  },
+  {
+    "index": 226,
+    "block": "pickup_zone",
+    "level": 169,
+    "label": "Van Cortlandt Village"
+  },
+  {
+    "index": 227,
+    "block": "pickup_zone",
+    "level": 170,
+    "label": "Brooklyn Navy Yard"
+  },
+  {
+    "index": 228,
+    "block": "pickup_zone",
+    "level": 171,
+    "label": "Bronxdale"
+  },
+  {
+    "index": 229,
+    "block": "pickup_zone",
+    "level": 172,
+    "label": "Bedford Park"
+  },
+  {
+    "index": 230,
+    "block": "pickup_zone",
+    "level": 173,
+    "label": "Jamaica Estates"
+  },
+  {
+    "index": 231,
+    "block": "pickup_zone",
+    "level": 174,
+    "label": "Howard Beach"
+  },
+  {
+    "index": 232,
+    "block": "pickup_zone",
+    "level": 175,
+    "label": "Sunset Park East"
+  },
+  {
+    "index": 233,
+    "block": "pickup_zone",
+    "level": 176,
+    "label": "Eastchester"
+  },
+  {
+    "index": 234,
+    "block": "pickup_zone",
+    "level": 177,
+    "label": "Cypress Hills"
+  },
+  {
+    "index": 235,
+    "block": "pickup_zone",
+    "level": 178,
+    "label": "West Farms/Bronx River"
+  },
+  {
+    "index": 236,
+    "block": "pickup_zone",
+    "level": 179,
+    "label": "Middle Village"
+  },
+  {
+    "index": 237,
+    "block": "pickup_zone",
+    "level": 180,
+    "label": "Pelham Parkway"
+  },
+  {
+    "index": 238,
+    "block": "pickup_zone",
+    "level": 181,
+    "label": "Longwood"
+  },
+  {
+    "index": 239,
+    "block": "pickup_zone",
+    "level": 182,
+    "label": "Hunts Point"
+  },
+  {
+    "index": 240,
+    "block": "pickup_zone",
+    "level": 183,
+    "label": "Bayside"
+  },
+  {
+    "index": 241,
+    "block": "pickup_zone",
+    "level": 184,
+    "label": "Schuylerville/Edgewater Park"
+  },
+  {
+    "index": 242,
+    "block": "pickup_zone",
+    "level": 185,
+    "label": "Murray Hill-Queens"
+  },
+  {
+    "index": 243,
+    "block": "pickup_zone",
+    "level": 186,
+    "label": "Rosedale"
+  },
+  {
+    "index": 244,
+    "block": "pickup_zone",
+    "level": 187,
+    "label": "Allerton/Pelham Gardens"
+  },
+  {
+    "index": 245,
+    "block": "pickup_zone",
+    "level": 188,
+    "label": "Laurelton"
+  },
+  {
+    "index": 246,
+    "block": "pickup_zone",
+    "level": 189,
+    "label": "Brighton Beach"
+  },
+  {
+    "index": 247,
+    "block": "pickup_zone",
+    "level": 190,
+    "label": "Marble Hill"
+  },
+  {
+    "index": 248,
+    "block": "pickup_zone",
+    "level": 191,
+    "label": "Woodlawn/Wakefield"
+  },
+  {
+    "index": 249,
+    "block": "pickup_zone",
+    "level": 192,
+    "label": "Riverdale/North Riverdale/Fieldston"
+  },
+  {
+    "index": 250,
+    "block": "pickup_zone",
+    "level": 193,
+    "label": "Crotona Park East"
+  },
+  {
+    "index": 251,
+    "block": "pickup_zone",
+    "level": 194,
+    "label": "Glendale"
+  },
+  {
+    "index": 252,
+    "block": "pickup_zone",
+    "level": 195,
+    "label": "Dyker Heights"
+  },
+  {
+    "index": 253,
+    "block": "pickup_zone",
+    "level": 196,
+    "label": "Ozone Park"
+  },
+  {
+    "index": 254,
+    "block": "pickup_zone",
+    "level": 197,
+    "label": "Belmont"
+  },
+  {
+    "index": 255,
+    "block": "pickup_zone",
+    "level": 198,
+    "label": "Queensboro Hill"
+  },
+  {
+    "index": 256,
+    "block": "pickup_zone",
+    "level": 199,
+    "label": "Astoria Park"
+  },
+  {
+    "index": 257,
+    "block": "pickup_zone",
+    "level": 200,
+    "label": "Cambria Heights"
+  },
+  {
+    "index": 258,
+    "block": "pickup_zone",
+    "level": 201,
+    "label": "Fordham South"
+  },
+  {
+    "index": 259,
+    "block": "pickup_zone",
+    "level": 202,
+    "label": "College Point"
+  },
+  {
+    "index": 260,
+    "block": "pickup_zone",
+    "level": 203,
+    "label": "Far Rockaway"
+  },
+  {
+    "index": 261,
+    "block": "pickup_zone",
+    "level": 204,
+    "label": "Whitestone"
+  },
+  {
+    "index": 262,
+    "block": "pickup_zone",
+    "level": 205,
+    "label": "Ocean Parkway South"
+  },
+  {
+    "index": 263,
+    "block": "pickup_zone",
+    "level": 206,
+    "label": "Manhattan Beach"
+  },
+  {
+    "index": 264,
+    "block": "pickup_zone",
+    "level": 207,
+    "label": "Gravesend"
+  },
+  {
+    "index": 265,
+    "block": "pickup_zone",
+    "level": 208,
+    "label": "Fresh Meadows"
+  },
+  {
+    "index": 266,
+    "block": "pickup_zone",
+    "level": 209,
+    "label": "Bellerose"
+  },
+  {
+    "index": 267,
+    "block": "pickup_zone",
+    "level": 210,
+    "label": "Bath Beach"
+  },
+  {
+    "index": 268,
+    "block": "pickup_zone",
+    "level": 211,
+    "label": "Bay Terrace/Fort Totten"
+  },
+  {
+    "index": 269,
+    "block": "pickup_zone",
+    "level": 212,
+    "label": "Glen Oaks"
+  },
+  {
+    "index": 270,
+    "block": "pickup_zone",
+    "level": 213,
+    "label": "Auburndale"
+  },
+  {
+    "index": 271,
+    "block": "pickup_zone",
+    "level": 214,
+    "label": "Saint Michaels Cemetery/Woodside"
+  },
+  {
+    "index": 272,
+    "block": "pickup_zone",
+    "level": 215,
+    "label": "Oakland Gardens"
+  },
+  {
+    "index": 273,
+    "block": "pickup_zone",
+    "level": 216,
+    "label": "Hollis"
+  },
+  {
+    "index": 274,
+    "block": "pickup_zone",
+    "level": 217,
+    "label": "Hammels/Arverne"
+  },
+  {
+    "index": 275,
+    "block": "pickup_zone",
+    "level": 218,
+    "label": "Pelham Bay"
+  },
+  {
+    "index": 276,
+    "block": "pickup_zone",
+    "level": 219,
+    "label": "Inwood Hill Park"
+  },
+  {
+    "index": 277,
+    "block": "pickup_zone",
+    "level": 220,
+    "label": "Newark Airport"
+  },
+  {
+    "index": 278,
+    "block": "pickup_zone",
+    "level": 221,
+    "label": "Douglaston"
+  },
+  {
+    "index": 279,
+    "block": "pickup_zone",
+    "level": 222,
+    "label": "Bloomfield/Emerson Hill"
+  },
+  {
+    "index": 280,
+    "block": "pickup_zone",
+    "level": 223,
+    "label": "Bronx Park"
+  },
+  {
+    "index": 281,
+    "block": "pickup_zone",
+    "level": 224,
+    "label": "Charleston/Tottenville"
+  },
+  {
+    "index": 282,
+    "block": "pickup_zone",
+    "level": 225,
+    "label": "Highbridge Park"
+  },
+  {
+    "index": 283,
+    "block": "pickup_zone",
+    "level": 226,
+    "label": "Heartland Village/Todt Hill"
+  },
+  {
+    "index": 284,
+    "block": "pickup_zone",
+    "level": 227,
+    "label": "East Flushing"
+  },
+  {
+    "index": 285,
+    "block": "pickup_zone",
+    "level": 228,
+    "label": "Arden Heights"
+  },
+  {
+    "index": 286,
+    "block": "pickup_zone",
+    "level": 229,
+    "label": "Marine Park/Floyd Bennett Field"
+  },
+  {
+    "index": 287,
+    "block": "pickup_zone",
+    "level": 230,
+    "label": "Van Cortlandt Park"
+  },
+  {
+    "index": 288,
+    "block": "pickup_zone",
+    "level": 231,
+    "label": "Forest Park/Highland Park"
+  },
+  {
+    "index": 289,
+    "block": "pickup_zone",
+    "level": 232,
+    "label": "Rockaway Park"
+  },
+  {
+    "index": 290,
+    "block": "pickup_zone",
+    "level": 233,
+    "label": "Arrochar/Fort Wadsworth"
+  },
+  {
+    "index": 291,
+    "block": "pickup_zone",
+    "level": 234,
+    "label": "Willets Point"
+  },
+  {
+    "index": 292,
+    "block": "pickup_zone",
+    "level": 235,
+    "label": "Country Club"
+  },
+  {
+    "index": 293,
+    "block": "pickup_zone",
+    "level": 236,
+    "label": "Saint George/New Brighton"
+  },
+  {
+    "index": 294,
+    "block": "pickup_zone",
+    "level": 237,
+    "label": "City Island"
+  },
+  {
+    "index": 295,
+    "block": "pickup_zone",
+    "level": 238,
+    "label": "Green-Wood Cemetery"
+  },
+  {
+    "index": 296,
+    "block": "pickup_zone",
+    "level": 239,
+    "label": "Mariners Harbor"
+  },
+  {
+    "index": 297,
+    "block": "pickup_zone",
+    "level": 240,
+    "label": "Pelham Bay Park"
+  },
+  {
+    "index": 298,
+    "block": "pickup_zone",
+    "level": 241,
+    "label": "Crotona Park"
+  },
+  {
+    "index": 299,
+    "block": "pickup_zone",
+    "level": 242,
+    "label": "Grymes Hill/Clifton"
+  },
+  {
+    "index": 300,
+    "block": "pickup_zone",
+    "level": 243,
+    "label": "South Beach/Dongan Hills"
+  },
+  {
+    "index": 301,
+    "block": "pickup_zone",
+    "level": 244,
+    "label": "Stapleton"
+  },
+  {
+    "index": 302,
+    "block": "pickup_zone",
+    "level": 245,
+    "label": "Jamaica Bay"
+  },
+  {
+    "index": 303,
+    "block": "pickup_zone",
+    "level": 246,
+    "label": "Westerleigh"
+  },
+  {
+    "index": 304,
+    "block": "pickup_zone",
+    "level": 247,
+    "label": "Breezy Point/Fort Tilden/Riis Beach"
+  },
+  {
+    "index": 305,
+    "block": "pickup_zone",
+    "level": 248,
+    "label": "West Brighton"
+  },
+  {
+    "index": 306,
+    "block": "pickup_zone",
+    "level": 249,
+    "label": "Great Kills"
+  },
+  {
+    "index": 307,
+    "block": "pickup_zone",
+    "level": 250,
+    "label": "Port Richmond"
+  },
+  {
+    "index": 308,
+    "block": "pickup_zone",
+    "level": 251,
+    "label": "New Dorp/Midland Beach"
+  },
+  {
+    "index": 309,
+    "block": "pickup_zone",
+    "level": 252,
+    "label": "Eltingville/Annadale/Prince's Bay"
+  },
+  {
+    "index": 310,
+    "block": "pickup_zone",
+    "level": 253,
+    "label": "Broad Channel"
+  },
+  {
+    "index": 311,
+    "block": "pickup_zone",
+    "level": 254,
+    "label": "Freshkills Park"
+  },
+  {
+    "index": 312,
+    "block": "pickup_zone",
+    "level": 255,
+    "label": "Oakwood"
+  },
+  {
+    "index": 313,
+    "block": "pickup_zone",
+    "level": 256,
+    "label": "Rikers Island"
+  },
+  {
+    "index": 314,
+    "block": "pickup_zone",
+    "level": 257,
+    "label": "Rossville/Woodrow"
+  },
+  {
+    "index": 315,
+    "block": "vendor",
+    "level": 0,
+    "label": "0"
+  },
+  {
+    "index": 316,
+    "block": "vendor",
+    "level": 1,
+    "label": "1"
+  },
+  {
+    "index": 317,
+    "block": "vendor",
+    "level": 2,
+    "label": "2"
+  },
+  {
+    "index": 318,
+    "block": "dropoff_zone",
+    "level": 0,
+    "label": "Upper East Side North"
+  },
+  {
+    "index": 319,
+    "block": "dropoff_zone",
+    "level": 1,
+    "label": "Midtown Center"
+  },
+  {
+    "index": 320,
+    "block": "dropoff_zone",
+    "level": 2,
+    "label": "Upper East Side South"
+  },
+  {
+    "index": 321,
+    "block": "dropoff_zone",
+    "level": 3,
+    "label": "Murray Hill"
+  },
+  {
+    "index": 322,
+    "block": "dropoff_zone",
+    "level": 4,
+    "label": "Times Sq/Theatre District"
+  },
+  {
+    "index": 323,
+    "block": "dropoff_zone",
+    "level": 5,
+    "label": "Midtown East"
+  },
+  {
+    "index": 324,
+    "block": "dropoff_zone",
+    "level": 6,
+    "label": "Clinton East"
+  },
+  {
+    "index": 325,
+    "block": "dropoff_zone",
+    "level": 7,
+    "label": "Lincoln Square East"
+  },
+  {
+    "index": 326,
+    "block": "dropoff_zone",
+    "level": 8,
+    "label": "Union Sq"
+  },
+  {
+    "index": 327,
+    "block": "dropoff_zone",
+    "level": 9,
+    "label": "Penn Station/Madison Sq West"
+  },
+  {
+    "index": 328,
+    "block": "dropoff_zone",
+    "level": 10,
+    "label": "Upper West Side South"
+  },
+  {
+    "index": 329,
+    "block": "dropoff_zone",
+    "level": 11,
+    "label": "Lenox Hill West"
+  },
+  {
+    "index": 330,
+    "block": "dropoff_zone",
+    "level": 12,
+    "label": "Midtown North"
+  },
+  {
+    "index": 331,
+    "block": "dropoff_zone",
+    "level": 13,
+    "label": "East Chelsea"
+  },
+  {
+    "index": 332,
+    "block": "dropoff_zone",
+    "level": 14,
+    "label": "East Village"
+  },
+  {
+    "index": 333,
+    "block": "dropoff_zone",
+    "level": 15,
+    "label": "Midtown South"
+  },
+  {
+    "index": 334,
+    "block": "dropoff_zone",
+    "level": 16,
+    "label": "Upper West Side North"
+  },
+  {
+    "index": 335,
+    "block": "dropoff_zone",
+    "level": 17,
+    "label": "Gramercy"
+  },
+  {
+    "index": 336,
+    "block": "dropoff_zone",
+    "level": 18,
+    "label": "West Chelsea/Hudson Yards"
+  },
+  {
+    "index": 337,
+    "block": "dropoff_zone",
+    "level": 19,
+    "label": "Yorkville West"
+  },
+  {
+    "index": 338,
+    "block": "dropoff_zone",
+    "level": 20,
+    "label": "Sutton Place/Turtle Bay North"
+  },
+  {
+    "index": 339,
+    "block": "dropoff_zone",
+    "level": 21,
+    "label": "Lenox Hill East"
+  },
+  {
+    "index": 340,
+    "block": "dropoff_zone",
+    "level": 22,
+    "label": "TriBeCa/Civic Center"
+  },
+  {
+    "index": 341,
+    "block": "dropoff_zone",
+    "level": 23,
+    "label": "West Village"
+  },
+  {
+    "index": 342,
+    "block": "dropoff_zone",
+    "level": 24,
+    "label": "Garment District"
+  },
+  {
+    "index": 343,
+    "block": "dropoff_zone",
+    "level": 25,
+    "label": "UN/Turtle Bay South"
+  },
+  {
+    "index": 344,
+    "block": "dropoff_zone",
+    "level": 26,
+    "label": "Flatiron"
+  },
+  {
+    "index": 345,
+    "block": "dropoff_zone",
+    "level": 27,
+    "label": "Lincoln Square West"
+  },
+  {
+    "index": 346,
+    "block": "dropoff_zone",
+    "level": 28,
+    "label": "Kips Bay"
+  },
+  {
+    "index": 347,
+    "block": "dropoff_zone",
+    "level": 29,
+    "label": "Greenwich Village North"
+  },
+  {
+    "index": 348,
+    "block": "dropoff_zone",
+    "level": 30,
+    "label": "Central Park"
+  },
+  {
+    "index": 349,
+    "block": "dropoff_zone",
+    "level": 31,
+    "label": "Yorkville East"
+  },
+  {
+    "index": 350,
+    "block": "dropoff_zone",
+    "level": 32,
+    "label": "East Harlem South"
+  },
+  {
+    "index": 351,
+    "block": "dropoff_zone",
+    "level": 33,
+    "label": "Clinton West"
+  },
+  {
+    "index": 352,
+    "block": "dropoff_zone",
+    "level": 34,
+    "label": "LaGuardia Airport"
+  },
+  {
+    "index": 353,
+    "block": "dropoff_zone",
+    "level": 35,
+    "label": "Meatpacking/West Village West"
+  },
+  {
+    "index": 354,
+    "block": "dropoff_zone",
+    "level": 36,
+    "label": "Lower East Side"
+  },
+  {
+    "index": 355,
+    "block": "dropoff_zone",
+    "level": 37,
+    "label": "Greenwich Village South"
+  },
+  {
+    "index": 356,
+    "block": "dropoff_zone",
+    "level": 38,
+    "label": "Battery Park City"
+  },
+  {
+    "index": 357,
+    "block": "dropoff_zone",
+    "level": 39,
+    "label": "Little Italy/NoLiTa"
+  },
+  {
+    "index": 358,
+    "block": "dropoff_zone",
+    "level": 40,
+    "label": "JFK Airport"
+  },
+  {
+    "index": 359,
+    "block": "dropoff_zone",
+    "level": 41,
+    "label": "Manhattan Valley"
+  },
+  {
+    "index": 360,
+    "block": "dropoff_zone",
+    "level": 42,
+    "label": "SoHo"
+  },
+  {
+    "index": 361,
+    "block": "dropoff_zone",
+    "level": 43,
+    "label": "East Harlem North"
+  },
+  {
+    "index": 362,
+    "block": "dropoff_zone",
+    "level": 44,
+    "label": "Financial District North"
+  },
+  {
+    "index": 363,
+    "block": "dropoff_zone",
+    "level": 45,
+    "label": "Morningside Heights"
+  },
+  {
+    "index": 364,
+    "block": "dropoff_zone",
+    "level": 46,
+    "label": "Central Harlem"
+  },
+  {
+    "index": 365,
+    "block": "dropoff_zone",
+    "level": 47,
+    "label": "Hudson Sq"
+  },
+  {
+    "index": 366,
+    "block": "dropoff_zone",
+    "level": 48,
+    "label": "World Trade Center"
+  },
+  {
+    "index": 367,
+    "block": "dropoff_zone",
+    "level": 49,
+    "label": "Central Harlem North"
+  },
+  {
+    "index": 368,
+    "block": "dropoff_zone",
+    "level": 50,
+    "label": "Alphabet City"
+  },
+  {
+    "index": 369,
+    "block": "dropoff_zone",
+    "level": 51,
+    "label": "Two Bridges/Seward Park"
+  },
+  {
+    "index": 370,
+    "block": "dropoff_zone",
+    "level": 52,
+    "label": "Stuy Town/Peter Cooper Village"
+  },
+  {
+    "index": 371,
+    "block": "dropoff_zone",
+    "level": 53,
+    "label": "Financial District South"
+  },
+  {
+    "index": 372,
+    "block": "dropoff_zone",
+    "level": 54,
+    "label": "Astoria"
+  },
+  {
+    "index": 373,
+    "block": "dropoff_zone",
+    "level": 55,
+    "label": "Washington Heights South"
+  },
+  {
+    "index": 374,
+    "block": "dropoff_zone",
+    "level": 56,
+    "label": "Bloomingdale"
+  },
+  {
+    "index": 375,
+    "block": "dropoff_zone",
+    "level": 57,
+    "label": "Park Slope"
+  },
+  {
+    "index": 376,
+    "block": "dropoff_zone",
+    "level": 58,
+    "label": "Seaport"
+  },
+  {
+    "index": 377,
+    "block": "dropoff_zone",
+    "level": 59,
+    "label": "Brooklyn Heights"
+  },
+  {
+    "index": 378,
+    "block": "dropoff_zone",
+    "level": 60,
+    "label": "Long Island City/Hunters Point"
+  },
+  {
+    "index": 379,
+    "block": "dropoff_zone",
+    "level": 61,
+    "label": "Hamilton Heights"
+  },
+  {
+    "index": 380,
+    "block": "dropoff_zone",
+    "level": 62,
+    "label": "Chinatown"
+  },
+  {
+    "index": 381,
+    "block": "dropoff_zone",
+    "level": 63,
+    "label": "Williamsburg (North Side)"
+  },
+  {
+    "index": 382,
+    "block": "dropoff_zone",
+    "level": 64,
+    "label": "Williamsburg (South Side)"
+  },
+  {
+    "index": 383,
+    "block": "dropoff_zone",
+    "level": 65,
+    "label": "Sunnyside"
+  },
+  {
+    "index": 384,
+    "block": "dropoff_zone",
+    "level": 66,
+    "label": "Greenpoint"
+  },
+  {
+    "index": 385,
+    "block": "dropoff_zone",
+    "level": 67,
+    "label": "Jackson Heights"
+  },
+  {
+    "index": 386,
+    "block": "dropoff_zone",
+    "level": 68,
+    "label": "Steinway"
+  },
+  {
+    "index": 387,
+    "block": "dropoff_zone",
+    "level": 69,
+    "label": "Downtown Brooklyn/MetroTech"
+  },
+  {
+    "index": 388,
+    "block": "dropoff_zone",
+    "level": 70,
+    "label": "Boerum Hill"
+  },
+  {
+    "index": 389,
+    "block": "dropoff_zone",
+    "level": 71,
+    "label": "Washington Heights North"
+  },
+  {
+    "index": 390,
+    "block": "dropoff_zone",
+    "level": 72,
+    "label": "Manhattanville"
+  },
+  {
+    "index": 391,
+    "block": "dropoff_zone",
+    "level": 73,
+    "label": "Fort Greene"
+  },
+  {
+    "index": 392,
+    "block": "dropoff_zone",
+    "level": 74,
+    "label": "East Williamsburg"
+  },
+  {
+    "index": 393,
+    "block": "dropoff_zone",
+    "level": 75,
+    "label": "Clinton Hill"
+  },
+  {
+    "index": 394,
+    "block": "dropoff_zone",
+    "level": 76,
+    "label": "DUMBO/Vinegar Hill"
+  },
+  {
+    "index": 395,
+    "block": "dropoff_zone",
+    "level": 77,
+    "label": "Crown Heights North"
+  },
+  {
+    "index": 396,
+    "block": "dropoff_zone",
+    "level": 78,
+    "label": "Long Island City/Queens Plaza"
+  },
+  {
+    "index": 397,
+    "block": "dropoff_zone",
+    "level": 79,
+    "label": "Forest Hills"
+  },
+  {
+    "index": 398,
+    "block": "dropoff_zone",
+    "level": 80,
+    "label": "Old Astoria"
+  },
+  {
+    "index": 399,
+    "block": "dropoff_zone",
+    "level": 81,
+    "label": "Bedford"
+  },
+  {
+    "index": 400,
+    "block": "dropoff_zone",
+    "level": 82,
+    "label": "Bushwick South"
+  },
+  {
+    "index": 401,
+    "block": "dropoff_zone",
+    "level": 83,
+    "label": "Woodside"
+  },
+  {
+    "index": 402,
+    "block": "dropoff_zone",
+    "level": 84,
+    "label": "Carroll Gardens"
+  },
+  {
+    "index": 403,
+    "block": "dropoff_zone",
+    "level": 85,
+    "label": "Prospect Heights"
+  },
+  {
+    "index": 404,
+    "block": "dropoff_zone",
+    "level": 86,
+    "label": "Stuyvesant Heights"
+  },
+  {
+    "index": 405,
+    "block": "dropoff_zone",
+    "level": 87,
+    "label": "Flatbush/Ditmas Park"
+  },
+  {
+    "index": 406,
+    "block": "dropoff_zone",
+    "level": 88,
+    "label": "Elmhurst"
+  },
+  {
+    "index": 407,
+    "block": "dropoff_zone",
+    "level": 89,
+    "label": "Cobble Hill"
+  },
+  {
+    "index": 408,
+    "block": "dropoff_zone",
+    "level": 90,
+    "label": "Mott Haven/Port Morris"
+  },
+  {
+    "index": 409,
+    "block": "dropoff_zone",
+    "level": 91,
+    "label": "Flushing Meadows-Corona Park"
+  },
+  {
+    "index": 410,
+    "block": "dropoff_zone",
+    "level": 92,
+    "label": "Baisley Park"
+  },
+  {
+    "index": 411,
+    "block": "dropoff_zone",
+    "level": 93,
+    "label": "Corona"
+  },
+  {
+    "index": 412,
+    "block": "dropoff_zone",
+    "level": 94,
+    "label": "Bay Ridge"
+  },
+  {
+    "index": 413,
+    "block": "dropoff_zone",
+    "level": 95,
+    "label": "Bushwick North"
+  },
+  {
+    "index": 414,
+    "block": "dropoff_zone",
+    "level": 96,
+    "label": "Inwood"
+  },
+  {
+    "index": 415,
+    "block": "dropoff_zone",
+    "level": 97,
+    "label": "Prospect-Lefferts Gardens"
+  },
+  {
+    "index": 416,
+    "block": "dropoff_zone",
+    "level": 98,
+    "label": "South Ozone Park"
+  },
+  {
+    "index": 417,
+    "block": "dropoff_zone",
+    "level": 99,
+    "label": "Battery Park"
+  },
+  {
+    "index": 418,
+    "block": "dropoff_zone",
+    "level": 100,
+    "label": "Queensbridge/Ravenswood"
+  },
+  {
+    "index": 419,
+    "block": "dropoff_zone",
+    "level": 101,
+    "label": "Sunset Park West"
+  },
+  {
+    "index": 420,
+    "block": "dropoff_zone",
+    "level": 102,
+    "label": "East Elmhurst"
+  },
+  {
+    "index": 421,
+    "block": "dropoff_zone",
+    "level": 103,
+    "label": "Jamaica"
+  },
+  {
+    "index": 422,
+    "block": "dropoff_zone",
+    "level": 104,
+    "label": "Ridgewood"
+  },
+  {
+    "index": 423,
+    "block": "dropoff_zone",
+    "level": 105,
+    "label": "Windsor Terrace"
+  },
+  {
+    "index": 424,
+    "block": "dropoff_zone",
+    "level": 106,
+    "label": "Gowanus"
+  },
+  {
+    "index": 425,
+    "block": "dropoff_zone",
+    "level": 107,
+    "label": "Flushing"
+  },
+  {
+    "index": 426,
+    "block": "dropoff_zone",
+    "level": 108,
+    "label": "Roosevelt Island"
+  },
+  {
+    "index": 427,
+    "block": "dropoff_zone",
+    "level": 109,
+    "label": "East Concourse/Concourse Village"
+  },
+  {
+    "index": 428,
+    "block": "dropoff_zone",
+    "level": 110,
+    "label": "Briarwood/Jamaica Hills"
+  },
+  {
+    "index": 429,
+    "block": "dropoff_zone",
+    "level": 111,
+    "label": "West Concourse"
+  },
+  {
+    "index": 430,
+    "block": "dropoff_zone",
+    "level": 112,
+    "label": "Spuyten Duyvil/Kingsbridge"
+  },
+  {
+    "index": 431,
+    "block": "dropoff_zone",
+    "level": 113,
+    "label": "Crown Heights South"
+  },
+  {
+    "index": 432,
+    "block": "dropoff_zone",
+    "level": 114,
+    "label": "Richmond Hill"
+  },
+  {
+    "index": 433,
+    "block": "dropoff_zone",
+    "level": 115,
+    "label": "Rego Park"
+  },
+  {
+    "index": 434,
+    "block": "dropoff_zone",
+    "level": 116,
+    "label": "Kew Gardens"
+  },
+  {
+    "index": 435,
+    "block": "dropoff_zone",
+    "level": 117,
+    "label": "Red Hook"
+  },
+  {
+    "index": 436,
+    "block": "dropoff_zone",
+    "level": 118,
+    "label": "Elmhurst/Maspeth"
+  },
+  {
+    "index": 437,
+    "block": "dropoff_zone",
+    "level": 119,
+    "label": "Springfield Gardens South"
+  },
+  {
+    "index": 438,
+    "block": "dropoff_zone",
+    "level": 120,
+    "label": "East New York"
+  },
+  {
+    "index": 439,
+    "block": "dropoff_zone",
+    "level": 121,
+    "label": "Maspeth"
+  },
+  {
+    "index": 440,
+    "block": "dropoff_zone",
+    "level": 122,
+    "label": "South Williamsburg"
+  },
+  {
+    "index": 441,
+    "block": "dropoff_zone",
+    "level": 123,
+    "label": "Riverdale/North Riverdale/Fieldston"
+  },
+  {
+    "index": 442,
+    "block": "dropoff_zone",
+    "level": 124,
+    "label": "Kensington"
+  },
+  {
+    "index": 443,
+    "block": "dropoff_zone",
+    "level": 125,
+    "label": "Melrose South"
+  },
+  {
+    "index": 444,
+    "block": "dropoff_zone",
+    "level": 126,
+    "label": "Middle Village"
+  },
+  {
+    "index": 445,
+    "block": "dropoff_zone",
+    "level": 127,
+    "label": "North Corona"
+  },
+  {
+    "index": 446,
+    "block": "dropoff_zone",
+    "level": 128,
+    "label": "Canarsie"
+  },
+  {
+    "index": 447,
+    "block": "dropoff_zone",
+    "level": 129,
+    "label": "Columbia Street"
+  },
+  {
+    "index": 448,
+    "block": "dropoff_zone",
+    "level": 130,
+    "label": "South Jamaica"
+  },
+  {
+    "index": 449,
+    "block": "dropoff_zone",
+    "level": 131,
+    "label": "Springfield Gardens North"
+  },
+  {
+    "index": 450,
+    "block": "dropoff_zone",
+    "level": 132,
+    "label": "Kew Gardens Hills"
+  },
+  {
+    "index": 451,
+    "block": "dropoff_zone",
+    "level": 133,
+    "label": "Borough Park"
+  },
+  {
+    "index": 452,
+    "block": "dropoff_zone",
+    "level": 134,
+    "label": "Midwood"
+  },
+  {
+    "index": 453,
+    "block": "dropoff_zone",
+    "level": 135,
+    "label": "Sunset Park East"
+  },
+  {
+    "index": 454,
+    "block": "dropoff_zone",
+    "level": 136,
+    "label": "Ocean Hill"
+  },
+  {
+    "index": 455,
+    "block": "dropoff_zone",
+    "level": 137,
+    "label": "Flatlands"
+  },
+  {
+    "index": 456,
+    "block": "dropoff_zone",
+    "level": 138,
+    "label": "Highbridge"
+  },
+  {
+    "index": 457,
+    "block": "dropoff_zone",
+    "level": 139,
+    "label": "East Flatbush/Farragut"
+  },
+  {
+    "index": 458,
+    "block": "dropoff_zone",
+    "level": 140,
+    "label": "University Heights/Morris Heights"
+  },
+  {
+    "index": 459,
+    "block": "dropoff_zone",
+    "level": 141,
+    "label": "East Flatbush/Remsen Village"
+  },
+  {
+    "index": 460,
+    "block": "dropoff_zone",
+    "level": 142,
+    "label": "Woodhaven"
+  },
+  {
+    "index": 461,
+    "block": "dropoff_zone",
+    "level": 143,
+    "label": "Saint Albans"
+  },
+  {
+    "index": 462,
+    "block": "dropoff_zone",
+    "level": 144,
+    "label": "Bensonhurst West"
+  },
+  {
+    "index": 463,
+    "block": "dropoff_zone",
+    "level": 145,
+    "label": "Brownsville"
+  },
+  {
+    "index": 464,
+    "block": "dropoff_zone",
+    "level": 146,
+    "label": "Rosedale"
+  },
+  {
+    "index": 465,
+    "block": "dropoff_zone",
+    "level": 147,
+    "label": "Soundview/Castle Hill"
+  },
+  {
+    "index": 466,
+    "block": "dropoff_zone",
+    "level": 148,
+    "label": "Mount Hope"
+  },
+  {
+    "index": 467,
+    "block": "dropoff_zone",
+    "level": 149,
+    "label": "Prospect Park"
+  },
+  {
+    "index": 468,
+    "block": "dropoff_zone",
+    "level": 150,
+    "label": "Randalls Island"
+  },
+  {
+    "index": 469,
+    "block": "dropoff_zone",
+    "level": 151,
+    "label": "Whitestone"
+  },
+  {
+    "index": 470,
+    "block": "dropoff_zone",
+    "level": 152,
+    "label": "Morrisania/Melrose"
+  },
+  {
+    "index": 471,
+    "block": "dropoff_zone",
+    "level": 153,
+    "label": "Bayside"
+  },
+  {
+    "index": 472,
+    "block": "dropoff_zone",
+    "level": 154,
+    "label": "Van Cortlandt Village"
+  },
+  {
+    "index": 473,
+    "block": "dropoff_zone",
+    "level": 155,
+    "label": "Marine Park/Mill Basin"
+  },
+  {
+    "index": 474,
+    "block": "dropoff_zone",
+    "level": 156,
+    "label": "Homecrest"
+  },
+  {
+    "index": 475,
+    "block": "dropoff_zone",
+    "level": 157,
+    "label": "Erasmus"
+  },
+  {
+    "index": 476,
+    "block": "dropoff_zone",
+    "level": 158,
+    "label": "Hillcrest/Pomonok"
+  },
+  {
+    "index": 477,
+    "block": "dropoff_zone",
+    "level": 159,
+    "label": "Dyker Heights"
+  },
+  {
+    "index": 478,
+    "block": "dropoff_zone",
+    "level": 160,
+    "label": "Jamaica Estates"
+  },
+  {
+    "index": 479,
+    "block": "dropoff_zone",
+    "level": 161,
+    "label": "Murray Hill-Queens"
+  },
+  {
+    "index": 480,
+    "block": "dropoff_zone",
+    "level": 162,
+    "label": "Bedford Park"
+  },
+  {
+    "index": 481,
+    "block": "dropoff_zone",
+    "level": 163,
+    "label": "Queens Village"
+  },
+  {
+    "index": 482,
+    "block": "dropoff_zone",
+    "level": 164,
+    "label": "Sheepshead Bay"
+  },
+  {
+    "index": 483,
+    "block": "dropoff_zone",
+    "level": 165,
+    "label": "Glendale"
+  },
+  {
+    "index": 484,
+    "block": "dropoff_zone",
+    "level": 166,
+    "label": "Howard Beach"
+  },
+  {
+    "index": 485,
+    "block": "dropoff_zone",
+    "level": 167,
+    "label": "Kingsbridge Heights"
+  },
+  {
+    "index": 486,
+    "block": "dropoff_zone",
+    "level": 168,
+    "label": "Parkchester"
+  },
+  {
+    "index": 487,
+    "block": "dropoff_zone",
+    "level": 169,
+    "label": "Cypress Hills"
+  },
+  {
+    "index": 488,
+    "block": "dropoff_zone",
+    "level": 170,
+    "label": "Schuylerville/Edgewater Park"
+  },
+  {
+    "index": 489,
+    "block": "dropoff_zone",
+    "level": 171,
+    "label": "Co-Op City"
+  },
+  {
+    "index": 490,
+    "block": "dropoff_zone",
+    "level": 172,
+    "label": "Fresh Meadows"
+  },
+  {
+    "index": 491,
+    "block": "dropoff_zone",
+    "level": 173,
+    "label": "Soundview/Bruckner"
+  },
+  {
+    "index": 492,
+    "block": "dropoff_zone",
+    "level": 174,
+    "label": "Bensonhurst East"
+  },
+  {
+    "index": 493,
+    "block": "dropoff_zone",
+    "level": 175,
+    "label": "Hunts Point"
+  },
+  {
+    "index": 494,
+    "block": "dropoff_zone",
+    "level": 176,
+    "label": "Madison"
+  },
+  {
+    "index": 495,
+    "block": "dropoff_zone",
+    "level": 177,
+    "label": "Coney Island"
+  },
+  {
+    "index": 496,
+    "block": "dropoff_zone",
+    "level": 178,
+    "label": "Norwood"
+  },
+  {
+    "index": 497,
+    "block": "dropoff_zone",
+    "level": 179,
+    "label": "Williamsbridge/Olinville"
+  },
+  {
+    "index": 498,
+    "block": "dropoff_zone",
+    "level": 180,
+    "label": "Laurelton"
+  },
+  {
+    "index": 499,
+    "block": "dropoff_zone",
+    "level": 181,
+    "label": "Van Nest/Morris Park"
+  },
+  {
+    "index": 500,
+    "block": "dropoff_zone",
+    "level": 182,
+    "label": "Brooklyn Navy Yard"
+  },
+  {
+    "index": 501,
+    "block": "dropoff_zone",
+    "level": 183,
+    "label": "Pelham Parkway"
+  },
+  {
+    "index": 502,
+    "block": "dropoff_zone",
+    "level": 184,
+    "label": "Claremont/Bathgate"
+  },
+  {
+    "index": 503,
+    "block": "dropoff_zone",
+    "level": 185,
+    "label": "Longwood"
+  },
+  {
+    "index": 504,
+    "block": "dropoff_zone",
+    "level": 186,
+    "label": "West Farms/Bronx River"
+  },
+  {
+    "index": 505,
+    "block": "dropoff_zone",
+    "level": 187,
+    "label": "Brighton Beach"
+  },
+  {
+    "index": 506,
+    "block": "dropoff_zone",
+    "level": 188,
+    "label": "Cambria Heights"
+  },
+  {
+    "index": 507,
+    "block": "dropoff_zone",
+    "level": 189,
+    "label": "College Point"
+  },
+  {
+    "index": 508,
+    "block": "dropoff_zone",
+    "level": 190,
+    "label": "Woodlawn/Wakefield"
+  },
+  {
+    "index": 509,
+    "block": "dropoff_zone",
+    "level": 191,
+    "label": "Westchester Village/Unionport"
+  },
+  {
+    "index": 510,
+    "block": "dropoff_zone",
+    "level": 192,
+    "label": "East Tremont"
+  },
+  {
+    "index": 511,
+    "block": "dropoff_zone",
+    "level": 193,
+    "label": "Bay Terrace/Fort Totten"
+  },
+  {
+    "index": 512,
+    "block": "dropoff_zone",
+    "level": 194,
+    "label": "East New York/Pennsylvania Avenue"
+  },
+  {
+    "index": 513,
+    "block": "dropoff_zone",
+    "level": 195,
+    "label": "Douglaston"
+  },
+  {
+    "index": 514,
+    "block": "dropoff_zone",
+    "level": 196,
+    "label": "Far Rockaway"
+  },
+  {
+    "index": 515,
+    "block": "dropoff_zone",
+    "level": 197,
+    "label": "Belmont"
+  },
+  {
+    "index": 516,
+    "block": "dropoff_zone",
+    "level": 198,
+    "label": "Bronxdale"
+  },
+  {
+    "index": 517,
+    "block": "dropoff_zone",
+    "level": 199,
+    "label": "Oakland Gardens"
+  },
+  {
+    "index": 518,
+    "block": "dropoff_zone",
+    "level": 200,
+    "label": "Auburndale"
+  },
+  {
+    "index": 519,
+    "block": "dropoff_zone",
+    "level": 201,
+    "label": "Ozone Park"
+  },
+  {
+    "index": 520,
+    "block": "dropoff_zone",
+    "level": 202,
+    "label": "Queensboro Hill"
+  },
+  {
+    "index": 521,
+    "block": "dropoff_zone",
+    "level": 203,
+    "label": "Bellerose"
+  },
+  {
+    "index": 522,
+    "block": "dropoff_zone",
+    "level": 204,
+    "label": "Ocean Parkway South"
+  },
+  {
+    "index": 523,
+    "block": "dropoff_zone",
+    "level": 205,
+    "label": "Allerton/Pelham Gardens"
+  },
+  {
+    "index": 524,
+    "block": "dropoff_zone",
+    "level": 206,
+    "label": "Fordham South"
+  },
+  {
+    "index": 525,
+    "block": "dropoff_zone",
+    "level": 207,
+    "label": "Bath Beach"
+  },
+  {
+    "index": 526,
+    "block": "dropoff_zone",
+    "level": 208,
+    "label": "Crotona Park East"
+  },
+  {
+    "index": 527,
+    "block": "dropoff_zone",
+    "level": 209,
+    "label": "Glen Oaks"
+  },
+  {
+    "index": 528,
+    "block": "dropoff_zone",
+    "level": 210,
+    "label": "Newark Airport"
+  },
+  {
+    "index": 529,
+    "block": "dropoff_zone",
+    "level": 211,
+    "label": "Starrett City"
+  },
+  {
+    "index": 530,
+    "block": "dropoff_zone",
+    "level": 212,
+    "label": "Eastchester"
+  },
+  {
+    "index": 531,
+    "block": "dropoff_zone",
+    "level": 213,
+    "label": "Manhattan Beach"
+  },
+  {
+    "index": 532,
+    "block": "dropoff_zone",
+    "level": 214,
+    "label": "Hammels/Arverne"
+  },
+  {
+    "index": 533,
+    "block": "dropoff_zone",
+    "level": 215,
+    "label": "Gravesend"
+  },
+  {
+    "index": 534,
+    "block": "dropoff_zone",
+    "level": 216,
+    "label": "East Flushing"
+  },
+  {
+    "index": 535,
+    "block": "dropoff_zone",
+    "level": 217,
+    "label": "Inwood Hill Park"
+  },
+  {
+    "index": 536,
+    "block": "dropoff_zone",
+    "level": 218,
+    "label": "Hollis"
+  },
+  {
+    "index": 537,
+    "block": "dropoff_zone",
+    "level": 219,
+    "label": "Bronx Park"
+  },
+  {
+    "index": 538,
+    "block": "dropoff_zone",
+    "level": 220,
+    "label": "Pelham Bay"
+  },
+  {
+    "index": 539,
+    "block": "dropoff_zone",
+    "level": 221,
+    "label": "Rockaway Park"
+  },
+  {
+    "index": 540,
+    "block": "dropoff_zone",
+    "level": 222,
+    "label": "Marble Hill"
+  },
+  {
+    "index": 541,
+    "block": "dropoff_zone",
+    "level": 223,
+    "label": "Highbridge Park"
+  },
+  {
+    "index": 542,
+    "block": "dropoff_zone",
+    "level": 224,
+    "label": "Van Cortlandt Park"
+  },
+  {
+    "index": 543,
+    "block": "dropoff_zone",
+    "level": 225,
+    "label": "Bloomfield/Emerson Hill"
+  },
+  {
+    "index": 544,
+    "block": "dropoff_zone",
+    "level": 226,
+    "label": "Heartland Village/Todt Hill"
+  },
+  {
+    "index": 545,
+    "block": "dropoff_zone",
+    "level": 227,
+    "label": "Saint Michaels Cemetery/Woodside"
+  },
+  {
+    "index": 546,
+    "block": "dropoff_zone",
+    "level": 228,
+    "label": "Country Club"
+  },
+  {
+    "index": 547,
+    "block": "dropoff_zone",
+    "level": 229,
+    "label": "Astoria Park"
+  },
+  {
+    "index": 548,
+    "block": "dropoff_zone",
+    "level": 230,
+    "label": "South Beach/Dongan Hills"
+  },
+  {
+    "index": 549,
+    "block": "dropoff_zone",
+    "level": 231,
+    "label": "Saint George/New Brighton"
+  },
+  {
+    "index": 550,
+    "block": "dropoff_zone",
+    "level": 232,
+    "label": "Forest Park/Highland Park"
+  },
+  {
+    "index": 551,
+    "block": "dropoff_zone",
+    "level": 233,
+    "label": "Stapleton"
+  },
+  {
+    "index": 552,
+    "block": "dropoff_zone",
+    "level": 234,
+    "label": "Arrochar/Fort Wadsworth"
+  },
+  {
+    "index": 553,
+    "block": "dropoff_zone",
+    "level": 235,
+    "label": "Willets Point"
+  },
+  {
+    "index": 554,
+    "block": "dropoff_zone",
+    "level": 236,
+    "label": "City Island"
+  },
+  {
+    "index": 555,
+    "block": "dropoff_zone",
+    "level": 237,
+    "label": "Westerleigh"
+  },
+  {
+    "index": 556,
+    "block": "dropoff_zone",
+    "level": 238,
+    "label": "Grymes Hill/Clifton"
+  },
+  {
+    "index": 557,
+    "block": "dropoff_zone",
+    "level": 239,
+    "label": "Marine Park/Floyd Bennett Field"
+  },
+  {
+    "index": 558,
+    "block": "dropoff_zone",
+    "level": 240,
+    "label": "New Dorp/Midland Beach"
+  },
+  {
+    "index": 559,
+    "block": "dropoff_zone",
+    "level": 241,
+    "label": "Green-Wood Cemetery"
+  },
+  {
+    "index": 560,
+    "block": "dropoff_zone",
+    "level": 242,
+    "label": "West Brighton"
+  },
+  {
+    "index": 561,
+    "block": "dropoff_zone",
+    "level": 243,
+    "label": "Breezy Point/Fort Tilden/Riis Beach"
+  },
+  {
+    "index": 562,
+    "block": "dropoff_zone",
+    "level": 244,
+    "label": "Great Kills"
+  },
+  {
+    "index": 563,
+    "block": "dropoff_zone",
+    "level": 245,
+    "label": "Mariners Harbor"
+  },
+  {
+    "index": 564,
+    "block": "dropoff_zone",
+    "level": 246,
+    "label": "Charleston/Tottenville"
+  },
+  {
+    "index": 565,
+    "block": "dropoff_zone",
+    "level": 247,
+    "label": "Pelham Bay Park"
+  },
+  {
+    "index": 566,
+    "block": "dropoff_zone",
+    "level": 248,
+    "label": "Arden Heights"
+  },
+  {
+    "index": 567,
+    "block": "dropoff_zone",
+    "level": 249,
+    "label": "Eltingville/Annadale/Prince's Bay"
+  },
+  {
+    "index": 568,
+    "block": "dropoff_zone",
+    "level": 250,
+    "label": "Oakwood"
+  },
+  {
+    "index": 569,
+    "block": "dropoff_zone",
+    "level": 251,
+    "label": "Crotona Park"
+  },
+  {
+    "index": 570,
+    "block": "dropoff_zone",
+    "level": 252,
+    "label": "Port Richmond"
+  },
+  {
+    "index": 571,
+    "block": "dropoff_zone",
+    "level": 253,
+    "label": "Rossville/Woodrow"
+  },
+  {
+    "index": 572,
+    "block": "dropoff_zone",
+    "level": 254,
+    "label": "Broad Channel"
+  },
+  {
+    "index": 573,
+    "block": "dropoff_zone",
+    "level": 255,
+    "label": "Freshkills Park"
+  },
+  {
+    "index": 574,
+    "block": "dropoff_zone",
+    "level": 256,
+    "label": "Jamaica Bay"
+  },
+  {
+    "index": 575,
+    "block": "dropoff_zone",
+    "level": 257,
+    "label": "Rikers Island"
+  },
+  {
+    "index": 576,
+    "block": "dropoff_zone",
+    "level": 258,
+    "label": "Great Kills Park"
+  },
+  {
+    "index": 577,
+    "block": "store_and_fwd_flag",
+    "level": 0,
+    "label": "N"
+  },
+  {
+    "index": 578,
+    "block": "store_and_fwd_flag",
+    "level": 1,
+    "label": "Y"
+  }
+]

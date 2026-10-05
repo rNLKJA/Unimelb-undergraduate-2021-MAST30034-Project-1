@@ -1,0 +1,4066 @@
+{
+  "description": "Trip-duration linear model of MAST30034 Project 1 (2021): 579 features in VectorAssembler order.",
+  "blocks": [
+    {
+      "name": "numeric",
+      "start": 0,
+      "size": 11
+    },
+    {
+      "name": "weekday",
+      "start": 11,
+      "size": 8
+    },
+    {
+      "name": "hour",
+      "start": 19,
+      "size": 24
+    },
+    {
+      "name": "ratecode",
+      "start": 43,
+      "size": 7
+    },
+    {
+      "name": "passenger_count",
+      "start": 50,
+      "size": 7
+    },
+    {
+      "name": "pickup_zone",
+      "start": 57,
+      "size": 258
+    },
+    {
+      "name": "vendor",
+      "start": 315,
+      "size": 3
+    },
+    {
+      "name": "dropoff_zone",
+      "start": 318,
+      "size": 259
+    },
+    {
+      "name": "store_and_fwd_flag",
+      "start": 577,
+      "size": 2
+    }
+  ],
+  "pickupZones": [
+    {
+      "index": 0,
+      "zone": "Upper East Side South",
+      "trips": 3302594
+    },
+    {
+      "index": 1,
+      "zone": "Midtown Center",
+      "trips": 3118946
+    },
+    {
+      "index": 2,
+      "zone": "Upper East Side North",
+      "trips": 2973273
+    },
+    {
+      "index": 3,
+      "zone": "Midtown East",
+      "trips": 2756374
+    },
+    {
+      "index": 4,
+      "zone": "Penn Station/Madison Sq West",
+      "trips": 2738454
+    },
+    {
+      "index": 5,
+      "zone": "Times Sq/Theatre District",
+      "trips": 2594336
+    },
+    {
+      "index": 6,
+      "zone": "Clinton East",
+      "trips": 2403780
+    },
+    {
+      "index": 7,
+      "zone": "JFK Airport",
+      "trips": 2388799
+    },
+    {
+      "index": 8,
+      "zone": "Murray Hill",
+      "trips": 2345145
+    },
+    {
+      "index": 9,
+      "zone": "Union Sq",
+      "trips": 2289216
+    },
+    {
+      "index": 10,
+      "zone": "Lincoln Square East",
+      "trips": 2286809
+    },
+    {
+      "index": 11,
+      "zone": "Midtown North",
+      "trips": 2037676
+    },
+    {
+      "index": 12,
+      "zone": "Upper West Side South",
+      "trips": 1965768
+    },
+    {
+      "index": 13,
+      "zone": "LaGuardia Airport",
+      "trips": 1941024
+    },
+    {
+      "index": 14,
+      "zone": "East Village",
+      "trips": 1930739
+    },
+    {
+      "index": 15,
+      "zone": "East Chelsea",
+      "trips": 1837663
+    },
+    {
+      "index": 16,
+      "zone": "Midtown South",
+      "trips": 1766529
+    },
+    {
+      "index": 17,
+      "zone": "Lenox Hill West",
+      "trips": 1763464
+    },
+    {
+      "index": 18,
+      "zone": "Gramercy",
+      "trips": 1710427
+    },
+    {
+      "index": 19,
+      "zone": "Garment District",
+      "trips": 1545739
+    },
+    {
+      "index": 20,
+      "zone": "Upper West Side North",
+      "trips": 1497349
+    },
+    {
+      "index": 21,
+      "zone": "West Village",
+      "trips": 1473627
+    },
+    {
+      "index": 22,
+      "zone": "Sutton Place/Turtle Bay North",
+      "trips": 1435397
+    },
+    {
+      "index": 23,
+      "zone": "Yorkville West",
+      "trips": 1385138
+    },
+    {
+      "index": 24,
+      "zone": "Lenox Hill East",
+      "trips": 1348975
+    },
+    {
+      "index": 25,
+      "zone": "Flatiron",
+      "trips": 1317473
+    },
+    {
+      "index": 26,
+      "zone": "West Chelsea/Hudson Yards",
+      "trips": 1260436
+    },
+    {
+      "index": 27,
+      "zone": "TriBeCa/Civic Center",
+      "trips": 1259228
+    },
+    {
+      "index": 28,
+      "zone": "Central Park",
+      "trips": 1201729
+    },
+    {
+      "index": 29,
+      "zone": "Greenwich Village North",
+      "trips": 1152686
+    },
+    {
+      "index": 30,
+      "zone": "UN/Turtle Bay South",
+      "trips": 994651
+    },
+    {
+      "index": 31,
+      "zone": "Greenwich Village South",
+      "trips": 963553
+    },
+    {
+      "index": 32,
+      "zone": "Lower East Side",
+      "trips": 932314
+    },
+    {
+      "index": 33,
+      "zone": "Yorkville East",
+      "trips": 920531
+    },
+    {
+      "index": 34,
+      "zone": "Kips Bay",
+      "trips": 887317
+    },
+    {
+      "index": 35,
+      "zone": "Lincoln Square West",
+      "trips": 882635
+    },
+    {
+      "index": 36,
+      "zone": "Meatpacking/West Village West",
+      "trips": 765094
+    },
+    {
+      "index": 37,
+      "zone": "Little Italy/NoLiTa",
+      "trips": 744120
+    },
+    {
+      "index": 38,
+      "zone": "Clinton West",
+      "trips": 668272
+    },
+    {
+      "index": 39,
+      "zone": "Battery Park City",
+      "trips": 667052
+    },
+    {
+      "index": 40,
+      "zone": "Manhattan Valley",
+      "trips": 665973
+    },
+    {
+      "index": 41,
+      "zone": "SoHo",
+      "trips": 599316
+    },
+    {
+      "index": 42,
+      "zone": "East Harlem South",
+      "trips": 554812
+    },
+    {
+      "index": 43,
+      "zone": "Financial District North",
+      "trips": 537015
+    },
+    {
+      "index": 44,
+      "zone": "World Trade Center",
+      "trips": 441912
+    },
+    {
+      "index": 45,
+      "zone": "Hudson Sq",
+      "trips": 422537
+    },
+    {
+      "index": 46,
+      "zone": "Morningside Heights",
+      "trips": 418304
+    },
+    {
+      "index": 47,
+      "zone": "East Harlem North",
+      "trips": 291574
+    },
+    {
+      "index": 48,
+      "zone": "Central Harlem",
+      "trips": 287155
+    },
+    {
+      "index": 49,
+      "zone": "Financial District South",
+      "trips": 286727
+    },
+    {
+      "index": 50,
+      "zone": "Bloomingdale",
+      "trips": 226770
+    },
+    {
+      "index": 51,
+      "zone": "Seaport",
+      "trips": 157550
+    },
+    {
+      "index": 52,
+      "zone": "Stuy Town/Peter Cooper Village",
+      "trips": 147360
+    },
+    {
+      "index": 53,
+      "zone": "Chinatown",
+      "trips": 145356
+    },
+    {
+      "index": 54,
+      "zone": "Alphabet City",
+      "trips": 125879
+    },
+    {
+      "index": 55,
+      "zone": "Central Harlem North",
+      "trips": 122523
+    },
+    {
+      "index": 56,
+      "zone": "Two Bridges/Seward Park",
+      "trips": 103923
+    },
+    {
+      "index": 57,
+      "zone": "Sunnyside",
+      "trips": 102645
+    },
+    {
+      "index": 58,
+      "zone": "Astoria",
+      "trips": 101488
+    },
+    {
+      "index": 59,
+      "zone": "Downtown Brooklyn/MetroTech",
+      "trips": 87942
+    },
+    {
+      "index": 60,
+      "zone": "Hamilton Heights",
+      "trips": 86753
+    },
+    {
+      "index": 61,
+      "zone": "Washington Heights South",
+      "trips": 80541
+    },
+    {
+      "index": 62,
+      "zone": "Brooklyn Heights",
+      "trips": 74272
+    },
+    {
+      "index": 63,
+      "zone": "Manhattanville",
+      "trips": 74090
+    },
+    {
+      "index": 64,
+      "zone": "Long Island City/Queens Plaza",
+      "trips": 64581
+    },
+    {
+      "index": 65,
+      "zone": "Long Island City/Hunters Point",
+      "trips": 63725
+    },
+    {
+      "index": 66,
+      "zone": "Boerum Hill",
+      "trips": 61212
+    },
+    {
+      "index": 67,
+      "zone": "Park Slope",
+      "trips": 58697
+    },
+    {
+      "index": 68,
+      "zone": "Fort Greene",
+      "trips": 58401
+    },
+    {
+      "index": 69,
+      "zone": "Williamsburg (North Side)",
+      "trips": 55597
+    },
+    {
+      "index": 70,
+      "zone": "Williamsburg (South Side)",
+      "trips": 43453
+    },
+    {
+      "index": 71,
+      "zone": "Cobble Hill",
+      "trips": 38546
+    },
+    {
+      "index": 72,
+      "zone": "DUMBO/Vinegar Hill",
+      "trips": 38149
+    },
+    {
+      "index": 73,
+      "zone": "Old Astoria",
+      "trips": 37632
+    },
+    {
+      "index": 74,
+      "zone": "Woodside",
+      "trips": 36686
+    },
+    {
+      "index": 75,
+      "zone": "Steinway",
+      "trips": 35903
+    },
+    {
+      "index": 76,
+      "zone": "Jackson Heights",
+      "trips": 35542
+    },
+    {
+      "index": 77,
+      "zone": "Battery Park",
+      "trips": 33721
+    },
+    {
+      "index": 78,
+      "zone": "Carroll Gardens",
+      "trips": 32812
+    },
+    {
+      "index": 79,
+      "zone": "Queensbridge/Ravenswood",
+      "trips": 27667
+    },
+    {
+      "index": 80,
+      "zone": "Baisley Park",
+      "trips": 23877
+    },
+    {
+      "index": 81,
+      "zone": "East Williamsburg",
+      "trips": 23625
+    },
+    {
+      "index": 82,
+      "zone": "Elmhurst",
+      "trips": 23388
+    },
+    {
+      "index": 83,
+      "zone": "Flushing Meadows-Corona Park",
+      "trips": 20880
+    },
+    {
+      "index": 84,
+      "zone": "Greenpoint",
+      "trips": 20549
+    },
+    {
+      "index": 85,
+      "zone": "East Elmhurst",
+      "trips": 16273
+    },
+    {
+      "index": 86,
+      "zone": "Clinton Hill",
+      "trips": 16083
+    },
+    {
+      "index": 87,
+      "zone": "Crown Heights North",
+      "trips": 15508
+    },
+    {
+      "index": 88,
+      "zone": "Mott Haven/Port Morris",
+      "trips": 13318
+    },
+    {
+      "index": 89,
+      "zone": "Prospect Heights",
+      "trips": 12936
+    },
+    {
+      "index": 90,
+      "zone": "Washington Heights North",
+      "trips": 12295
+    },
+    {
+      "index": 91,
+      "zone": "Corona",
+      "trips": 12218
+    },
+    {
+      "index": 92,
+      "zone": "Jamaica",
+      "trips": 11937
+    },
+    {
+      "index": 93,
+      "zone": "Bedford",
+      "trips": 11784
+    },
+    {
+      "index": 94,
+      "zone": "Forest Hills",
+      "trips": 11017
+    },
+    {
+      "index": 95,
+      "zone": "Bushwick South",
+      "trips": 10683
+    },
+    {
+      "index": 96,
+      "zone": "West Concourse",
+      "trips": 10473
+    },
+    {
+      "index": 97,
+      "zone": "South Jamaica",
+      "trips": 9800
+    },
+    {
+      "index": 98,
+      "zone": "Prospect-Lefferts Gardens",
+      "trips": 9773
+    },
+    {
+      "index": 99,
+      "zone": "Briarwood/Jamaica Hills",
+      "trips": 9252
+    },
+    {
+      "index": 100,
+      "zone": "Flatbush/Ditmas Park",
+      "trips": 9158
+    },
+    {
+      "index": 101,
+      "zone": "East New York",
+      "trips": 8854
+    },
+    {
+      "index": 102,
+      "zone": "South Ozone Park",
+      "trips": 8009
+    },
+    {
+      "index": 103,
+      "zone": "Stuyvesant Heights",
+      "trips": 7957
+    },
+    {
+      "index": 104,
+      "zone": "Gowanus",
+      "trips": 7870
+    },
+    {
+      "index": 105,
+      "zone": "Rego Park",
+      "trips": 7105
+    },
+    {
+      "index": 106,
+      "zone": "Inwood",
+      "trips": 6812
+    },
+    {
+      "index": 107,
+      "zone": "Elmhurst/Maspeth",
+      "trips": 6713
+    },
+    {
+      "index": 108,
+      "zone": "Bushwick North",
+      "trips": 5880
+    },
+    {
+      "index": 109,
+      "zone": "East Concourse/Concourse Village",
+      "trips": 5868
+    },
+    {
+      "index": 110,
+      "zone": "Maspeth",
+      "trips": 5784
+    },
+    {
+      "index": 111,
+      "zone": "Melrose South",
+      "trips": 5782
+    },
+    {
+      "index": 112,
+      "zone": "Kew Gardens",
+      "trips": 5439
+    },
+    {
+      "index": 113,
+      "zone": "Sunset Park West",
+      "trips": 5370
+    },
+    {
+      "index": 114,
+      "zone": "Randalls Island",
+      "trips": 5271
+    },
+    {
+      "index": 115,
+      "zone": "Springfield Gardens South",
+      "trips": 5180
+    },
+    {
+      "index": 116,
+      "zone": "Canarsie",
+      "trips": 5089
+    },
+    {
+      "index": 117,
+      "zone": "Brownsville",
+      "trips": 5048
+    },
+    {
+      "index": 118,
+      "zone": "Red Hook",
+      "trips": 4872
+    },
+    {
+      "index": 119,
+      "zone": "Richmond Hill",
+      "trips": 4750
+    },
+    {
+      "index": 120,
+      "zone": "Crown Heights South",
+      "trips": 4644
+    },
+    {
+      "index": 121,
+      "zone": "Bay Ridge",
+      "trips": 4624
+    },
+    {
+      "index": 122,
+      "zone": "South Williamsburg",
+      "trips": 4516
+    },
+    {
+      "index": 123,
+      "zone": "East Flatbush/Remsen Village",
+      "trips": 4140
+    },
+    {
+      "index": 124,
+      "zone": "Flatlands",
+      "trips": 4027
+    },
+    {
+      "index": 125,
+      "zone": "Borough Park",
+      "trips": 3932
+    },
+    {
+      "index": 126,
+      "zone": "East Flatbush/Farragut",
+      "trips": 3879
+    },
+    {
+      "index": 127,
+      "zone": "Flushing",
+      "trips": 3669
+    },
+    {
+      "index": 128,
+      "zone": "Soundview/Castle Hill",
+      "trips": 3580
+    },
+    {
+      "index": 129,
+      "zone": "Saint Albans",
+      "trips": 3446
+    },
+    {
+      "index": 130,
+      "zone": "Ocean Hill",
+      "trips": 3427
+    },
+    {
+      "index": 131,
+      "zone": "Co-Op City",
+      "trips": 3383
+    },
+    {
+      "index": 132,
+      "zone": "University Heights/Morris Heights",
+      "trips": 3337
+    },
+    {
+      "index": 133,
+      "zone": "Kensington",
+      "trips": 3313
+    },
+    {
+      "index": 134,
+      "zone": "Kew Gardens Hills",
+      "trips": 3174
+    },
+    {
+      "index": 135,
+      "zone": "Midwood",
+      "trips": 3136
+    },
+    {
+      "index": 136,
+      "zone": "Highbridge",
+      "trips": 3015
+    },
+    {
+      "index": 137,
+      "zone": "Prospect Park",
+      "trips": 2926
+    },
+    {
+      "index": 138,
+      "zone": "Erasmus",
+      "trips": 2885
+    },
+    {
+      "index": 139,
+      "zone": "Van Nest/Morris Park",
+      "trips": 2819
+    },
+    {
+      "index": 140,
+      "zone": "Roosevelt Island",
+      "trips": 2708
+    },
+    {
+      "index": 141,
+      "zone": "Williamsbridge/Olinville",
+      "trips": 2650
+    },
+    {
+      "index": 142,
+      "zone": "Spuyten Duyvil/Kingsbridge",
+      "trips": 2632
+    },
+    {
+      "index": 143,
+      "zone": "Marine Park/Mill Basin",
+      "trips": 2603
+    },
+    {
+      "index": 144,
+      "zone": "Springfield Gardens North",
+      "trips": 2594
+    },
+    {
+      "index": 145,
+      "zone": "North Corona",
+      "trips": 2544
+    },
+    {
+      "index": 146,
+      "zone": "Morrisania/Melrose",
+      "trips": 2472
+    },
+    {
+      "index": 147,
+      "zone": "Windsor Terrace",
+      "trips": 2463
+    },
+    {
+      "index": 148,
+      "zone": "Parkchester",
+      "trips": 2430
+    },
+    {
+      "index": 149,
+      "zone": "Kingsbridge Heights",
+      "trips": 2416
+    },
+    {
+      "index": 150,
+      "zone": "Mount Hope",
+      "trips": 2333
+    },
+    {
+      "index": 151,
+      "zone": "Bensonhurst West",
+      "trips": 2317
+    },
+    {
+      "index": 152,
+      "zone": "Columbia Street",
+      "trips": 2272
+    },
+    {
+      "index": 153,
+      "zone": "Ridgewood",
+      "trips": 2247
+    },
+    {
+      "index": 154,
+      "zone": "Claremont/Bathgate",
+      "trips": 2214
+    },
+    {
+      "index": 155,
+      "zone": "East Tremont",
+      "trips": 2209
+    },
+    {
+      "index": 156,
+      "zone": "Sheepshead Bay",
+      "trips": 2150
+    },
+    {
+      "index": 157,
+      "zone": "Homecrest",
+      "trips": 2118
+    },
+    {
+      "index": 158,
+      "zone": "Starrett City",
+      "trips": 2036
+    },
+    {
+      "index": 159,
+      "zone": "Queens Village",
+      "trips": 1991
+    },
+    {
+      "index": 160,
+      "zone": "East New York/Pennsylvania Avenue",
+      "trips": 1949
+    },
+    {
+      "index": 161,
+      "zone": "Norwood",
+      "trips": 1942
+    },
+    {
+      "index": 162,
+      "zone": "Madison",
+      "trips": 1859
+    },
+    {
+      "index": 163,
+      "zone": "Bensonhurst East",
+      "trips": 1822
+    },
+    {
+      "index": 164,
+      "zone": "Hillcrest/Pomonok",
+      "trips": 1821
+    },
+    {
+      "index": 165,
+      "zone": "Westchester Village/Unionport",
+      "trips": 1802
+    },
+    {
+      "index": 166,
+      "zone": "Soundview/Bruckner",
+      "trips": 1794
+    },
+    {
+      "index": 167,
+      "zone": "Coney Island",
+      "trips": 1725
+    },
+    {
+      "index": 168,
+      "zone": "Woodhaven",
+      "trips": 1723
+    },
+    {
+      "index": 169,
+      "zone": "Van Cortlandt Village",
+      "trips": 1720
+    },
+    {
+      "index": 170,
+      "zone": "Brooklyn Navy Yard",
+      "trips": 1715
+    },
+    {
+      "index": 171,
+      "zone": "Bronxdale",
+      "trips": 1663
+    },
+    {
+      "index": 172,
+      "zone": "Bedford Park",
+      "trips": 1622
+    },
+    {
+      "index": 173,
+      "zone": "Jamaica Estates",
+      "trips": 1584
+    },
+    {
+      "index": 174,
+      "zone": "Howard Beach",
+      "trips": 1562
+    },
+    {
+      "index": 175,
+      "zone": "Sunset Park East",
+      "trips": 1557
+    },
+    {
+      "index": 176,
+      "zone": "Eastchester",
+      "trips": 1547
+    },
+    {
+      "index": 177,
+      "zone": "Cypress Hills",
+      "trips": 1513
+    },
+    {
+      "index": 178,
+      "zone": "West Farms/Bronx River",
+      "trips": 1490
+    },
+    {
+      "index": 179,
+      "zone": "Middle Village",
+      "trips": 1473
+    },
+    {
+      "index": 180,
+      "zone": "Pelham Parkway",
+      "trips": 1463
+    },
+    {
+      "index": 181,
+      "zone": "Longwood",
+      "trips": 1387
+    },
+    {
+      "index": 182,
+      "zone": "Hunts Point",
+      "trips": 1370
+    },
+    {
+      "index": 183,
+      "zone": "Bayside",
+      "trips": 1325
+    },
+    {
+      "index": 184,
+      "zone": "Schuylerville/Edgewater Park",
+      "trips": 1312
+    },
+    {
+      "index": 185,
+      "zone": "Murray Hill-Queens",
+      "trips": 1303
+    },
+    {
+      "index": 186,
+      "zone": "Rosedale",
+      "trips": 1259
+    },
+    {
+      "index": 187,
+      "zone": "Allerton/Pelham Gardens",
+      "trips": 1239
+    },
+    {
+      "index": 188,
+      "zone": "Laurelton",
+      "trips": 1235
+    },
+    {
+      "index": 189,
+      "zone": "Brighton Beach",
+      "trips": 1219
+    },
+    {
+      "index": 190,
+      "zone": "Marble Hill",
+      "trips": 1215
+    },
+    {
+      "index": 191,
+      "zone": "Woodlawn/Wakefield",
+      "trips": 1213
+    },
+    {
+      "index": 192,
+      "zone": "Riverdale/North Riverdale/Fieldston",
+      "trips": 1205
+    },
+    {
+      "index": 193,
+      "zone": "Crotona Park East",
+      "trips": 1191
+    },
+    {
+      "index": 194,
+      "zone": "Glendale",
+      "trips": 1183
+    },
+    {
+      "index": 195,
+      "zone": "Dyker Heights",
+      "trips": 1136
+    },
+    {
+      "index": 196,
+      "zone": "Ozone Park",
+      "trips": 1095
+    },
+    {
+      "index": 197,
+      "zone": "Belmont",
+      "trips": 1060
+    },
+    {
+      "index": 198,
+      "zone": "Queensboro Hill",
+      "trips": 1010
+    },
+    {
+      "index": 199,
+      "zone": "Astoria Park",
+      "trips": 1004
+    },
+    {
+      "index": 200,
+      "zone": "Cambria Heights",
+      "trips": 992
+    },
+    {
+      "index": 201,
+      "zone": "Fordham South",
+      "trips": 989
+    },
+    {
+      "index": 202,
+      "zone": "College Point",
+      "trips": 938
+    },
+    {
+      "index": 203,
+      "zone": "Far Rockaway",
+      "trips": 910
+    },
+    {
+      "index": 204,
+      "zone": "Whitestone",
+      "trips": 898
+    },
+    {
+      "index": 205,
+      "zone": "Ocean Parkway South",
+      "trips": 880
+    },
+    {
+      "index": 206,
+      "zone": "Manhattan Beach",
+      "trips": 879
+    },
+    {
+      "index": 207,
+      "zone": "Gravesend",
+      "trips": 877
+    },
+    {
+      "index": 208,
+      "zone": "Fresh Meadows",
+      "trips": 870
+    },
+    {
+      "index": 209,
+      "zone": "Bellerose",
+      "trips": 862
+    },
+    {
+      "index": 210,
+      "zone": "Bath Beach",
+      "trips": 861
+    },
+    {
+      "index": 211,
+      "zone": "Bay Terrace/Fort Totten",
+      "trips": 859
+    },
+    {
+      "index": 212,
+      "zone": "Glen Oaks",
+      "trips": 859
+    },
+    {
+      "index": 213,
+      "zone": "Auburndale",
+      "trips": 812
+    },
+    {
+      "index": 214,
+      "zone": "Saint Michaels Cemetery/Woodside",
+      "trips": 799
+    },
+    {
+      "index": 215,
+      "zone": "Oakland Gardens",
+      "trips": 738
+    },
+    {
+      "index": 216,
+      "zone": "Hollis",
+      "trips": 736
+    },
+    {
+      "index": 217,
+      "zone": "Hammels/Arverne",
+      "trips": 730
+    },
+    {
+      "index": 218,
+      "zone": "Pelham Bay",
+      "trips": 581
+    },
+    {
+      "index": 219,
+      "zone": "Inwood Hill Park",
+      "trips": 542
+    },
+    {
+      "index": 220,
+      "zone": "Newark Airport",
+      "trips": 509
+    },
+    {
+      "index": 221,
+      "zone": "Douglaston",
+      "trips": 501
+    },
+    {
+      "index": 222,
+      "zone": "Bloomfield/Emerson Hill",
+      "trips": 423
+    },
+    {
+      "index": 223,
+      "zone": "Bronx Park",
+      "trips": 384
+    },
+    {
+      "index": 224,
+      "zone": "Charleston/Tottenville",
+      "trips": 353
+    },
+    {
+      "index": 225,
+      "zone": "Highbridge Park",
+      "trips": 346
+    },
+    {
+      "index": 226,
+      "zone": "Heartland Village/Todt Hill",
+      "trips": 327
+    },
+    {
+      "index": 227,
+      "zone": "East Flushing",
+      "trips": 310
+    },
+    {
+      "index": 228,
+      "zone": "Arden Heights",
+      "trips": 290
+    },
+    {
+      "index": 229,
+      "zone": "Marine Park/Floyd Bennett Field",
+      "trips": 287
+    },
+    {
+      "index": 230,
+      "zone": "Van Cortlandt Park",
+      "trips": 253
+    },
+    {
+      "index": 231,
+      "zone": "Forest Park/Highland Park",
+      "trips": 202
+    },
+    {
+      "index": 232,
+      "zone": "Rockaway Park",
+      "trips": 182
+    },
+    {
+      "index": 233,
+      "zone": "Arrochar/Fort Wadsworth",
+      "trips": 175
+    },
+    {
+      "index": 234,
+      "zone": "Willets Point",
+      "trips": 171
+    },
+    {
+      "index": 235,
+      "zone": "Country Club",
+      "trips": 164
+    },
+    {
+      "index": 236,
+      "zone": "Saint George/New Brighton",
+      "trips": 159
+    },
+    {
+      "index": 237,
+      "zone": "City Island",
+      "trips": 157
+    },
+    {
+      "index": 238,
+      "zone": "Green-Wood Cemetery",
+      "trips": 131
+    },
+    {
+      "index": 239,
+      "zone": "Mariners Harbor",
+      "trips": 104
+    },
+    {
+      "index": 240,
+      "zone": "Pelham Bay Park",
+      "trips": 101
+    },
+    {
+      "index": 241,
+      "zone": "Crotona Park",
+      "trips": 99
+    },
+    {
+      "index": 242,
+      "zone": "Grymes Hill/Clifton",
+      "trips": 97
+    },
+    {
+      "index": 243,
+      "zone": "South Beach/Dongan Hills",
+      "trips": 82
+    },
+    {
+      "index": 244,
+      "zone": "Stapleton",
+      "trips": 78
+    },
+    {
+      "index": 245,
+      "zone": "Jamaica Bay",
+      "trips": 76
+    },
+    {
+      "index": 246,
+      "zone": "Westerleigh",
+      "trips": 76
+    },
+    {
+      "index": 247,
+      "zone": "Breezy Point/Fort Tilden/Riis Beach",
+      "trips": 61
+    },
+    {
+      "index": 248,
+      "zone": "West Brighton",
+      "trips": 59
+    },
+    {
+      "index": 249,
+      "zone": "Great Kills",
+      "trips": 42
+    },
+    {
+      "index": 250,
+      "zone": "Port Richmond",
+      "trips": 33
+    },
+    {
+      "index": 251,
+      "zone": "New Dorp/Midland Beach",
+      "trips": 32
+    },
+    {
+      "index": 252,
+      "zone": "Eltingville/Annadale/Prince's Bay",
+      "trips": 29
+    },
+    {
+      "index": 253,
+      "zone": "Broad Channel",
+      "trips": 28
+    },
+    {
+      "index": 254,
+      "zone": "Freshkills Park",
+      "trips": 23
+    },
+    {
+      "index": 255,
+      "zone": "Oakwood",
+      "trips": 22
+    },
+    {
+      "index": 256,
+      "zone": "Rikers Island",
+      "trips": 12
+    },
+    {
+      "index": 257,
+      "zone": "Rossville/Woodrow",
+      "trips": 7
+    }
+  ],
+  "dropoffZones": [
+    {
+      "index": 0,
+      "zone": "Upper East Side North",
+      "trips": 3097476
+    },
+    {
+      "index": 1,
+      "zone": "Midtown Center",
+      "trips": 2954191
+    },
+    {
+      "index": 2,
+      "zone": "Upper East Side South",
+      "trips": 2953255
+    },
+    {
+      "index": 3,
+      "zone": "Murray Hill",
+      "trips": 2387201
+    },
+    {
+      "index": 4,
+      "zone": "Times Sq/Theatre District",
+      "trips": 2342882
+    },
+    {
+      "index": 5,
+      "zone": "Midtown East",
+      "trips": 2312899
+    },
+    {
+      "index": 6,
+      "zone": "Clinton East",
+      "trips": 2107228
+    },
+    {
+      "index": 7,
+      "zone": "Lincoln Square East",
+      "trips": 2055988
+    },
+    {
+      "index": 8,
+      "zone": "Union Sq",
+      "trips": 1978807
+    },
+    {
+      "index": 9,
+      "zone": "Penn Station/Madison Sq West",
+      "trips": 1974651
+    },
+    {
+      "index": 10,
+      "zone": "Upper West Side South",
+      "trips": 1914989
+    },
+    {
+      "index": 11,
+      "zone": "Lenox Hill West",
+      "trips": 1854090
+    },
+    {
+      "index": 12,
+      "zone": "Midtown North",
+      "trips": 1817889
+    },
+    {
+      "index": 13,
+      "zone": "East Chelsea",
+      "trips": 1745635
+    },
+    {
+      "index": 14,
+      "zone": "East Village",
+      "trips": 1650357
+    },
+    {
+      "index": 15,
+      "zone": "Midtown South",
+      "trips": 1612731
+    },
+    {
+      "index": 16,
+      "zone": "Upper West Side North",
+      "trips": 1596256
+    },
+    {
+      "index": 17,
+      "zone": "Gramercy",
+      "trips": 1565991
+    },
+    {
+      "index": 18,
+      "zone": "West Chelsea/Hudson Yards",
+      "trips": 1495726
+    },
+    {
+      "index": 19,
+      "zone": "Yorkville West",
+      "trips": 1414759
+    },
+    {
+      "index": 20,
+      "zone": "Sutton Place/Turtle Bay North",
+      "trips": 1412046
+    },
+    {
+      "index": 21,
+      "zone": "Lenox Hill East",
+      "trips": 1378247
+    },
+    {
+      "index": 22,
+      "zone": "TriBeCa/Civic Center",
+      "trips": 1235664
+    },
+    {
+      "index": 23,
+      "zone": "West Village",
+      "trips": 1209323
+    },
+    {
+      "index": 24,
+      "zone": "Garment District",
+      "trips": 1208639
+    },
+    {
+      "index": 25,
+      "zone": "UN/Turtle Bay South",
+      "trips": 1131966
+    },
+    {
+      "index": 26,
+      "zone": "Flatiron",
+      "trips": 1091643
+    },
+    {
+      "index": 27,
+      "zone": "Lincoln Square West",
+      "trips": 1023906
+    },
+    {
+      "index": 28,
+      "zone": "Kips Bay",
+      "trips": 1010502
+    },
+    {
+      "index": 29,
+      "zone": "Greenwich Village North",
+      "trips": 1004837
+    },
+    {
+      "index": 30,
+      "zone": "Central Park",
+      "trips": 993263
+    },
+    {
+      "index": 31,
+      "zone": "Yorkville East",
+      "trips": 987292
+    },
+    {
+      "index": 32,
+      "zone": "East Harlem South",
+      "trips": 924433
+    },
+    {
+      "index": 33,
+      "zone": "Clinton West",
+      "trips": 900253
+    },
+    {
+      "index": 34,
+      "zone": "LaGuardia Airport",
+      "trips": 871255
+    },
+    {
+      "index": 35,
+      "zone": "Meatpacking/West Village West",
+      "trips": 767654
+    },
+    {
+      "index": 36,
+      "zone": "Lower East Side",
+      "trips": 761520
+    },
+    {
+      "index": 37,
+      "zone": "Greenwich Village South",
+      "trips": 753019
+    },
+    {
+      "index": 38,
+      "zone": "Battery Park City",
+      "trips": 712339
+    },
+    {
+      "index": 39,
+      "zone": "Little Italy/NoLiTa",
+      "trips": 674150
+    },
+    {
+      "index": 40,
+      "zone": "JFK Airport",
+      "trips": 662283
+    },
+    {
+      "index": 41,
+      "zone": "Manhattan Valley",
+      "trips": 650325
+    },
+    {
+      "index": 42,
+      "zone": "SoHo",
+      "trips": 615107
+    },
+    {
+      "index": 43,
+      "zone": "East Harlem North",
+      "trips": 607963
+    },
+    {
+      "index": 44,
+      "zone": "Financial District North",
+      "trips": 600364
+    },
+    {
+      "index": 45,
+      "zone": "Morningside Heights",
+      "trips": 585740
+    },
+    {
+      "index": 46,
+      "zone": "Central Harlem",
+      "trips": 490584
+    },
+    {
+      "index": 47,
+      "zone": "Hudson Sq",
+      "trips": 384222
+    },
+    {
+      "index": 48,
+      "zone": "World Trade Center",
+      "trips": 357113
+    },
+    {
+      "index": 49,
+      "zone": "Central Harlem North",
+      "trips": 329347
+    },
+    {
+      "index": 50,
+      "zone": "Alphabet City",
+      "trips": 325984
+    },
+    {
+      "index": 51,
+      "zone": "Two Bridges/Seward Park",
+      "trips": 320048
+    },
+    {
+      "index": 52,
+      "zone": "Stuy Town/Peter Cooper Village",
+      "trips": 304206
+    },
+    {
+      "index": 53,
+      "zone": "Financial District South",
+      "trips": 301814
+    },
+    {
+      "index": 54,
+      "zone": "Astoria",
+      "trips": 284358
+    },
+    {
+      "index": 55,
+      "zone": "Washington Heights South",
+      "trips": 264826
+    },
+    {
+      "index": 56,
+      "zone": "Bloomingdale",
+      "trips": 261194
+    },
+    {
+      "index": 57,
+      "zone": "Park Slope",
+      "trips": 230269
+    },
+    {
+      "index": 58,
+      "zone": "Seaport",
+      "trips": 218381
+    },
+    {
+      "index": 59,
+      "zone": "Brooklyn Heights",
+      "trips": 213755
+    },
+    {
+      "index": 60,
+      "zone": "Long Island City/Hunters Point",
+      "trips": 208987
+    },
+    {
+      "index": 61,
+      "zone": "Hamilton Heights",
+      "trips": 207656
+    },
+    {
+      "index": 62,
+      "zone": "Chinatown",
+      "trips": 202450
+    },
+    {
+      "index": 63,
+      "zone": "Williamsburg (North Side)",
+      "trips": 201893
+    },
+    {
+      "index": 64,
+      "zone": "Williamsburg (South Side)",
+      "trips": 174392
+    },
+    {
+      "index": 65,
+      "zone": "Sunnyside",
+      "trips": 167319
+    },
+    {
+      "index": 66,
+      "zone": "Greenpoint",
+      "trips": 157274
+    },
+    {
+      "index": 67,
+      "zone": "Jackson Heights",
+      "trips": 146224
+    },
+    {
+      "index": 68,
+      "zone": "Steinway",
+      "trips": 142761
+    },
+    {
+      "index": 69,
+      "zone": "Downtown Brooklyn/MetroTech",
+      "trips": 135233
+    },
+    {
+      "index": 70,
+      "zone": "Boerum Hill",
+      "trips": 132675
+    },
+    {
+      "index": 71,
+      "zone": "Washington Heights North",
+      "trips": 132630
+    },
+    {
+      "index": 72,
+      "zone": "Manhattanville",
+      "trips": 124356
+    },
+    {
+      "index": 73,
+      "zone": "Fort Greene",
+      "trips": 118861
+    },
+    {
+      "index": 74,
+      "zone": "East Williamsburg",
+      "trips": 116086
+    },
+    {
+      "index": 75,
+      "zone": "Clinton Hill",
+      "trips": 114441
+    },
+    {
+      "index": 76,
+      "zone": "DUMBO/Vinegar Hill",
+      "trips": 114119
+    },
+    {
+      "index": 77,
+      "zone": "Crown Heights North",
+      "trips": 110567
+    },
+    {
+      "index": 78,
+      "zone": "Long Island City/Queens Plaza",
+      "trips": 92541
+    },
+    {
+      "index": 79,
+      "zone": "Forest Hills",
+      "trips": 92071
+    },
+    {
+      "index": 80,
+      "zone": "Old Astoria",
+      "trips": 91921
+    },
+    {
+      "index": 81,
+      "zone": "Bedford",
+      "trips": 90386
+    },
+    {
+      "index": 82,
+      "zone": "Bushwick South",
+      "trips": 86633
+    },
+    {
+      "index": 83,
+      "zone": "Woodside",
+      "trips": 80030
+    },
+    {
+      "index": 84,
+      "zone": "Carroll Gardens",
+      "trips": 78496
+    },
+    {
+      "index": 85,
+      "zone": "Prospect Heights",
+      "trips": 70758
+    },
+    {
+      "index": 86,
+      "zone": "Stuyvesant Heights",
+      "trips": 66186
+    },
+    {
+      "index": 87,
+      "zone": "Flatbush/Ditmas Park",
+      "trips": 63304
+    },
+    {
+      "index": 88,
+      "zone": "Elmhurst",
+      "trips": 61838
+    },
+    {
+      "index": 89,
+      "zone": "Cobble Hill",
+      "trips": 60430
+    },
+    {
+      "index": 90,
+      "zone": "Mott Haven/Port Morris",
+      "trips": 59140
+    },
+    {
+      "index": 91,
+      "zone": "Flushing Meadows-Corona Park",
+      "trips": 58173
+    },
+    {
+      "index": 92,
+      "zone": "Baisley Park",
+      "trips": 56623
+    },
+    {
+      "index": 93,
+      "zone": "Corona",
+      "trips": 56326
+    },
+    {
+      "index": 94,
+      "zone": "Bay Ridge",
+      "trips": 55734
+    },
+    {
+      "index": 95,
+      "zone": "Bushwick North",
+      "trips": 55099
+    },
+    {
+      "index": 96,
+      "zone": "Inwood",
+      "trips": 55085
+    },
+    {
+      "index": 97,
+      "zone": "Prospect-Lefferts Gardens",
+      "trips": 54625
+    },
+    {
+      "index": 98,
+      "zone": "South Ozone Park",
+      "trips": 51468
+    },
+    {
+      "index": 99,
+      "zone": "Battery Park",
+      "trips": 48458
+    },
+    {
+      "index": 100,
+      "zone": "Queensbridge/Ravenswood",
+      "trips": 44859
+    },
+    {
+      "index": 101,
+      "zone": "Sunset Park West",
+      "trips": 44185
+    },
+    {
+      "index": 102,
+      "zone": "East Elmhurst",
+      "trips": 39533
+    },
+    {
+      "index": 103,
+      "zone": "Jamaica",
+      "trips": 39250
+    },
+    {
+      "index": 104,
+      "zone": "Ridgewood",
+      "trips": 38335
+    },
+    {
+      "index": 105,
+      "zone": "Windsor Terrace",
+      "trips": 35200
+    },
+    {
+      "index": 106,
+      "zone": "Gowanus",
+      "trips": 34598
+    },
+    {
+      "index": 107,
+      "zone": "Flushing",
+      "trips": 33362
+    },
+    {
+      "index": 108,
+      "zone": "Roosevelt Island",
+      "trips": 32502
+    },
+    {
+      "index": 109,
+      "zone": "East Concourse/Concourse Village",
+      "trips": 31906
+    },
+    {
+      "index": 110,
+      "zone": "Briarwood/Jamaica Hills",
+      "trips": 31852
+    },
+    {
+      "index": 111,
+      "zone": "West Concourse",
+      "trips": 31544
+    },
+    {
+      "index": 112,
+      "zone": "Spuyten Duyvil/Kingsbridge",
+      "trips": 30832
+    },
+    {
+      "index": 113,
+      "zone": "Crown Heights South",
+      "trips": 29774
+    },
+    {
+      "index": 114,
+      "zone": "Richmond Hill",
+      "trips": 29501
+    },
+    {
+      "index": 115,
+      "zone": "Rego Park",
+      "trips": 29276
+    },
+    {
+      "index": 116,
+      "zone": "Kew Gardens",
+      "trips": 29117
+    },
+    {
+      "index": 117,
+      "zone": "Red Hook",
+      "trips": 29103
+    },
+    {
+      "index": 118,
+      "zone": "Elmhurst/Maspeth",
+      "trips": 28507
+    },
+    {
+      "index": 119,
+      "zone": "Springfield Gardens South",
+      "trips": 28367
+    },
+    {
+      "index": 120,
+      "zone": "East New York",
+      "trips": 27212
+    },
+    {
+      "index": 121,
+      "zone": "Maspeth",
+      "trips": 25761
+    },
+    {
+      "index": 122,
+      "zone": "South Williamsburg",
+      "trips": 25032
+    },
+    {
+      "index": 123,
+      "zone": "Riverdale/North Riverdale/Fieldston",
+      "trips": 23960
+    },
+    {
+      "index": 124,
+      "zone": "Kensington",
+      "trips": 22546
+    },
+    {
+      "index": 125,
+      "zone": "Melrose South",
+      "trips": 22456
+    },
+    {
+      "index": 126,
+      "zone": "Middle Village",
+      "trips": 22225
+    },
+    {
+      "index": 127,
+      "zone": "North Corona",
+      "trips": 21149
+    },
+    {
+      "index": 128,
+      "zone": "Canarsie",
+      "trips": 20354
+    },
+    {
+      "index": 129,
+      "zone": "Columbia Street",
+      "trips": 19959
+    },
+    {
+      "index": 130,
+      "zone": "South Jamaica",
+      "trips": 19750
+    },
+    {
+      "index": 131,
+      "zone": "Springfield Gardens North",
+      "trips": 19312
+    },
+    {
+      "index": 132,
+      "zone": "Kew Gardens Hills",
+      "trips": 19239
+    },
+    {
+      "index": 133,
+      "zone": "Borough Park",
+      "trips": 18287
+    },
+    {
+      "index": 134,
+      "zone": "Midwood",
+      "trips": 17132
+    },
+    {
+      "index": 135,
+      "zone": "Sunset Park East",
+      "trips": 17064
+    },
+    {
+      "index": 136,
+      "zone": "Ocean Hill",
+      "trips": 16115
+    },
+    {
+      "index": 137,
+      "zone": "Flatlands",
+      "trips": 15656
+    },
+    {
+      "index": 138,
+      "zone": "Highbridge",
+      "trips": 15642
+    },
+    {
+      "index": 139,
+      "zone": "East Flatbush/Farragut",
+      "trips": 14982
+    },
+    {
+      "index": 140,
+      "zone": "University Heights/Morris Heights",
+      "trips": 14948
+    },
+    {
+      "index": 141,
+      "zone": "East Flatbush/Remsen Village",
+      "trips": 14939
+    },
+    {
+      "index": 142,
+      "zone": "Woodhaven",
+      "trips": 14766
+    },
+    {
+      "index": 143,
+      "zone": "Saint Albans",
+      "trips": 14667
+    },
+    {
+      "index": 144,
+      "zone": "Bensonhurst West",
+      "trips": 14126
+    },
+    {
+      "index": 145,
+      "zone": "Brownsville",
+      "trips": 14082
+    },
+    {
+      "index": 146,
+      "zone": "Rosedale",
+      "trips": 13842
+    },
+    {
+      "index": 147,
+      "zone": "Soundview/Castle Hill",
+      "trips": 13467
+    },
+    {
+      "index": 148,
+      "zone": "Mount Hope",
+      "trips": 13070
+    },
+    {
+      "index": 149,
+      "zone": "Prospect Park",
+      "trips": 13013
+    },
+    {
+      "index": 150,
+      "zone": "Randalls Island",
+      "trips": 12784
+    },
+    {
+      "index": 151,
+      "zone": "Whitestone",
+      "trips": 12529
+    },
+    {
+      "index": 152,
+      "zone": "Morrisania/Melrose",
+      "trips": 12149
+    },
+    {
+      "index": 153,
+      "zone": "Bayside",
+      "trips": 11949
+    },
+    {
+      "index": 154,
+      "zone": "Van Cortlandt Village",
+      "trips": 11930
+    },
+    {
+      "index": 155,
+      "zone": "Marine Park/Mill Basin",
+      "trips": 11869
+    },
+    {
+      "index": 156,
+      "zone": "Homecrest",
+      "trips": 11863
+    },
+    {
+      "index": 157,
+      "zone": "Erasmus",
+      "trips": 11841
+    },
+    {
+      "index": 158,
+      "zone": "Hillcrest/Pomonok",
+      "trips": 11840
+    },
+    {
+      "index": 159,
+      "zone": "Dyker Heights",
+      "trips": 11823
+    },
+    {
+      "index": 160,
+      "zone": "Jamaica Estates",
+      "trips": 11525
+    },
+    {
+      "index": 161,
+      "zone": "Murray Hill-Queens",
+      "trips": 11374
+    },
+    {
+      "index": 162,
+      "zone": "Bedford Park",
+      "trips": 11353
+    },
+    {
+      "index": 163,
+      "zone": "Queens Village",
+      "trips": 11311
+    },
+    {
+      "index": 164,
+      "zone": "Sheepshead Bay",
+      "trips": 10950
+    },
+    {
+      "index": 165,
+      "zone": "Glendale",
+      "trips": 10801
+    },
+    {
+      "index": 166,
+      "zone": "Howard Beach",
+      "trips": 10743
+    },
+    {
+      "index": 167,
+      "zone": "Kingsbridge Heights",
+      "trips": 10714
+    },
+    {
+      "index": 168,
+      "zone": "Parkchester",
+      "trips": 10143
+    },
+    {
+      "index": 169,
+      "zone": "Cypress Hills",
+      "trips": 9994
+    },
+    {
+      "index": 170,
+      "zone": "Schuylerville/Edgewater Park",
+      "trips": 9978
+    },
+    {
+      "index": 171,
+      "zone": "Co-Op City",
+      "trips": 9951
+    },
+    {
+      "index": 172,
+      "zone": "Fresh Meadows",
+      "trips": 9859
+    },
+    {
+      "index": 173,
+      "zone": "Soundview/Bruckner",
+      "trips": 9729
+    },
+    {
+      "index": 174,
+      "zone": "Bensonhurst East",
+      "trips": 9562
+    },
+    {
+      "index": 175,
+      "zone": "Hunts Point",
+      "trips": 9543
+    },
+    {
+      "index": 176,
+      "zone": "Madison",
+      "trips": 9537
+    },
+    {
+      "index": 177,
+      "zone": "Coney Island",
+      "trips": 9497
+    },
+    {
+      "index": 178,
+      "zone": "Norwood",
+      "trips": 9456
+    },
+    {
+      "index": 179,
+      "zone": "Williamsbridge/Olinville",
+      "trips": 9410
+    },
+    {
+      "index": 180,
+      "zone": "Laurelton",
+      "trips": 9163
+    },
+    {
+      "index": 181,
+      "zone": "Van Nest/Morris Park",
+      "trips": 9040
+    },
+    {
+      "index": 182,
+      "zone": "Brooklyn Navy Yard",
+      "trips": 8717
+    },
+    {
+      "index": 183,
+      "zone": "Pelham Parkway",
+      "trips": 8570
+    },
+    {
+      "index": 184,
+      "zone": "Claremont/Bathgate",
+      "trips": 8404
+    },
+    {
+      "index": 185,
+      "zone": "Longwood",
+      "trips": 8317
+    },
+    {
+      "index": 186,
+      "zone": "West Farms/Bronx River",
+      "trips": 8165
+    },
+    {
+      "index": 187,
+      "zone": "Brighton Beach",
+      "trips": 8149
+    },
+    {
+      "index": 188,
+      "zone": "Cambria Heights",
+      "trips": 8140
+    },
+    {
+      "index": 189,
+      "zone": "College Point",
+      "trips": 8007
+    },
+    {
+      "index": 190,
+      "zone": "Woodlawn/Wakefield",
+      "trips": 7926
+    },
+    {
+      "index": 191,
+      "zone": "Westchester Village/Unionport",
+      "trips": 7885
+    },
+    {
+      "index": 192,
+      "zone": "East Tremont",
+      "trips": 7881
+    },
+    {
+      "index": 193,
+      "zone": "Bay Terrace/Fort Totten",
+      "trips": 7874
+    },
+    {
+      "index": 194,
+      "zone": "East New York/Pennsylvania Avenue",
+      "trips": 7151
+    },
+    {
+      "index": 195,
+      "zone": "Douglaston",
+      "trips": 7042
+    },
+    {
+      "index": 196,
+      "zone": "Far Rockaway",
+      "trips": 6900
+    },
+    {
+      "index": 197,
+      "zone": "Belmont",
+      "trips": 6885
+    },
+    {
+      "index": 198,
+      "zone": "Bronxdale",
+      "trips": 6605
+    },
+    {
+      "index": 199,
+      "zone": "Oakland Gardens",
+      "trips": 6585
+    },
+    {
+      "index": 200,
+      "zone": "Auburndale",
+      "trips": 6583
+    },
+    {
+      "index": 201,
+      "zone": "Ozone Park",
+      "trips": 6422
+    },
+    {
+      "index": 202,
+      "zone": "Queensboro Hill",
+      "trips": 6303
+    },
+    {
+      "index": 203,
+      "zone": "Bellerose",
+      "trips": 5906
+    },
+    {
+      "index": 204,
+      "zone": "Ocean Parkway South",
+      "trips": 5760
+    },
+    {
+      "index": 205,
+      "zone": "Allerton/Pelham Gardens",
+      "trips": 5753
+    },
+    {
+      "index": 206,
+      "zone": "Fordham South",
+      "trips": 5666
+    },
+    {
+      "index": 207,
+      "zone": "Bath Beach",
+      "trips": 5656
+    },
+    {
+      "index": 208,
+      "zone": "Crotona Park East",
+      "trips": 5578
+    },
+    {
+      "index": 209,
+      "zone": "Glen Oaks",
+      "trips": 5338
+    },
+    {
+      "index": 210,
+      "zone": "Newark Airport",
+      "trips": 5180
+    },
+    {
+      "index": 211,
+      "zone": "Starrett City",
+      "trips": 5128
+    },
+    {
+      "index": 212,
+      "zone": "Eastchester",
+      "trips": 5059
+    },
+    {
+      "index": 213,
+      "zone": "Manhattan Beach",
+      "trips": 5004
+    },
+    {
+      "index": 214,
+      "zone": "Hammels/Arverne",
+      "trips": 4861
+    },
+    {
+      "index": 215,
+      "zone": "Gravesend",
+      "trips": 4790
+    },
+    {
+      "index": 216,
+      "zone": "East Flushing",
+      "trips": 4669
+    },
+    {
+      "index": 217,
+      "zone": "Inwood Hill Park",
+      "trips": 4654
+    },
+    {
+      "index": 218,
+      "zone": "Hollis",
+      "trips": 4203
+    },
+    {
+      "index": 219,
+      "zone": "Bronx Park",
+      "trips": 4017
+    },
+    {
+      "index": 220,
+      "zone": "Pelham Bay",
+      "trips": 3768
+    },
+    {
+      "index": 221,
+      "zone": "Rockaway Park",
+      "trips": 3763
+    },
+    {
+      "index": 222,
+      "zone": "Marble Hill",
+      "trips": 3440
+    },
+    {
+      "index": 223,
+      "zone": "Highbridge Park",
+      "trips": 3138
+    },
+    {
+      "index": 224,
+      "zone": "Van Cortlandt Park",
+      "trips": 2366
+    },
+    {
+      "index": 225,
+      "zone": "Bloomfield/Emerson Hill",
+      "trips": 2027
+    },
+    {
+      "index": 226,
+      "zone": "Heartland Village/Todt Hill",
+      "trips": 1855
+    },
+    {
+      "index": 227,
+      "zone": "Saint Michaels Cemetery/Woodside",
+      "trips": 1704
+    },
+    {
+      "index": 228,
+      "zone": "Country Club",
+      "trips": 1701
+    },
+    {
+      "index": 229,
+      "zone": "Astoria Park",
+      "trips": 1661
+    },
+    {
+      "index": 230,
+      "zone": "South Beach/Dongan Hills",
+      "trips": 1504
+    },
+    {
+      "index": 231,
+      "zone": "Saint George/New Brighton",
+      "trips": 1501
+    },
+    {
+      "index": 232,
+      "zone": "Forest Park/Highland Park",
+      "trips": 1483
+    },
+    {
+      "index": 233,
+      "zone": "Stapleton",
+      "trips": 1474
+    },
+    {
+      "index": 234,
+      "zone": "Arrochar/Fort Wadsworth",
+      "trips": 1432
+    },
+    {
+      "index": 235,
+      "zone": "Willets Point",
+      "trips": 1254
+    },
+    {
+      "index": 236,
+      "zone": "City Island",
+      "trips": 1196
+    },
+    {
+      "index": 237,
+      "zone": "Westerleigh",
+      "trips": 1167
+    },
+    {
+      "index": 238,
+      "zone": "Grymes Hill/Clifton",
+      "trips": 1160
+    },
+    {
+      "index": 239,
+      "zone": "Marine Park/Floyd Bennett Field",
+      "trips": 1079
+    },
+    {
+      "index": 240,
+      "zone": "New Dorp/Midland Beach",
+      "trips": 1068
+    },
+    {
+      "index": 241,
+      "zone": "Green-Wood Cemetery",
+      "trips": 995
+    },
+    {
+      "index": 242,
+      "zone": "West Brighton",
+      "trips": 985
+    },
+    {
+      "index": 243,
+      "zone": "Breezy Point/Fort Tilden/Riis Beach",
+      "trips": 983
+    },
+    {
+      "index": 244,
+      "zone": "Great Kills",
+      "trips": 871
+    },
+    {
+      "index": 245,
+      "zone": "Mariners Harbor",
+      "trips": 793
+    },
+    {
+      "index": 246,
+      "zone": "Charleston/Tottenville",
+      "trips": 753
+    },
+    {
+      "index": 247,
+      "zone": "Pelham Bay Park",
+      "trips": 680
+    },
+    {
+      "index": 248,
+      "zone": "Arden Heights",
+      "trips": 662
+    },
+    {
+      "index": 249,
+      "zone": "Eltingville/Annadale/Prince's Bay",
+      "trips": 630
+    },
+    {
+      "index": 250,
+      "zone": "Oakwood",
+      "trips": 588
+    },
+    {
+      "index": 251,
+      "zone": "Crotona Park",
+      "trips": 534
+    },
+    {
+      "index": 252,
+      "zone": "Port Richmond",
+      "trips": 521
+    },
+    {
+      "index": 253,
+      "zone": "Rossville/Woodrow",
+      "trips": 461
+    },
+    {
+      "index": 254,
+      "zone": "Broad Channel",
+      "trips": 377
+    },
+    {
+      "index": 255,
+      "zone": "Freshkills Park",
+      "trips": 90
+    },
+    {
+      "index": 256,
+      "zone": "Jamaica Bay",
+      "trips": 64
+    },
+    {
+      "index": 257,
+      "zone": "Rikers Island",
+      "trips": 13
+    },
+    {
+      "index": 258,
+      "zone": "Great Kills Park",
+      "trips": 4
+    }
+  ],
+  "flags": [
+    "N",
+    "Y"
+  ],
+  "original": {
+    "label": "2021 notebook, fold 1 of 10 (coursework/10-folds-linear-regression.csv)",
+    "intercept": 22.351382882356443,
+    "coefficients": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.03512936679751703,
+      0.0,
+      -0.5449266455264906,
+      0.0,
+      0.0,
+      0.0,
+      0.2732043193406654,
+      0.0,
+      0.0,
+      -0.2859461264963924,
+      -0.3697314319560033,
+      -0.06331746272560251,
+      0.0,
+      -0.22459207923117827,
+      -2.659042014812978,
+      -2.3289050162689753,
+      -0.47277583779445387,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.6274809070102333,
+      1.1347956166835145,
+      1.169250504168512,
+      0.9805177924817788,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -12.087888433307798,
+      9.2881839416746,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.6218452613731319,
+      0.0,
+      -0.4018551853848608,
+      0.0,
+      1.3011123808280252,
+      0.0,
+      0.0,
+      11.981476367092071,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.10183426729287352,
+      14.271335245692162,
+      0.0,
+      0.0,
+      0.0,
+      -0.45186275050797775,
+      0.0,
+      0.0,
+      -0.019229087149587414,
+      0.0,
+      0.0,
+      -0.5095453242181665,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.7294580832412381,
+      0.0,
+      0.0,
+      0.0,
+      1.1685115316174088,
+      1.9796587376668289,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.1881011710273492,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -1.3362386031377789,
+      0.0,
+      -1.104878194695491,
+      -0.26262505732486735,
+      0.0,
+      0.0,
+      0.0,
+      -0.40284115115745484,
+      -0.04137651846406396,
+      0.0,
+      -0.7062838072703312,
+      -0.9526186182219032,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.48958289436600294,
+      -0.5963131024236721,
+      0.0,
+      -0.8191811495205292,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.22284530287557158,
+      0.0,
+      -0.18735269389133405,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      14.428385891378534,
+      0.0,
+      0.0,
+      0.0,
+      1.7609817583996998,
+      0.0,
+      8.78085229355082,
+      0.0,
+      0.0,
+      0.0,
+      0.8560632980487101,
+      0.0,
+      0.0,
+      0.0,
+      1.0533077010750467,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.28135403410547843,
+      0.1037495524613774,
+      2.0825711282121193,
+      0.0,
+      8.948568974401473,
+      0.0,
+      2.706927068473107,
+      0.0,
+      0.0,
+      0.0,
+      4.399566875966621,
+      1.6376644653737014,
+      0.0,
+      0.8827999968091953,
+      0.0,
+      0.0,
+      1.8671724454074718,
+      3.3877648333629633,
+      2.8223164706591204,
+      0.0,
+      1.6515454975615793,
+      1.039895182854762,
+      3.6818199406562298,
+      1.1422805320435911,
+      7.175806713106501,
+      0.0,
+      0.0,
+      0.0,
+      4.112233611694941,
+      4.641045723198062,
+      0.0,
+      1.7288539603586706,
+      4.951799862769222,
+      5.1314868840329515,
+      8.243160535679417,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -1.8305927948907732,
+      0.0,
+      7.583670398893313,
+      3.2237149079364875,
+      0.0,
+      6.9713546445496,
+      0.0,
+      0.0,
+      0.0,
+      2.846696038003763,
+      0.0,
+      0.0,
+      0.3940278784410378,
+      2.371808165901926,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.577312219169814,
+      3.3197767548682684,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.7664463387343132,
+      0.5092073653256055,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      4.493720894777813,
+      2.691827479153563,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0374813221283674,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.46041362991877416,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "folds": [
+      {
+        "fold": 0,
+        "r2": 0.36760282845620995,
+        "rmse": 9.174372358224751,
+        "intercept": 22.351382882356443
+      },
+      {
+        "fold": 1,
+        "r2": 0.36678708264393634,
+        "rmse": 9.170723327292436,
+        "intercept": 22.338357219297613
+      },
+      {
+        "fold": 2,
+        "r2": 0.3670465584538307,
+        "rmse": 9.16956723009064,
+        "intercept": 22.355935082015264
+      },
+      {
+        "fold": 3,
+        "r2": 0.3654535560556006,
+        "rmse": 9.170685124340627,
+        "intercept": 22.357891807266817
+      },
+      {
+        "fold": 4,
+        "r2": 0.366036933775323,
+        "rmse": 9.17542554156678,
+        "intercept": 22.351417782365353
+      },
+      {
+        "fold": 5,
+        "r2": 0.3662072716006791,
+        "rmse": 9.177786930574978,
+        "intercept": 22.35767213478585
+      },
+      {
+        "fold": 6,
+        "r2": 0.3663915797273418,
+        "rmse": 9.171276980817,
+        "intercept": 22.371207241689508
+      },
+      {
+        "fold": 7,
+        "r2": 0.3666518867805053,
+        "rmse": 9.17923660722613,
+        "intercept": 22.371699412088088
+      },
+      {
+        "fold": 8,
+        "r2": 0.36611114335737716,
+        "rmse": 9.182336881837195,
+        "intercept": 22.337066821711492
+      },
+      {
+        "fold": 9,
+        "r2": 0.3669612540790398,
+        "rmse": 9.174433417750326,
+        "intercept": 22.343594587370784
+      }
+    ]
+  },
+  "refit": {
+    "label": "2026 refit on the revived data, same features and penalty, solved to convergence",
+    "intercept": 24.76402481365953,
+    "coefficients": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0,
+      0.0,
+      -0.0,
+      0.0350895757,
+      0.0,
+      -0.558840915,
+      0.0,
+      0.0,
+      0.0,
+      0.2724684512,
+      0.0,
+      0.0,
+      -0.2988405537,
+      -0.3758426489,
+      -0.1459885793,
+      -0.0,
+      -0.2376259729,
+      -2.6603714845,
+      -2.314430843,
+      -0.4557330579,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.6284569956,
+      1.1387440578,
+      1.1735412622,
+      0.9770588546,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -14.4962988758,
+      6.6952303205,
+      0.0,
+      0.0,
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.6011256008,
+      0.0,
+      -0.3803619826,
+      0.0,
+      1.3048024144,
+      0.0,
+      0.0,
+      11.9247118754,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0784691354,
+      14.2687201746,
+      0.0,
+      0.0,
+      0.0,
+      -0.427563383,
+      0.0,
+      0.0,
+      -0.0133954165,
+      0.0,
+      0.0,
+      -0.4862176575,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.7444375134,
+      0.0,
+      0.0,
+      0.0,
+      1.1796899424,
+      1.9735032524,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.1810509417,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -1.3420824043,
+      0.0,
+      -1.1025058076,
+      -0.2497072137,
+      0.0,
+      0.0,
+      0.0,
+      -0.3979428484,
+      -0.0219560993,
+      0.0,
+      -0.7002168422,
+      -0.9510091276,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.4892643287,
+      -0.5771520816,
+      0.0,
+      -0.8240028035,
+      -0.0,
+      0.0,
+      0.0,
+      -0.0,
+      0.0,
+      -0.0,
+      -0.1975611503,
+      0.0,
+      -0.1682312713,
+      0.0,
+      0.0,
+      0.0,
+      -0.0,
+      0.0,
+      14.4052129728,
+      0.0,
+      0.0,
+      0.0,
+      1.771351355,
+      0.0,
+      8.6413675722,
+      0.0,
+      0.0,
+      0.0,
+      0.8722755576,
+      0.0,
+      0.0,
+      0.0,
+      1.0743191632,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.2906446453,
+      0.067653088,
+      2.0736982011,
+      0.0,
+      8.9932805064,
+      0.0,
+      2.7565261155,
+      0.0,
+      0.0,
+      0.0,
+      4.4056755354,
+      1.6713660078,
+      0.0,
+      0.9137032754,
+      0.0,
+      0.0,
+      1.9148215132,
+      3.4109839181,
+      2.804789985,
+      0.0,
+      1.7073467321,
+      1.0589670457,
+      3.6926819066,
+      1.1786653346,
+      7.1689393718,
+      0.0,
+      0.0,
+      0.0,
+      4.1487226662,
+      4.6668987398,
+      0.0,
+      1.7526267747,
+      4.9929611089,
+      5.1521428967,
+      8.2702988002,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -1.9527130814,
+      0.0,
+      7.6461717391,
+      3.2216175466,
+      0.0,
+      7.0175972943,
+      0.0,
+      0.0,
+      0.0,
+      2.8748860114,
+      0.0,
+      0.0,
+      0.3641843488,
+      2.4046794147,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.5590497327,
+      3.3275017084,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.6763893173,
+      0.5349212653,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      4.5191147481,
+      2.7265776208,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0207276412,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.3879521797,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "summary": {
+    "rows": 74941355,
+    "hyperparameters": {
+      "regParam": 0.3,
+      "elasticNetParam": 0.8,
+      "standardization": true
+    },
+    "notebook_mean_r2": 0.3665250094929844,
+    "notebook_mean_rmse": 9.174584439972085,
+    "refit_mean_r2": 0.36804960305895246,
+    "refit_mean_rmse": 9.179744159372214,
+    "original_coefficients_on_revived_mean_r2": 0.3680983390119527,
+    "original_coefficients_on_revived_mean_rmse": 9.179390054758255,
+    "full_refit_in_sample_r2": 0.3680528226791896,
+    "full_refit_in_sample_rmse": 9.179727150801899,
+    "original_fold0_on_all_revived_r2": 0.36807901542039057,
+    "original_fold0_on_all_revived_rmse": 9.179536909657006,
+    "zone_coefficient_correlation": 0.9999607702304761,
+    "label_mean": 14.60855510685649,
+    "label_std": 11.547537641025881
+  },
+  "folds": [
+    {
+      "fold": 0,
+      "test_rows": 7493562,
+      "refit_r2": 0.3669944468601771,
+      "refit_rmse": 9.17595346670985,
+      "refit_intercept": 24.768530192901686,
+      "refit_nonzero": 83,
+      "original_r2_2021": 0.36760282845620995,
+      "original_rmse_2021": 9.174372358224751,
+      "original_coefficients_on_revived_r2": 0.3669883048722882,
+      "original_coefficients_on_revived_rmse": 9.175997983269042,
+      "sweeps": 303
+    },
+    {
+      "fold": 1,
+      "test_rows": 7497013,
+      "refit_r2": 0.3678811376682801,
+      "refit_rmse": 9.170638453918123,
+      "refit_intercept": 24.756725553291197,
+      "refit_nonzero": 83,
+      "original_r2_2021": 0.36678708264393634,
+      "original_rmse_2021": 9.170723327292436,
+      "original_coefficients_on_revived_r2": 0.3679509654123714,
+      "original_coefficients_on_revived_rmse": 9.170131917316452,
+      "sweeps": 302
+    },
+    {
+      "fold": 2,
+      "test_rows": 7492736,
+      "refit_r2": 0.3682156342779589,
+      "refit_rmse": 9.173815063147241,
+      "refit_intercept": 24.766828809358806,
+      "refit_nonzero": 83,
+      "original_r2_2021": 0.3670465584538307,
+      "original_rmse_2021": 9.16956723009064,
+      "original_coefficients_on_revived_r2": 0.36824785998255327,
+      "original_coefficients_on_revived_rmse": 9.173581093742307,
+      "sweeps": 302
+    },
+    {
+      "fold": 3,
+      "test_rows": 7493882,
+      "refit_r2": 0.36772802742011146,
+      "refit_rmse": 9.193455689280881,
+      "refit_intercept": 24.752173964539416,
+      "refit_nonzero": 83,
+      "original_r2_2021": 0.3654535560556006,
+      "original_rmse_2021": 9.170685124340627,
+      "original_coefficients_on_revived_r2": 0.36777048579691163,
+      "original_coefficients_on_revived_rmse": 9.19314700427196,
+      "sweeps": 302
+    },
+    {
+      "fold": 4,
+      "test_rows": 7490890,
+      "refit_r2": 0.3684258240621624,
+      "refit_rmse": 9.17580846651016,
+      "refit_intercept": 24.70183125881597,
+      "refit_nonzero": 83,
+      "original_r2_2021": 0.366036933775323,
+      "original_rmse_2021": 9.17542554156678,
+      "original_coefficients_on_revived_r2": 0.3684478154716768,
+      "original_coefficients_on_revived_rmse": 9.175648714318017,
+      "sweeps": 302
+    },
+    {
+      "fold": 5,
+      "test_rows": 7494523,
+      "refit_r2": 0.36793312015445145,
+      "refit_rmse": 9.19202175279113,
+      "refit_intercept": 24.80133526883121,
+      "refit_nonzero": 83,
+      "original_r2_2021": 0.3662072716006791,
+      "original_rmse_2021": 9.177786930574978,
+      "original_coefficients_on_revived_r2": 0.3680629025102393,
+      "original_coefficients_on_revived_rmse": 9.191078004969796,
+      "sweeps": 302
+    },
+    {
+      "fold": 6,
+      "test_rows": 7495512,
+      "refit_r2": 0.3680418802595298,
+      "refit_rmse": 9.189203324153638,
+      "refit_intercept": 24.76225201767486,
+      "refit_nonzero": 83,
+      "original_r2_2021": 0.3663915797273418,
+      "original_rmse_2021": 9.171276980817,
+      "original_coefficients_on_revived_r2": 0.3680613339710468,
+      "original_coefficients_on_revived_rmse": 9.189061886390034,
+      "sweeps": 303
+    },
+    {
+      "fold": 7,
+      "test_rows": 7499192,
+      "refit_r2": 0.36879505612743324,
+      "refit_rmse": 9.167533417137854,
+      "refit_intercept": 24.789603589410383,
+      "refit_nonzero": 83,
+      "original_r2_2021": 0.3666518867805053,
+      "original_rmse_2021": 9.17923660722613,
+      "original_coefficients_on_revived_r2": 0.3688530531414992,
+      "original_coefficients_on_revived_rmse": 9.167112237152196,
+      "sweeps": 302
+    },
+    {
+      "fold": 8,
+      "test_rows": 7494014,
+      "refit_r2": 0.3686453457442038,
+      "refit_rmse": 9.180663496690215,
+      "refit_intercept": 24.76965735803967,
+      "refit_nonzero": 83,
+      "original_r2_2021": 0.36611114335737716,
+      "original_rmse_2021": 9.182336881837195,
+      "original_coefficients_on_revived_r2": 0.3687172587386859,
+      "original_coefficients_on_revived_rmse": 9.180140630659297,
+      "sweeps": 302
+    },
+    {
+      "fold": 9,
+      "test_rows": 7490031,
+      "refit_r2": 0.3678355580152164,
+      "refit_rmse": 9.178348463383038,
+      "refit_intercept": 24.771401235412114,
+      "refit_nonzero": 83,
+      "original_r2_2021": 0.3669612540790398,
+      "original_rmse_2021": 9.174433417750326,
+      "original_coefficients_on_revived_r2": 0.3678834102222547,
+      "original_coefficients_on_revived_rmse": 9.178001075493459,
+      "sweeps": 302
+    }
+  ],
+  "path": [
+    {
+      "reg_param": 0.01,
+      "cv_r2": 0.4452387935685119,
+      "cv_rmse": 8.600863923421304,
+      "nonzero": 502.1
+    },
+    {
+      "reg_param": 0.03,
+      "cv_r2": 0.4431333898155847,
+      "cv_rmse": 8.617169555997714,
+      "nonzero": 423.2
+    },
+    {
+      "reg_param": 0.1,
+      "cv_r2": 0.4264996159612986,
+      "cv_rmse": 8.744921905611978,
+      "nonzero": 276.9
+    },
+    {
+      "reg_param": 0.3,
+      "cv_r2": 0.36804960305895246,
+      "cv_rmse": 9.179744159372214,
+      "nonzero": 83.0
+    },
+    {
+      "reg_param": 1.0,
+      "cv_r2": 0.3078149974731129,
+      "cv_rmse": 9.607274361647868,
+      "nonzero": 7.0
+    },
+    {
+      "reg_param": 3.0,
+      "cv_r2": 0.1881384506362052,
+      "cv_rmse": 10.40471310941513,
+      "nonzero": 4.0
+    }
+  ]
+}
