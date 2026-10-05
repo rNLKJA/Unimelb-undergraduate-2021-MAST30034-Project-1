@@ -1,107 +1,183 @@
 <div align="center">
 
-# Predicting New York City Yellow Taxi Trip Duration
+# NYC Taxi 2019: Where, When and How Long
 
-### MAST30034 Applied Data Science &middot; Project 1 &middot; University of Melbourne
+### MAST30034 Applied Data Science · Project 1 · University of Melbourne · 2021 Semester 2
 
-A quantitative analysis of the 2019 NYC Yellow Taxi trip records, building a PySpark linear regression model to predict trip duration from trip, weather, event and collision data.
+Every New York yellow-cab trip of 2019, cleaned with the rules of a 2021 data-science project, joined to weather, permitted events and collisions, mapped by taxi zone and modelled to predict how long a ride takes. Revived in 2026 as an interactive website.
 
-[![Python](https://img.shields.io/badge/Python-3.8.3-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org/)
-[![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-F37626?style=flat&logo=jupyter&logoColor=white)](https://jupyter.org/)
-[![Apache Spark](https://img.shields.io/badge/Apache%20Spark-PySpark%203.1.2-E25A1C?style=flat&logo=apachespark&logoColor=white)](https://spark.apache.org/)
-[![University of Melbourne](https://img.shields.io/badge/University%20of%20Melbourne-MAST30034-094183?style=flat)](https://handbook.unimelb.edu.au/2021/subjects/mast30034)
+**Live demo:** _coming soon_ (deploys from `web/` on Vercel)
+
+[![CI](https://github.com/rNLKJA/Unimelb-undergraduate-2021-MAST30034-Project-1/actions/workflows/ci.yml/badge.svg)](https://github.com/rNLKJA/Unimelb-undergraduate-2021-MAST30034-Project-1/actions/workflows/ci.yml)
+![Next.js 16](https://img.shields.io/badge/Next.js-16-000?logo=nextdotjs)
+![DuckDB](https://img.shields.io/badge/DuckDB-pipeline-FFF000?logo=duckdb&logoColor=000)
+![MapLibre](https://img.shields.io/badge/MapLibre-OpenFreeMap-396CB2?logo=maplibre)
 
 </div>
 
 ---
 
-## Overview
+## What the project is
 
-This project is a quantitative analysis of the New York City Taxi and Limousine Commission (TLC) Yellow Taxi trip records for 2019.
+Project 1 of MAST30034 was an individual quantitative analysis of the New York Taxi and Limousine Commission (TLC) trip records. Students picked a question, cleaned a very large real dataset, explored it visually and backed the answer with a statistical model.
 
-**Research question:** can we predict the trip duration (travel time in minutes) of a New York City yellow taxi journey from trip attributes and surrounding conditions, so that vendors can set better expectations and improve the customer experience?
+The question here: **can we tell a passenger how long a yellow-cab ride will take**, from where and when it starts and what the city is doing that day?
 
-To answer this, the project cleans the large 2019 TLC trip dataset and enriches it with four supporting sources, then fits a linear regression model to predict `time_duration_minutes`.
+In 2021 I answered it with one PySpark notebook (now in [`coursework/`](coursework/)). It took the 84 million trips of 2019 through four rounds of cleaning and joined NOAA Central Park weather, NYC permitted events and NYPD collisions to each trip. It drew Folium choropleths of every taxi zone and fitted an elastic-net linear regression with a hand-written 10-fold cross-validation.
 
-**Datasets used:**
+The revival keeps those methods as they were. It re-runs every cleaning rule with DuckDB on TLC's current copy of the data and checks each step against the row counts the notebook printed. It scores the 2021 coefficients on the revived data and puts the results on a website you can explore.
 
-| Dataset | Source | Role |
-|---|---|---|
-| 2019 Yellow Taxi trip records | [NYC TLC Trip Record Data](https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page) | Core dataset (one CSV per month, around 84 million rows before cleaning) |
-| Taxi Zone lookup and shapefile | NYC TLC | Maps location IDs to zones and boroughs, and supports the choropleth maps |
-| Daily weather summary | [NOAA National Centers for Environmental Information](https://www.ncdc.noaa.gov/cdo-web/) (Central Park station) | Adds temperature, precipitation, snow and weather-type features |
-| NYC permitted events (historical) | [NYC Open Data](https://data.cityofnewyork.us/City-Government/NYC-Permitted-Event-Information-Historical/bkfu-528j) | Adds a daily count of permitted events per borough |
-| NYC motor vehicle collisions | Google BigQuery `nypd_mv_collisions` (mirrored to a CSV) | Adds an hourly count of collisions per borough |
+## Results: 2021 notebook vs the revival
 
-The full report is available on Overleaf (view only): [https://www.overleaf.com/read/jtyhjwsdsvcn](https://www.overleaf.com/read/jtyhjwsdsvcn).
+| Checkpoint | 2021 notebook | Revived (DuckDB) | Difference |
+| --- | ---: | ---: | ---: |
+| Raw 2019 records | 84,399,019 | 84,598,444 | +0.236% ¹ |
+| After `dropna()` | 79,296,437 | 79,297,843 | +0.002% |
+| End of round 1 (value ranges, vendor 4) | 76,487,438 | 76,488,807 | +0.002% |
+| Fare z-score ≤ 3 | 76,486,691 | 76,488,060 | +0.002% |
+| Duplicates removed | 76,486,688 | 76,488,057 | +0.002% |
+| Fare ≥ $2.50 | 76,486,337 | 76,487,706 | +0.002% |
+| Distance / minutes ≤ 50 | 76,475,571 | 76,478,068 | +0.003% |
+| Trip ≤ 180 minutes | 76,269,392 | 76,271,886 | +0.003% |
+| Tip ≤ half the fare | 75,673,363 | 75,675,844 | +0.003% |
+| Zones, weather and events joined | 75,183,226 | 75,185,703 | +0.003% |
+| **Final analysis dataset** | **74,908,426** | **74,910,889** | **+0.003%** |
 
-## Approach and Pipeline
+¹ TLC's 2022 Parquet re-issue of 2019 has about 199,000 extra rows, almost all with missing fields, so they fall out at `dropna()`.
 
-The work follows a download, preprocess, analyse, model sequence, run end to end in a single Jupyter notebook on Apache Spark (PySpark).
+| Trip-duration model (10-fold CV, mean of folds) | R² | RMSE (min) |
+| --- | ---: | ---: |
+| 2021 notebook, as printed | 0.3665 | 9.175 |
+| 2021 coefficients scored on the revived folds | 0.3681 | 9.179 |
+| 2026 refit, same features and penalty, solved to convergence | 0.3680 | 9.180 |
 
-1. **Download** each raw dataset using the scripts in `Download scripts/`.
-2. **Clean the taxi data** across four passes, removing invalid and extreme records. This includes filtering out unknown vendor and rate codes, negative and null values, passenger counts above six, fares below the $2.50 minimum, trips faster than 50 miles per hour, trips longer than two hours, dropoff times before pickup, and tips greater than twice the fare. This reduces roughly 84 million rows to about 76 million.
-3. **Engineer features** by splitting timestamps into date and time parts, deriving driving speed, trip duration, tip rate and a pickup-to-dropoff route.
-4. **Join the supporting data** onto each trip: taxi zones by location ID, weather and event counts by pickup date, and collision counts by date and hour.
-5. **Explore and visualise** the merged dataset, including pickup and dropoff choropleth maps by zone and vendor (Folium), average trip time by weekday and hour, busiest routes, and a feature correlation matrix.
-6. **Model** trip duration with a Spark MLlib `LinearRegression`. Categorical fields are indexed and one-hot encoded, then assembled into a feature vector. Because Spark's built-in `CrossValidator` would not run on the local machine, a manual k-fold cross-validation loop was written, evaluating each fold on R&sup2; and RMSE.
+The model is Spark MLlib `LinearRegression(regParam=0.3, elasticNetParam=0.8)` on 579 features: 11 weather, event and collision columns plus one-hot weekday, hour, rate code, passenger count, pickup zone, vendor, drop-off zone and store-and-forward flag. The penalty kept 83 of them. Every weather variable shrank to zero; airports, rate codes and zones did the work. The refit's zone coefficients correlate with the 2021 ones at r = 0.99996.
 
-The model explains around 37% of the variance in trip duration (mean R&sup2; close to 0.37) with an RMSE of roughly 9 minutes across folds.
+## The website
 
-## Repository Structure
+| Route | What it does |
+| --- | --- |
+| `/` | The story in plain language, key numbers, and the "About this project" section |
+| `/map` | MapLibre choropleth of all 263 taxi zones: pickups or drop-offs, trips or median minutes, any weekday and hour, with a "play the day" animation and per-zone details |
+| `/routes` | Route explorer: the busiest destinations from (or origins to) any zone, drawn as subway-style lines; the top 30 routes and the borough-to-borough matrix for the whole year |
+| `/conditions` | Every day of 2019 next to weather, permitted events and collisions; a day-level scatter explorer; the weekday-by-hour trip-time heatmap per vendor; the fate of the 11 numeric features |
+| `/estimate` | The 2021 regression running in the browser: pick zones, a 2019 date and an hour, and see the prediction, the refit, the observed median and every term of the sum |
+| `/method` | The cleaning funnel rule by rule with both sets of counts, the quirks of the 2021 rules, a "would your trip survive?" rule tester, fold-by-fold parity charts and the regularisation path |
+| `/records` | Browse, search, sort and download (CSV) every table of the analytics database |
+| `/api/zones`, `/api/routes`, `/api/route-hourly` | Read-only JSON used by the interactive pages |
 
-| Path | Description |
-|---|---|
-| `Project 1 1118472.ipynb` | Main notebook covering the full pipeline from download to model evaluation |
-| `Download scripts/` | Standalone scripts to fetch each raw dataset (taxi, events, collisions, taxi zones) |
-| `init.py` | Notebook setup: warning filters and multiline output settings |
-| `library.py` | All shared imports (PySpark, pandas, geopandas, Folium, Bokeh, Plotly, Spark ML) |
-| `Preprocess/preprocess_readme.md` | Detailed record of every cleaning and merge decision, with the final schema |
-| `plot/` | Saved figures and interactive maps produced during analysis |
-| `10-folds-linear-regression.csv` | Per-fold cross-validation results (R&sup2;, RMSE, intercepts and coefficients) |
-| `requirements.txt` | Pinned Python dependencies |
-| `_archive/` | Original README kept for reference |
+Everything is static or served from a bundled read-only SQLite file. There is no backend service, account or API key. Map tiles come from [OpenFreeMap](https://openfreemap.org) (free, no key). If they fail to load, the maps fall back to bundled borough outlines.
 
-## Getting Started
+## Tech stack
 
-### Prerequisites
+| Layer | 2021 | 2026 revival |
+| --- | --- | --- |
+| Trip data | 12 monthly CSVs from TLC's S3 bucket (now gone) | TLC's 2019 Parquet re-issue on CloudFront |
+| Engine | PySpark 3.1.2 under WSL | DuckDB in [uv](https://docs.astral.sh/uv/) scripts with inline (PEP 723) dependencies |
+| Model | Spark MLlib elastic net, `maxIter=10`, manual 10-fold CV | NumPy coordinate descent on exact sufficient statistics, same objective as Spark |
+| Maps | Folium with Stamen tiles (discontinued) | MapLibre GL JS 6 with OpenFreeMap vector tiles and a bundled GeoJSON fallback |
+| App | A 22 MB notebook | Next.js 16 (App Router, Server Components), React 19, TypeScript (strict), Tailwind CSS 4, shadcn/ui primitives, Recharts, next-themes, zod |
+| Data at runtime | n/a | `web/data/analytics.db` (15 MB, aggregates only) read with `@libsql/client` |
+| Quality | n/a | Vitest unit and parity tests, ESLint, Prettier, GitHub Actions CI |
 
-- Python 3.8.3
-- Apache Spark with PySpark 3.1.2 (a Linux or WSL environment is recommended)
-- Install the Python dependencies:
+## Repository structure
 
-```bash
-pip install -r requirements.txt
+```
+.
+├── README.md
+├── .github/workflows/ci.yml     lint, format, typecheck, test and build of web/
+├── coursework/                  the original 2021 submission, unchanged (see coursework/README.md)
+│   ├── Project 1 1118472.ipynb
+│   ├── Download scripts/  Preprocess/  plot/  _archive/
+│   ├── 10-folds-linear-regression.csv
+│   └── requirements.txt  pyproject.toml  init.py  library.py  ...
+├── scripts/                     reproducible data pipeline (uv + DuckDB)
+│   ├── fetch_data.py            raw inputs -> data-cache/ (git-ignored)
+│   ├── pipeline.py              the 2021 cleaning and merge rules -> data-cache/work.duckdb
+│   ├── fit_model.py             scores the 2021 coefficients, refits the model
+│   ├── build_analytics.py       aggregates -> web/data/analytics.db + GeoJSON + model JSON
+│   ├── export_fixtures.py       parity fixtures for the TypeScript tests
+│   ├── common.py                paths and the notebook's printed counts
+│   └── out/                     pipeline_report.json, model_report.json, model.json, feature_labels.json
+└── web/                         the Next.js app (Vercel root directory)
+    ├── data/analytics.db        read-only aggregates (built by scripts/build_analytics.py)
+    ├── public/data/             zones.geojson, boroughs.geojson
+    ├── tools/                   copies the MapLibre worker into public/vendor at dev/build time
+    └── src/
+        ├── app/                 routes: /, map, routes, conditions, estimate, method, records, api
+        ├── components/          layout/, map/, explorer/, charts/, conditions/, estimate/, method/, ui/
+        ├── hooks/               theme, reduced motion, JSON fetch
+        ├── lib/                 framework-free ports: model.ts, cleaning.ts, metrics.ts, scale.ts, time.ts, geo.ts
+        └── server/              server-only data access to analytics.db (analytics.ts, records.ts)
 ```
 
-### Obtaining the data
+## Local development
 
-The raw datasets are not stored in this repository. Download them with the scripts in `Download scripts/`, which save into a local `Data/` folder:
+Requirements: Node 20.9 or newer and pnpm 10 (`corepack enable`).
 
-- `2019 yellow taxi data download.py` fetches the monthly Yellow Taxi CSVs from the NYC TLC S3 bucket.
-- `Taxi Zone LookUp table and Shape File.py` fetches the zone lookup table and shapefile.
-- `2019 NYC Permitted Event Information download.py` fetches the permitted events CSV from NYC Open Data.
-- `2019 New York Car Collision.py` fetches the collision query results (mirrored from BigQuery to Google Drive).
+```bash
+cd web
+pnpm install
+pnpm dev            # http://localhost:3000
+pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build
+pnpm start -p 3303  # serve the production build
+```
 
-The weather summary is downloaded manually from the NOAA portal linked above.
+`pnpm typecheck` runs `next typegen` first, because the global route types (`PageProps`, `LayoutProps`, `RouteContext`) only exist after type generation. No environment variables are needed. `NEXT_PUBLIC_SITE_URL` optionally sets the canonical URL used in metadata.
 
-### Running the analysis
+### Deploying
 
-1. Open `Project 1 1118472.ipynb` in Jupyter.
-2. Run `init.py` and `library.py` first so the environment and imports are ready before any other cell.
-3. Make sure every directory referenced in the notebook exists and that your `SparkConf` matches your machine's resources.
-4. Run the cells in order: download, preprocess, analyse, then model.
+Point a Vercel project at the `web/` directory. `next.config.ts` traces `data/analytics.db` into every server function (`outputFileTracingIncludes`). On Vercel the file is copied to `/tmp` once per cold start and opened read-only.
 
-## Notes
+## How the data artefacts are generated
 
-- `Preprocess/preprocess_readme.md` is the best place to understand the cleaning logic. It records every filtering rule, the reasoning behind it, and the final 40-column schema.
-- The original assignment repository was private to the MAST30034 teaching group. This is a standalone copy preserved as a portfolio reference.
-- This project was completed in 2021 as part of the Bachelor of Science (Data Science) at the University of Melbourne.
+The website ships only aggregates. The raw trips (1.2 GB of Parquet) and the DuckDB work file (about 27 GB) live in the git-ignored `data-cache/`. To rebuild everything from public sources, install [uv](https://docs.astral.sh/uv/), then run from the repository root:
 
----
+```bash
+uv run scripts/fetch_data.py       # 12 TLC Parquet files, 2019 events from NYC Open Data, and the
+                                   # collision/weather/taxi-zone files extracted from the 2021 snapshot zip
+uv run scripts/pipeline.py         # the notebook's cleaning rounds and joins; writes scripts/out/pipeline_report.json
+uv run scripts/fit_model.py        # 10-fold scoring of the 2021 coefficients + converged refit + regularisation path
+uv run scripts/build_analytics.py  # web/data/analytics.db, web/public/data/*.geojson, web/src/lib/data/*.json
+uv run scripts/export_fixtures.py  # web/src/lib/__fixtures__/model-rows.json for the parity tests
+```
 
-<div align="center">
+Each script declares its own dependencies (DuckDB, NumPy, pyshp, pyproj, Shapely) in a PEP 723 header, so there is no environment to set up. The pipeline needs about 20 GB of memory and 40 GB of free disk.
 
-**Author:** Sunchuangyu (Rin) Huang &middot; Student ID 1118472
+Sources and provenance:
 
-</div>
+- **Taxi trips:** NYC TLC Trip Record Data, yellow taxi 2019 (Parquet, `d37ci6vzurychx.cloudfront.net`).
+- **Weather, collisions, taxi zones:** the exact files the 2021 notebook used, taken from `coursework/mast30034_2021_s2_project_1-chuangyu-hscy-main.zip`. These are NOAA GHCN-Daily for Central Park, the NYPD motor-vehicle collisions BigQuery export, and the TLC zone lookup and shapefile.
+- **Permitted events:** NYC Open Data `bkfu-528j`, events starting in 2019. The dataset has been revised since 2021 and is much smaller now. This does not affect the model, which gave events a zero coefficient.
+
+`analytics.db` has 18 tables: zones; zone × weekday × hour; zone × vendor; every zone-to-zone route; hourly profiles of busy routes; borough flows; the daily series and daily × borough; weekday × hour × vendor; weather; events; collisions; the cleaning funnel; model folds, coefficients, regularisation path and zone index; and table descriptions. No individual trip is stored.
+
+### The cleaning rules, quirks included
+
+The revival runs the rules as the notebook ran them, not as its comments describe them. `/method` documents each quirk:
+
+- the "miles per hour" rule divides miles by *minutes*, so it only removes trips faster than 50 miles per minute;
+- the tip rule keeps tips up to half the fare (`fare_amount >= 2 * tip_amount`);
+- `dropna()` removes 1 to 20 January, because TLC left `congestion_surcharge` empty until 21 January 2019;
+- the zone filter only removes trips from zone 264 to zone 265;
+- the model joins the shapefile's zone names, where LocationIDs 56 and 103 appear more than once.
+
+## Tests and parity
+
+`web/src/lib` holds the TypeScript ports, each covered by Vitest (`pnpm test`, 79 tests):
+
+- `model.ts`: the 579-feature VectorAssembler layout, one-hot encoding and prediction. For 40 real rows of the revived model table, the TypeScript port must reproduce the feature indices and both predictions (2021 and refit) computed in Python with NumPy to 9 decimal places.
+- `cleaning.ts`: every cleaning rule as a predicate, tested against rows and thresholds printed in the notebook, such as the z-score bound 13.0258 + 3 × 94.3733.
+- `metrics.ts`: R² and RMSE as Spark's `RegressionEvaluator` computes them, and scoring from sufficient statistics as `fit_model.py` does.
+- `server/analytics.test.ts`: the bundled database against the notebook. It checks the funnel counts, the vendor-by-weekday mean trip times and the borough matrix from the notebook's 10% sample, and the 2021 fold results.
+
+## Credits
+
+- **Author:** Sunchuangyu (Rin) Huang, student 1118472. Individual project.
+- The download scripts were adapted from MAST30034 tutorial material. The manual cross-validation loop was adapted from the Anant CaSparkExtension notebook. Both are noted in the original notebook.
+- Data: NYC Taxi & Limousine Commission, NOAA National Centers for Environmental Information, NYC Open Data, NYPD.
+- Basemap © OpenStreetMap contributors, vector tiles by OpenFreeMap / OpenMapTiles.
+
+## Academic integrity
+
+The 2021 notebook, scripts, figures and per-fold results are kept unchanged in [`coursework/`](coursework/) for reference. The written report is on Overleaf (link in `coursework/_archive/README.original.md`). The assignment brief and other subject material are not reproduced here or on the website. If you are taking MAST30034, please do your own project.
