@@ -1,0 +1,1340 @@
+{
+  "raw_rows": 84598444,
+  "dropna_rows": 79297843,
+  "round1_rows": 76488807,
+  "final_rows": 74910889,
+  "missing": [
+    {
+      "column": "VendorID",
+      "missing": 0,
+      "share": 0.0
+    },
+    {
+      "column": "pickup_dt",
+      "missing": 0,
+      "share": 0.0
+    },
+    {
+      "column": "dropoff_dt",
+      "missing": 0,
+      "share": 0.0
+    },
+    {
+      "column": "passenger_count",
+      "missing": 444383,
+      "share": 0.005252850749831758
+    },
+    {
+      "column": "trip_distance",
+      "missing": 0,
+      "share": 0.0
+    },
+    {
+      "column": "RatecodeID",
+      "missing": 444383,
+      "share": 0.005252850749831758
+    },
+    {
+      "column": "store_and_fwd_flag",
+      "missing": 444383,
+      "share": 0.005252850749831758
+    },
+    {
+      "column": "PULocationID",
+      "missing": 0,
+      "share": 0.0
+    },
+    {
+      "column": "DOLocationID",
+      "missing": 0,
+      "share": 0.0
+    },
+    {
+      "column": "payment_type",
+      "missing": 0,
+      "share": 0.0
+    },
+    {
+      "column": "fare_amount",
+      "missing": 0,
+      "share": 0.0
+    },
+    {
+      "column": "extra",
+      "missing": 0,
+      "share": 0.0
+    },
+    {
+      "column": "mta_tax",
+      "missing": 0,
+      "share": 0.0
+    },
+    {
+      "column": "tip_amount",
+      "missing": 0,
+      "share": 0.0
+    },
+    {
+      "column": "tolls_amount",
+      "missing": 0,
+      "share": 0.0
+    },
+    {
+      "column": "improvement_surcharge",
+      "missing": 0,
+      "share": 0.0
+    },
+    {
+      "column": "total_amount",
+      "missing": 0,
+      "share": 0.0
+    },
+    {
+      "column": "congestion_surcharge",
+      "missing": 5300601,
+      "share": 0.06265601055262908
+    }
+  ],
+  "missing_by_file": [
+    {
+      "source_file": "2019-01",
+      "rows": 7696617,
+      "any_missing": 4884887,
+      "by_column": {
+        "passenger_count": 28672,
+        "RatecodeID": 28672,
+        "store_and_fwd_flag": 28672,
+        "congestion_surcharge": 4884887
+      }
+    },
+    {
+      "source_file": "2019-02",
+      "rows": 7049370,
+      "any_missing": 29663,
+      "by_column": {
+        "passenger_count": 29663,
+        "RatecodeID": 29663,
+        "store_and_fwd_flag": 29663,
+        "congestion_surcharge": 29663
+      }
+    },
+    {
+      "source_file": "2019-03",
+      "rows": 7866620,
+      "any_missing": 33474,
+      "by_column": {
+        "passenger_count": 33474,
+        "RatecodeID": 33474,
+        "store_and_fwd_flag": 33474,
+        "congestion_surcharge": 33474
+      }
+    },
+    {
+      "source_file": "2019-04",
+      "rows": 7475949,
+      "any_missing": 42456,
+      "by_column": {
+        "passenger_count": 42456,
+        "RatecodeID": 42456,
+        "store_and_fwd_flag": 42456,
+        "congestion_surcharge": 42456
+      }
+    },
+    {
+      "source_file": "2019-05",
+      "rows": 7598445,
+      "any_missing": 32770,
+      "by_column": {
+        "passenger_count": 32770,
+        "RatecodeID": 32770,
+        "store_and_fwd_flag": 32770,
+        "congestion_surcharge": 32770
+      }
+    },
+    {
+      "source_file": "2019-06",
+      "rows": 6971560,
+      "any_missing": 30747,
+      "by_column": {
+        "passenger_count": 30747,
+        "RatecodeID": 30747,
+        "store_and_fwd_flag": 30747,
+        "congestion_surcharge": 30747
+      }
+    },
+    {
+      "source_file": "2019-07",
+      "rows": 6310419,
+      "any_missing": 33959,
+      "by_column": {
+        "passenger_count": 33959,
+        "RatecodeID": 33959,
+        "store_and_fwd_flag": 33959,
+        "congestion_surcharge": 33959
+      }
+    },
+    {
+      "source_file": "2019-08",
+      "rows": 6073357,
+      "any_missing": 33321,
+      "by_column": {
+        "passenger_count": 33321,
+        "RatecodeID": 33321,
+        "store_and_fwd_flag": 33321,
+        "congestion_surcharge": 33321
+      }
+    },
+    {
+      "source_file": "2019-09",
+      "rows": 6567788,
+      "any_missing": 34090,
+      "by_column": {
+        "passenger_count": 34089,
+        "RatecodeID": 34089,
+        "store_and_fwd_flag": 34089,
+        "congestion_surcharge": 34090
+      }
+    },
+    {
+      "source_file": "2019-10",
+      "rows": 7213891,
+      "any_missing": 46723,
+      "by_column": {
+        "passenger_count": 46723,
+        "RatecodeID": 46723,
+        "store_and_fwd_flag": 46723,
+        "congestion_surcharge": 46723
+      }
+    },
+    {
+      "source_file": "2019-11",
+      "rows": 6878111,
+      "any_missing": 47493,
+      "by_column": {
+        "passenger_count": 47491,
+        "RatecodeID": 47491,
+        "store_and_fwd_flag": 47491,
+        "congestion_surcharge": 47493
+      }
+    },
+    {
+      "source_file": "2019-12",
+      "rows": 6896317,
+      "any_missing": 51018,
+      "by_column": {
+        "passenger_count": 51018,
+        "RatecodeID": 51018,
+        "store_and_fwd_flag": 51018,
+        "congestion_surcharge": 51018
+      }
+    }
+  ],
+  "january": [
+    {
+      "date": "2019-01-01",
+      "rows": 189432,
+      "missing_congestion": 189431
+    },
+    {
+      "date": "2019-01-02",
+      "rows": 198737,
+      "missing_congestion": 198737
+    },
+    {
+      "date": "2019-01-03",
+      "rows": 223965,
+      "missing_congestion": 223961
+    },
+    {
+      "date": "2019-01-04",
+      "rows": 236089,
+      "missing_congestion": 236089
+    },
+    {
+      "date": "2019-01-05",
+      "rows": 236506,
+      "missing_congestion": 236502
+    },
+    {
+      "date": "2019-01-06",
+      "rows": 208823,
+      "missing_congestion": 208823
+    },
+    {
+      "date": "2019-01-07",
+      "rows": 228816,
+      "missing_congestion": 228816
+    },
+    {
+      "date": "2019-01-08",
+      "rows": 237310,
+      "missing_congestion": 237310
+    },
+    {
+      "date": "2019-01-09",
+      "rows": 255868,
+      "missing_congestion": 255868
+    },
+    {
+      "date": "2019-01-10",
+      "rows": 281863,
+      "missing_congestion": 281863
+    },
+    {
+      "date": "2019-01-11",
+      "rows": 291714,
+      "missing_congestion": 291714
+    },
+    {
+      "date": "2019-01-12",
+      "rows": 265115,
+      "missing_congestion": 265115
+    },
+    {
+      "date": "2019-01-13",
+      "rows": 227502,
+      "missing_congestion": 227502
+    },
+    {
+      "date": "2019-01-14",
+      "rows": 245082,
+      "missing_congestion": 245082
+    },
+    {
+      "date": "2019-01-15",
+      "rows": 267370,
+      "missing_congestion": 267369
+    },
+    {
+      "date": "2019-01-16",
+      "rows": 272699,
+      "missing_congestion": 272699
+    },
+    {
+      "date": "2019-01-17",
+      "rows": 284580,
+      "missing_congestion": 284580
+    },
+    {
+      "date": "2019-01-18",
+      "rows": 266848,
+      "missing_congestion": 266796
+    },
+    {
+      "date": "2019-01-19",
+      "rows": 236365,
+      "missing_congestion": 236361
+    },
+    {
+      "date": "2019-01-20",
+      "rows": 203114,
+      "missing_congestion": 202749
+    },
+    {
+      "date": "2019-01-21",
+      "rows": 192826,
+      "missing_congestion": 2133
+    },
+    {
+      "date": "2019-01-22",
+      "rows": 255178,
+      "missing_congestion": 3565
+    },
+    {
+      "date": "2019-01-23",
+      "rows": 261151,
+      "missing_congestion": 3718
+    },
+    {
+      "date": "2019-01-24",
+      "rows": 281959,
+      "missing_congestion": 3660
+    },
+    {
+      "date": "2019-01-25",
+      "rows": 292499,
+      "missing_congestion": 3835
+    },
+    {
+      "date": "2019-01-26",
+      "rows": 271993,
+      "missing_congestion": 3215
+    },
+    {
+      "date": "2019-01-27",
+      "rows": 220451,
+      "missing_congestion": 2720
+    },
+    {
+      "date": "2019-01-28",
+      "rows": 241040,
+      "missing_congestion": 1118
+    },
+    {
+      "date": "2019-01-29",
+      "rows": 259786,
+      "missing_congestion": 1224
+    },
+    {
+      "date": "2019-01-30",
+      "rows": 276774,
+      "missing_congestion": 982
+    },
+    {
+      "date": "2019-01-31",
+      "rows": 284625,
+      "missing_congestion": 887
+    }
+  ],
+  "rules": [
+    {
+      "key": "dropna",
+      "stage": "Round 1",
+      "label": "Drop rows with any missing value",
+      "rule": "dropna()",
+      "reason": "The 2021 model needs every field. TLC left congestion_surcharge empty until 21 January 2019, so this one rule removes almost all of 1-20 January.",
+      "applied_to": "raw",
+      "applied_rows": 84598444,
+      "removed_in_sequence": 5300601,
+      "fails_alone": 5300601,
+      "fails_only_this": null,
+      "top_values": [
+        {
+          "value": "missing congestion_surcharge",
+          "rows": 5300601
+        },
+        {
+          "value": "missing passenger_count",
+          "rows": 444383
+        },
+        {
+          "value": "missing RatecodeID",
+          "rows": 444383
+        },
+        {
+          "value": "missing store_and_fwd_flag",
+          "rows": 444383
+        }
+      ]
+    },
+    {
+      "key": "r1_1",
+      "stage": "Round 1",
+      "label": "Trip distance must be positive",
+      "rule": "trip_distance > 0",
+      "reason": "A metered trip cannot cover zero or negative distance: these are cancelled rides, meter tests or voids.",
+      "applied_to": "dropna",
+      "applied_rows": 79297843,
+      "removed_in_sequence": 705218,
+      "fails_alone": 705218,
+      "fails_only_this": 508124,
+      "top_values": [
+        {
+          "value": "trip_distance = 0.0",
+          "rows": 705157
+        },
+        {
+          "value": "trip_distance = -1.74",
+          "rows": 2
+        },
+        {
+          "value": "trip_distance = -1.75",
+          "rows": 2
+        },
+        {
+          "value": "trip_distance = -2.29",
+          "rows": 2
+        },
+        {
+          "value": "trip_distance = -0.07",
+          "rows": 1
+        }
+      ]
+    },
+    {
+      "key": "r1_2",
+      "stage": "Round 1",
+      "label": "Passenger count between 1 and 6",
+      "rule": "passenger_count BETWEEN 1 AND 6",
+      "reason": "Drivers enter the passenger count by hand; 0 means it was not entered, and a yellow cab seats at most 5 adults plus a child.",
+      "applied_to": "dropna",
+      "applied_rows": 79297843,
+      "removed_in_sequence": 1431245,
+      "fails_alone": 1454347,
+      "fails_only_this": 1422874,
+      "top_values": [
+        {
+          "value": "passenger_count = 0.0",
+          "rows": 1453468
+        },
+        {
+          "value": "passenger_count = 7.0",
+          "rows": 404
+        },
+        {
+          "value": "passenger_count = 8.0",
+          "rows": 255
+        },
+        {
+          "value": "passenger_count = 9.0",
+          "rows": 220
+        }
+      ]
+    },
+    {
+      "key": "r1_3",
+      "stage": "Round 1",
+      "label": "Known rate code (drops 99)",
+      "rule": "RatecodeID BETWEEN 1 AND 6",
+      "reason": "TLC's data dictionary defines rate codes 1-6; 99 is an undocumented placeholder.",
+      "applied_to": "dropna",
+      "applied_rows": 79297843,
+      "removed_in_sequence": 1803,
+      "fails_alone": 3726,
+      "fails_only_this": 1767,
+      "top_values": [
+        {
+          "value": "RatecodeID = 99.0",
+          "rows": 3726
+        }
+      ]
+    },
+    {
+      "key": "r1_4",
+      "stage": "Round 1",
+      "label": "Fare must be positive",
+      "rule": "fare_amount > 0",
+      "reason": "Negative fares are reversals of an earlier charge, logged as separate rows; zero fares are not paid trips.",
+      "applied_to": "dropna",
+      "applied_rows": 79297843,
+      "removed_in_sequence": 156428,
+      "fails_alone": 197991,
+      "fails_only_this": 359,
+      "top_values": [
+        {
+          "value": "fare_amount = 0.0",
+          "rows": 33013
+        },
+        {
+          "value": "fare_amount = -2.5",
+          "rows": 31867
+        },
+        {
+          "value": "fare_amount = -3.0",
+          "rows": 12738
+        },
+        {
+          "value": "fare_amount = -52.0",
+          "rows": 12122
+        },
+        {
+          "value": "fare_amount = -4.5",
+          "rows": 11829
+        }
+      ]
+    },
+    {
+      "key": "r1_5",
+      "stage": "Round 1",
+      "label": "Extra charge cannot be negative",
+      "rule": "extra >= 0",
+      "reason": "Negative extras are reversals, like negative fares.",
+      "applied_to": "dropna",
+      "applied_rows": 79297843,
+      "removed_in_sequence": 600,
+      "fails_alone": 80325,
+      "fails_only_this": 135,
+      "top_values": [
+        {
+          "value": "extra = -0.5",
+          "rows": 53961
+        },
+        {
+          "value": "extra = -1.0",
+          "rows": 23312
+        },
+        {
+          "value": "extra = -4.5",
+          "rows": 2160
+        },
+        {
+          "value": "extra = -1.7",
+          "rows": 266
+        },
+        {
+          "value": "extra = -2.5",
+          "rows": 169
+        }
+      ]
+    },
+    {
+      "key": "r1_6",
+      "stage": "Round 1",
+      "label": "MTA tax of $0.50 to $1",
+      "rule": "mta_tax BETWEEN 0.5 AND 1",
+      "reason": "Every metered trip in New York City pays the $0.50 MTA state surcharge; other values are reversals or out-of-city trips.",
+      "applied_to": "dropna",
+      "applied_rows": 79297843,
+      "removed_in_sequence": 306307,
+      "fails_alone": 644160,
+      "fails_only_this": 304423,
+      "top_values": [
+        {
+          "value": "mta_tax = 0.0",
+          "rows": 482698
+        },
+        {
+          "value": "mta_tax = -0.5",
+          "rows": 160944
+        },
+        {
+          "value": "mta_tax = 1.44",
+          "rows": 250
+        },
+        {
+          "value": "mta_tax = 0.25",
+          "rows": 82
+        },
+        {
+          "value": "mta_tax = 3.3",
+          "rows": 61
+        }
+      ]
+    },
+    {
+      "key": "r1_7",
+      "stage": "Round 1",
+      "label": "Tolls cannot be negative",
+      "rule": "tolls_amount >= 0",
+      "reason": "Negative tolls are reversals.",
+      "applied_to": "dropna",
+      "applied_rows": 79297843,
+      "removed_in_sequence": 0,
+      "fails_alone": 3579,
+      "fails_only_this": 0,
+      "top_values": [
+        {
+          "value": "tolls_amount = -6.12",
+          "rows": 2685
+        },
+        {
+          "value": "tolls_amount = -5.76",
+          "rows": 293
+        },
+        {
+          "value": "tolls_amount = -10.5",
+          "rows": 119
+        },
+        {
+          "value": "tolls_amount = -2.8",
+          "rows": 50
+        },
+        {
+          "value": "tolls_amount = -12.5",
+          "rows": 48
+        }
+      ]
+    },
+    {
+      "key": "r1_8",
+      "stage": "Round 1",
+      "label": "Improvement surcharge equals $0.30",
+      "rule": "improvement_surcharge = 0.30",
+      "reason": "The $0.30 improvement surcharge applied to every trip in 2019.",
+      "applied_to": "dropna",
+      "applied_rows": 79297843,
+      "removed_in_sequence": 7848,
+      "fails_alone": 216983,
+      "fails_only_this": 7848,
+      "top_values": [
+        {
+          "value": "improvement_surcharge = -0.3",
+          "rows": 164903
+        },
+        {
+          "value": "improvement_surcharge = 0.0",
+          "rows": 52051
+        },
+        {
+          "value": "improvement_surcharge = 1.0",
+          "rows": 19
+        },
+        {
+          "value": "improvement_surcharge = 0.03",
+          "rows": 10
+        }
+      ]
+    },
+    {
+      "key": "r1_9",
+      "stage": "Round 1",
+      "label": "Total amount must be positive",
+      "rule": "total_amount > 0",
+      "reason": "A trip with a non-positive total is a reversal or a void.",
+      "applied_to": "dropna",
+      "applied_rows": 79297843,
+      "removed_in_sequence": 0,
+      "fails_alone": 184455,
+      "fails_only_this": 0,
+      "top_values": [
+        {
+          "value": "total_amount = 0.0",
+          "rows": 19499
+        },
+        {
+          "value": "total_amount = -6.8",
+          "rows": 11191
+        },
+        {
+          "value": "total_amount = -7.8",
+          "rows": 10411
+        },
+        {
+          "value": "total_amount = -8.3",
+          "rows": 10399
+        },
+        {
+          "value": "total_amount = -6.3",
+          "rows": 10294
+        }
+      ]
+    },
+    {
+      "key": "r1_10",
+      "stage": "Round 1",
+      "label": "Congestion surcharge cannot be negative",
+      "rule": "congestion_surcharge >= 0",
+      "reason": "Negative congestion surcharges are reversals.",
+      "applied_to": "dropna",
+      "applied_rows": 79297843,
+      "removed_in_sequence": 0,
+      "fails_alone": 119540,
+      "fails_only_this": 0,
+      "top_values": [
+        {
+          "value": "congestion_surcharge = -2.5",
+          "rows": 119536
+        },
+        {
+          "value": "congestion_surcharge = -0.75",
+          "rows": 3
+        },
+        {
+          "value": "congestion_surcharge = -1.5",
+          "rows": 1
+        }
+      ]
+    },
+    {
+      "key": "r1_11",
+      "stage": "Round 1",
+      "label": "Pickup between 2018-01-01 and 2019-12-31",
+      "rule": "pickup_dt BETWEEN TIMESTAMP '2018-01-01 00:00:00' AND TIMESTAMP '2019-12-31 23:59:59'",
+      "reason": "Meter clocks occasionally report years like 2003 or 2088. The notebook's window starts in 2018, a year early; the weather join later drops 2018 pickups anyway.",
+      "applied_to": "dropna",
+      "applied_rows": 79297843,
+      "removed_in_sequence": 965,
+      "fails_alone": 1010,
+      "fails_only_this": 0,
+      "top_values": [
+        {
+          "value": "year(pickup_dt) = 2020",
+          "rows": 428
+        },
+        {
+          "value": "year(pickup_dt) = 2009",
+          "rows": 358
+        },
+        {
+          "value": "year(pickup_dt) = 2008",
+          "rows": 185
+        },
+        {
+          "value": "year(pickup_dt) = 2002",
+          "rows": 13
+        },
+        {
+          "value": "year(pickup_dt) = 2003",
+          "rows": 4
+        }
+      ]
+    },
+    {
+      "key": "r1_12",
+      "stage": "Round 1",
+      "label": "Drop-off within 2019",
+      "rule": "dropoff_dt BETWEEN TIMESTAMP '2019-01-01 00:00:00' AND TIMESTAMP '2019-12-31 23:59:59'",
+      "reason": "Drop-offs must fall in the year being studied.",
+      "applied_to": "dropna",
+      "applied_rows": 79297843,
+      "removed_in_sequence": 1150,
+      "fails_alone": 2191,
+      "fails_only_this": 1150,
+      "top_values": [
+        {
+          "value": "year(dropoff_dt) = 2020",
+          "rows": 1607
+        },
+        {
+          "value": "year(dropoff_dt) = 2009",
+          "rows": 440
+        },
+        {
+          "value": "year(dropoff_dt) = 2008",
+          "rows": 103
+        },
+        {
+          "value": "year(dropoff_dt) = 2002",
+          "rows": 11
+        },
+        {
+          "value": "year(dropoff_dt) = 2003",
+          "rows": 6
+        }
+      ]
+    },
+    {
+      "key": "r1_13",
+      "stage": "Round 1",
+      "label": "Drop unknown vendor 4",
+      "rule": "VendorID != 4",
+      "reason": "Vendor 4 does not appear in TLC's 2019 data dictionary (1 = Creative Mobile Technologies, 2 = VeriFone).",
+      "applied_to": "dropna",
+      "applied_rows": 79297843,
+      "removed_in_sequence": 197472,
+      "fails_alone": 199180,
+      "fails_only_this": 197472,
+      "top_values": [
+        {
+          "value": "VendorID = 4",
+          "rows": 199180
+        }
+      ]
+    },
+    {
+      "key": "fare_zscore",
+      "stage": "Round 2",
+      "label": "Fare z-score at most 3",
+      "rule": "fare_amount <= 296.14325468838814",
+      "reason": "Fares more than three standard deviations above the mean are treated as keying errors. The standard deviation is inflated by fares up to $671,123, so the cut-off ends up at about $296.",
+      "applied_to": "round1",
+      "applied_rows": 76488807,
+      "removed_in_sequence": 747,
+      "fails_alone": 747,
+      "fails_only_this": 617,
+      "top_values": [
+        {
+          "value": "fare (nearest $100) = 300.0",
+          "rows": 347
+        },
+        {
+          "value": "fare (nearest $100) = 400.0",
+          "rows": 267
+        },
+        {
+          "value": "fare (nearest $100) = 500.0",
+          "rows": 79
+        },
+        {
+          "value": "fare (nearest $100) = 600.0",
+          "rows": 20
+        },
+        {
+          "value": "fare (nearest $100) = 700.0",
+          "rows": 5
+        }
+      ]
+    },
+    {
+      "key": "dedup",
+      "stage": "Round 2",
+      "label": "Drop exact duplicate rows",
+      "rule": "SELECT DISTINCT *",
+      "reason": "Identical rows in every field are double submissions from the meter.",
+      "applied_to": "zscore",
+      "applied_rows": 76488060,
+      "removed_in_sequence": 3,
+      "fails_alone": null,
+      "fails_only_this": null,
+      "top_values": []
+    },
+    {
+      "key": "min_fare",
+      "stage": "Round 3",
+      "label": "Fare at least $2.50",
+      "rule": "fare_amount >= 2.5",
+      "reason": "$2.50 was the flag-drop charge in 2019, so a metered fare cannot be lower.",
+      "applied_to": "round1",
+      "applied_rows": 76488807,
+      "removed_in_sequence": 351,
+      "fails_alone": 351,
+      "fails_only_this": 311,
+      "top_values": [
+        {
+          "value": "fare = 2.0",
+          "rows": 94
+        },
+        {
+          "value": "fare = 0.1",
+          "rows": 38
+        },
+        {
+          "value": "fare = 0.01",
+          "rows": 24
+        },
+        {
+          "value": "fare = 0.5",
+          "rows": 13
+        },
+        {
+          "value": "fare = 0.65",
+          "rows": 13
+        }
+      ]
+    },
+    {
+      "key": "positive_duration",
+      "stage": "Round 3",
+      "label": "Drop-off after pick-up",
+      "rule": "travel_time > 0",
+      "reason": "A trip that ends before it starts is a clock error.",
+      "applied_to": "round1",
+      "applied_rows": 76488807,
+      "removed_in_sequence": 3184,
+      "fails_alone": 3184,
+      "fails_only_this": 945,
+      "top_values": [
+        {
+          "value": "minutes = 0.0",
+          "rows": 2238
+        },
+        {
+          "value": "minutes = -40.3",
+          "rows": 9
+        },
+        {
+          "value": "minutes = -46.9",
+          "rows": 9
+        },
+        {
+          "value": "minutes = -51.9",
+          "rows": 9
+        },
+        {
+          "value": "minutes = -45.7",
+          "rows": 8
+        }
+      ]
+    },
+    {
+      "key": "speed",
+      "stage": "Round 3",
+      "label": "Distance / minutes at most 50",
+      "rule": "trip_distance / travel_time <= 50",
+      "reason": "Meant to remove trips faster than 50 mph. The code divides by minutes, so only trips faster than 50 miles a minute go (a quirk kept on purpose).",
+      "applied_to": "round1",
+      "applied_rows": 76488807,
+      "removed_in_sequence": 6454,
+      "fails_alone": 8694,
+      "fails_only_this": 6046,
+      "top_values": [
+        {
+          "value": "miles per minute (nearest 10) = undefined (zero or negative duration)",
+          "rows": 2238
+        },
+        {
+          "value": "miles per minute (nearest 10) = 60.0",
+          "rows": 853
+        },
+        {
+          "value": "miles per minute (nearest 10) = 70.0",
+          "rows": 690
+        },
+        {
+          "value": "miles per minute (nearest 10) = 80.0",
+          "rows": 626
+        },
+        {
+          "value": "miles per minute (nearest 10) = 50.0",
+          "rows": 548
+        }
+      ]
+    },
+    {
+      "key": "max_duration",
+      "stage": "Round 3",
+      "label": "Trip at most 180 minutes",
+      "rule": "travel_time <= 180",
+      "reason": "Trips over three hours are almost always meters left running.",
+      "applied_to": "round1",
+      "applied_rows": 76488807,
+      "removed_in_sequence": 206182,
+      "fails_alone": 206299,
+      "fails_only_this": 205265,
+      "top_values": [
+        {
+          "value": "duration (hours) = 24.0 h",
+          "rows": 120875
+        },
+        {
+          "value": "duration (hours) = 23.0 h",
+          "rows": 64629
+        },
+        {
+          "value": "duration (hours) = 22.0 h",
+          "rows": 2396
+        },
+        {
+          "value": "duration (hours) = 7.0 h",
+          "rows": 1465
+        },
+        {
+          "value": "duration (hours) = 6.0 h",
+          "rows": 1398
+        }
+      ]
+    },
+    {
+      "key": "tip",
+      "stage": "Round 3",
+      "label": "Tip at most half the fare",
+      "rule": "fare_amount >= 2 * tip_amount",
+      "reason": "The comment says 'tips more than twice the fare'; the code keeps tips up to half the fare, and the code is what ran.",
+      "applied_to": "round1",
+      "applied_rows": 76488807,
+      "removed_in_sequence": 596042,
+      "fails_alone": 597433,
+      "fails_only_this": 596042,
+      "top_values": [
+        {
+          "value": "tip / fare = 0.5",
+          "rows": 240716
+        },
+        {
+          "value": "tip / fare = 0.6",
+          "rows": 188130
+        },
+        {
+          "value": "tip / fare = 0.7",
+          "rows": 55201
+        },
+        {
+          "value": "tip / fare = 0.8",
+          "rows": 30387
+        },
+        {
+          "value": "tip / fare = 0.9",
+          "rows": 17058
+        }
+      ]
+    }
+  ],
+  "residual_checks": [
+    {
+      "key": "speed_over_60mph",
+      "label": "Average speed above 60 mph",
+      "condition": "trip_distance / (travel_time / 60.0) > 60",
+      "reason": "New York City's top speed limit is 50 mph; an average above 60 over a whole trip points to a distance or clock error.",
+      "rows": 33474,
+      "share": 0.000446850924436366,
+      "by_vendor": [
+        {
+          "vendor": 1,
+          "rows": 24526,
+          "trips": 26068642
+        },
+        {
+          "vendor": 2,
+          "rows": 8948,
+          "trips": 48842247
+        }
+      ]
+    },
+    {
+      "key": "under_one_minute",
+      "label": "Shorter than one minute",
+      "condition": "travel_time < 1",
+      "reason": "Rides under a minute are usually cancelled at the kerb or a meter started by mistake.",
+      "rows": 191992,
+      "share": 0.00256293848014539,
+      "by_vendor": [
+        {
+          "vendor": 1,
+          "rows": 54195,
+          "trips": 26068642
+        },
+        {
+          "vendor": 2,
+          "rows": 137797,
+          "trips": 48842247
+        }
+      ]
+    },
+    {
+      "key": "tiny_distance_long_time",
+      "label": "Under 0.1 mile but over 30 minutes",
+      "condition": "trip_distance < 0.1 AND travel_time > 30",
+      "reason": "A meter that recorded time but almost no distance: a stuck odometer or a waiting fare.",
+      "rows": 475,
+      "share": 6.340867213576921e-06,
+      "by_vendor": [
+        {
+          "vendor": 1,
+          "rows": 0,
+          "trips": 26068642
+        },
+        {
+          "vendor": 2,
+          "rows": 475,
+          "trips": 48842247
+        }
+      ]
+    },
+    {
+      "key": "over_50_miles",
+      "label": "Longer than 50 miles",
+      "condition": "trip_distance > 50",
+      "reason": "Possible for out-of-town fares, but rare enough to check.",
+      "rows": 184,
+      "share": 2.4562517206276915e-06,
+      "by_vendor": [
+        {
+          "vendor": 1,
+          "rows": 47,
+          "trips": 26068642
+        },
+        {
+          "vendor": 2,
+          "rows": 137,
+          "trips": 48842247
+        }
+      ]
+    },
+    {
+      "key": "total_excludes_congestion",
+      "label": "Total leaves out the congestion surcharge",
+      "condition": "congestion_surcharge > 0 AND abs(total_amount - (fare_amount + extra + mta_tax + tip_amount + tolls_amount + improvement_surcharge)) <= 0.01",
+      "reason": "The total equals every other charge but not the $2.50 congestion surcharge recorded on the same row. A vendor reporting convention rather than a pricing error, but any analysis of total fares by vendor would be off by $2.50.",
+      "rows": 23397653,
+      "share": 0.31233981217336776,
+      "by_vendor": [
+        {
+          "vendor": 1,
+          "rows": 23397647,
+          "trips": 26068642
+        },
+        {
+          "vendor": 2,
+          "rows": 6,
+          "trips": 48842247
+        }
+      ]
+    },
+    {
+      "key": "total_other_mismatch",
+      "label": "Total differs from the sum of its parts (other)",
+      "condition": "abs(total_amount - (fare_amount + extra + mta_tax + tip_amount + tolls_amount + improvement_surcharge + congestion_surcharge)) > 0.01 AND NOT (congestion_surcharge > 0 AND abs(total_amount - (fare_amount + extra + mta_tax + tip_amount + tolls_amount + improvement_surcharge)) <= 0.01)",
+      "reason": "The total should equal fare + extra + MTA tax + tip + tolls + improvement + congestion surcharges.",
+      "rows": 164443,
+      "share": 0.0021951815309520623,
+      "by_vendor": [
+        {
+          "vendor": 1,
+          "rows": 0,
+          "trips": 26068642
+        },
+        {
+          "vendor": 2,
+          "rows": 164443,
+          "trips": 48842247
+        }
+      ]
+    },
+    {
+      "key": "jfk_flat_fare_not_52",
+      "label": "Rate code 2 (JFK) fare not $52",
+      "condition": "RatecodeID = 2 AND fare_amount <> 52",
+      "reason": "The Manhattan-JFK flat fare was $52 throughout 2019.",
+      "rows": 352,
+      "share": 4.698916335113844e-06,
+      "by_vendor": [
+        {
+          "vendor": 1,
+          "rows": 45,
+          "trips": 26068642
+        },
+        {
+          "vendor": 2,
+          "rows": 307,
+          "trips": 48842247
+        }
+      ]
+    },
+    {
+      "key": "high_fare_per_mile",
+      "label": "Standard rate above $25 per mile (1 mile or more)",
+      "condition": "RatecodeID = 1 AND trip_distance >= 1 AND fare_amount / trip_distance > 25",
+      "reason": "At $2.50 a mile plus waiting time, a standard-rate fare far above $25 a mile is unlikely.",
+      "rows": 477,
+      "share": 6.367565601844613e-06,
+      "by_vendor": [
+        {
+          "vendor": 1,
+          "rows": 186,
+          "trips": 26068642
+        },
+        {
+          "vendor": 2,
+          "rows": 291,
+          "trips": 48842247
+        }
+      ]
+    }
+  ],
+  "surcharge_by_month": [
+    {
+      "month": 1,
+      "vendor": 1,
+      "rows": 1,
+      "trips": 977014
+    },
+    {
+      "month": 1,
+      "vendor": 2,
+      "rows": 0,
+      "trips": 1671881
+    },
+    {
+      "month": 2,
+      "vendor": 1,
+      "rows": 2173221,
+      "trips": 2436044
+    },
+    {
+      "month": 2,
+      "vendor": 2,
+      "rows": 2,
+      "trips": 4178880
+    },
+    {
+      "month": 3,
+      "vendor": 1,
+      "rows": 2541521,
+      "trips": 2704204
+    },
+    {
+      "month": 3,
+      "vendor": 2,
+      "rows": 1,
+      "trips": 4704607
+    },
+    {
+      "month": 4,
+      "vendor": 1,
+      "rows": 2392428,
+      "trips": 2546836
+    },
+    {
+      "month": 4,
+      "vendor": 2,
+      "rows": 0,
+      "trips": 4474076
+    },
+    {
+      "month": 5,
+      "vendor": 1,
+      "rows": 2383491,
+      "trips": 2552854
+    },
+    {
+      "month": 5,
+      "vendor": 2,
+      "rows": 3,
+      "trips": 4596032
+    },
+    {
+      "month": 6,
+      "vendor": 1,
+      "rows": 2155628,
+      "trips": 2322069
+    },
+    {
+      "month": 6,
+      "vendor": 2,
+      "rows": 0,
+      "trips": 4227576
+    },
+    {
+      "month": 7,
+      "vendor": 1,
+      "rows": 1896424,
+      "trips": 2034982
+    },
+    {
+      "month": 7,
+      "vendor": 2,
+      "rows": 0,
+      "trips": 3888029
+    },
+    {
+      "month": 8,
+      "vendor": 1,
+      "rows": 1821294,
+      "trips": 1953825
+    },
+    {
+      "month": 8,
+      "vendor": 2,
+      "rows": 0,
+      "trips": 3746363
+    },
+    {
+      "month": 9,
+      "vendor": 1,
+      "rows": 1960613,
+      "trips": 2090996
+    },
+    {
+      "month": 9,
+      "vendor": 2,
+      "rows": 0,
+      "trips": 4087988
+    },
+    {
+      "month": 10,
+      "vendor": 1,
+      "rows": 2131931,
+      "trips": 2261411
+    },
+    {
+      "month": 10,
+      "vendor": 2,
+      "rows": 0,
+      "trips": 4524942
+    },
+    {
+      "month": 11,
+      "vendor": 1,
+      "rows": 1992864,
+      "trips": 2115242
+    },
+    {
+      "month": 11,
+      "vendor": 2,
+      "rows": 0,
+      "trips": 4348973
+    },
+    {
+      "month": 12,
+      "vendor": 1,
+      "rows": 1948231,
+      "trips": 2073165
+    },
+    {
+      "month": 12,
+      "vendor": 2,
+      "rows": 0,
+      "trips": 4392900
+    }
+  ]
+}
