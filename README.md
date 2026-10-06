@@ -76,7 +76,7 @@ Everything is static or served from a bundled read-only SQLite file. There is no
 | Engine | PySpark 3.1.2 under WSL | DuckDB in [uv](https://docs.astral.sh/uv/) scripts with inline (PEP 723) dependencies |
 | Model | Spark MLlib elastic net, `maxIter=10`, manual 10-fold CV | NumPy coordinate descent on exact sufficient statistics, same objective as Spark |
 | Maps | Folium with Stamen tiles (discontinued) | MapLibre GL JS 6 with OpenFreeMap vector tiles and a bundled GeoJSON fallback |
-| App | A 22 MB notebook | Next.js 16 (App Router, Server Components), React 19, TypeScript (strict), Tailwind CSS 4, shadcn/ui primitives, Recharts, next-themes, zod |
+| App | A 22 MB notebook | Next.js 16 (App Router, Server Components), React 19, TypeScript (strict), Tailwind CSS 4 with shadcn/ui theme tokens, Recharts, next-themes, zod |
 | Data at runtime | n/a | `web/data/analytics.db` (15 MB, aggregates only) read with `@libsql/client` |
 | Quality | n/a | Vitest unit and parity tests, ESLint, Prettier, GitHub Actions CI |
 
@@ -105,9 +105,9 @@ Everything is static or served from a bundled read-only SQLite file. There is no
     ├── tools/                   copies the MapLibre worker into public/vendor at dev/build time
     └── src/
         ├── app/                 routes: /, map, routes, conditions, estimate, method, records, api
-        ├── components/          layout/, map/, explorer/, charts/, conditions/, estimate/, method/, ui/
+        ├── components/          layout/, map/, explorer/, charts/, controls/, conditions/, estimate/, method/, landing/
         ├── hooks/               theme, reduced motion, JSON fetch
-        ├── lib/                 framework-free ports: model.ts, cleaning.ts, metrics.ts, scale.ts, time.ts, geo.ts
+        ├── lib/                 framework-free ports: model.ts, cleaning.ts, metrics.ts, scale.ts, time.ts, geo.ts, site.ts
         └── server/              server-only data access to analytics.db (analytics.ts, records.ts)
 ```
 
@@ -123,7 +123,9 @@ pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build
 pnpm start -p 3303  # serve the production build
 ```
 
-`pnpm typecheck` runs `next typegen` first, because the global route types (`PageProps`, `LayoutProps`, `RouteContext`) only exist after type generation. No environment variables are needed. `NEXT_PUBLIC_SITE_URL` optionally sets the canonical URL used in metadata.
+`pnpm typecheck` runs `next typegen` first, because the global route types (`PageProps`, `LayoutProps`, `RouteContext`) only exist after type generation.
+
+No environment variables are needed (see `web/.env.example`). Metadata and Open Graph URLs use `NEXT_PUBLIC_SITE_URL` when it is set; otherwise they follow Next.js's own fallback: the Vercel production domain on production deploys, the branch URL on previews and `http://localhost:$PORT` locally.
 
 ### Deploying
 
@@ -164,12 +166,13 @@ The revival runs the rules as the notebook ran them, not as its comments describ
 
 ## Tests and parity
 
-`web/src/lib` holds the TypeScript ports, each covered by Vitest (`pnpm test`, 79 tests):
+`web/src/lib` holds the TypeScript ports, each covered by Vitest (`pnpm test`, 98 tests):
 
-- `model.ts`: the 579-feature VectorAssembler layout, one-hot encoding and prediction. For 40 real rows of the revived model table, the TypeScript port must reproduce the feature indices and both predictions (2021 and refit) computed in Python with NumPy to 9 decimal places.
-- `cleaning.ts`: every cleaning rule as a predicate, tested against rows and thresholds printed in the notebook, such as the z-score bound 13.0258 + 3 × 94.3733.
+- `model.ts`: the 579-feature VectorAssembler layout, one-hot encoding and prediction. The shipped coefficients must equal fold 1 of `coursework/10-folds-linear-regression.csv` (read from the original file), the coefficients printed in notebook cell 296 and the zone order the notebook's StringIndexer produced (pickup 125 is Borough Park, drop-off 20 is Sutton Place/Turtle Bay North, so coefficients 64 and 70 are JFK and LaGuardia). For 40 real rows of the revived model table, the TypeScript port must also reproduce the feature indices and both predictions (2021 and refit) computed in Python with NumPy to 9 decimal places.
+- `cleaning.ts`: every cleaning rule as a predicate, tested against rows and thresholds printed in the notebook, such as the z-score bound 13.0258 + 3 × 94.3733. Malformed timestamps typed into the `/method` rule tester are reported as input errors instead of being blamed on a rule.
 - `metrics.ts`: R² and RMSE as Spark's `RegressionEvaluator` computes them, and scoring from sufficient statistics as `fit_model.py` does.
 - `server/analytics.test.ts`: the bundled database against the notebook. It checks the funnel counts, the vendor-by-weekday mean trip times and the borough matrix from the notebook's 10% sample, and the 2021 fold results.
+- `server/records.test.ts`: the records browser's default order, sorting and search escaping.
 
 ## Credits
 
