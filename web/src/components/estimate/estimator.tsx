@@ -122,6 +122,14 @@ export function Estimator({
   const removedDay = date <= "2019-01-20";
   const flatFareRoute = isJfkFlatFareRoute(p, d);
 
+  /** Change the trip. Rate code 2 is the Manhattan–JFK flat fare, so it is dropped when the trip stops being one. */
+  const setRoute = (nextPu: number, nextDo: number) => {
+    const stillFlat = isJfkFlatFareRoute(byId.get(nextPu), byId.get(nextDo));
+    if (flatFareRoute && !stillFlat && ratecode === 2) setRatecode(1);
+    setPu(nextPu);
+    setDropoff(nextDo);
+  };
+
   const ctx: TripContext | null =
     p && d
       ? {
@@ -202,7 +210,7 @@ export function Estimator({
             zones={zones}
             value={pu}
             allowEmpty={false}
-            onChange={(v) => v !== null && setPu(v)}
+            onChange={(v) => v !== null && setRoute(v, dropoff)}
           />
         </Field>
         <Field label="Drop-off zone" htmlFor="est-do">
@@ -211,7 +219,7 @@ export function Estimator({
             zones={zones}
             value={dropoff}
             allowEmpty={false}
-            onChange={(v) => v !== null && setDropoff(v)}
+            onChange={(v) => v !== null && setRoute(pu, v)}
           />
         </Field>
         <div className="grid grid-cols-2 gap-3">
@@ -498,8 +506,8 @@ export function Estimator({
             focus={stations.map((s) => s.coord)}
             onSelect={(id) => {
               if (id === null || !byId.has(id)) return;
-              if (clickSets === "pickup") setPu(id);
-              else setDropoff(id);
+              if (clickSets === "pickup") setRoute(id, dropoff);
+              else setRoute(pu, id);
             }}
             ariaLabel="Map of the chosen pickup (solid outline) and drop-off (dashed outline) zones"
           />
