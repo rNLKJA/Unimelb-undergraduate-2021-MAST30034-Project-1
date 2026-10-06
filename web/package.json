@@ -8,18 +8,20 @@
     "node": ">=20.9"
   },
   "scripts": {
-    "predev": "node tools/copy-maplibre-worker.mjs",
+    "predev": "node tools/copy-maplibre-worker.mjs && node tools/sync-docs.mjs",
     "dev": "next dev",
-    "prebuild": "node tools/copy-maplibre-worker.mjs",
+    "prebuild": "node tools/copy-maplibre-worker.mjs && node tools/sync-docs.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "docs:sync": "node tools/sync-docs.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.131.0",
     "@libsql/client": "^0.18.0",
     "cn": "^0.4.0",
     "lucide-react": "^1.52.0",
@@ -28,7 +30,9 @@
     "next-themes": "^0.4.6",
     "react": "19.2.8",
     "react-dom": "19.2.8",
+    "react-markdown": "^10.1.0",
     "recharts": "^3.10.1",
+    "remark-gfm": "^4.0.1",
     "server-only": "^0.0.1",
     "shadcn": "^4.21.2",
     "tw-animate-css": "^1.4.0",
@@ -42,6 +46,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.8",
+    "fake-indexeddb": "^6.2.5",
     "prettier": "^3.9.9",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "tailwindcss": "^4",

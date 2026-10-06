@@ -1,3 +1,4 @@
+import { AiSettingsButton } from "@/components/ai/ai-settings";
 import { Logo } from "./logo";
 import { MobileNav } from "./mobile-nav";
 import { NavLinks } from "./nav-links";
@@ -14,10 +15,11 @@ export function SiteHeader() {
       </a>
       <div className="relative mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
         <Logo />
-        <nav aria-label="Main" className="hidden lg:block">
+        <nav aria-label="Main" className="hidden xl:block">
           <NavLinks className="flex items-center gap-0.5" />
         </nav>
         <div className="flex items-center gap-1">
+          <AiSettingsButton />
           <ThemeToggle />
           <MobileNav />
         </div>

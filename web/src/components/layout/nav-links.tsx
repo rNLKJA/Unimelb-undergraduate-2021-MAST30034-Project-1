@@ -10,7 +10,9 @@ export function NavLinks({ className, onNavigate }: { className?: string; onNavi
   return (
     <ul className={className}>
       {NAV.map((item) => {
-        const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+        const active = [item.href, ...(item.also ?? [])].some(
+          (h) => pathname === h || pathname.startsWith(`${h}/`),
+        );
         return (
           <li key={item.href}>
             <Link
@@ -21,7 +23,7 @@ export function NavLinks({ className, onNavigate }: { className?: string; onNavi
                 "relative block rounded-md px-2.5 py-1.5 text-sm font-medium transition-colors",
                 active ? "text-foreground" : "text-foreground/70 hover:text-foreground hover:bg-muted",
                 active &&
-                  "after:bg-taxi max-lg:bg-muted after:absolute after:inset-x-2.5 after:-bottom-[13px] after:h-[3px] after:rounded-full max-lg:after:hidden",
+                  "after:bg-taxi max-xl:bg-muted after:absolute after:inset-x-2.5 after:-bottom-[13px] after:h-[3px] after:rounded-full max-xl:after:hidden",
               )}
             >
               {item.label}

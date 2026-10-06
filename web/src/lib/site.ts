@@ -7,14 +7,24 @@ export const SITE = {
   author: "Sunchuangyu (Rin) Huang",
 } as const;
 
-export const NAV = [
+export interface NavItem {
+  href: string;
+  label: string;
+  /** other routes that highlight this item */
+  also?: readonly string[];
+}
+
+export const NAV: readonly NavItem[] = [
   { href: "/map", label: "Zone map" },
   { href: "/routes", label: "Routes" },
   { href: "/conditions", label: "Conditions" },
-  { href: "/estimate", label: "Estimate a trip" },
-  { href: "/method", label: "Method" },
+  { href: "/estimate", label: "Estimate" },
+  { href: "/evaluation", label: "Evaluation" },
+  { href: "/effects", label: "Effects" },
+  { href: "/ask", label: "Ask the data" },
+  { href: "/methods", label: "Methods", also: ["/method", "/data-quality", "/ai-log"] },
   { href: "/records", label: "Records" },
-] as const;
+];
 
 type Env = Record<string, string | undefined>;
 

@@ -21,7 +21,7 @@ export function MobileNav() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
   return (
-    <div className="lg:hidden">
+    <div className="xl:hidden">
       <button
         type="button"
         className="hover:bg-muted grid size-9 place-items-center rounded-md"
