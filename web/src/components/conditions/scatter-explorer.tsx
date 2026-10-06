@@ -2,22 +2,27 @@
 
 import { useMemo, useState } from "react";
 import { Field, selectClass } from "@/components/controls/field";
-import { formatCompact, formatFixed } from "@/lib/format";
+import { formatCompact, formatFixed, formatInt } from "@/lib/format";
 import { olsLine, pearson } from "@/lib/metrics";
+import { niceTicks, stepDecimals } from "@/lib/scale";
 import { formatDate } from "@/lib/time";
 import type { DailyPoint } from "./daily-charts";
 
+/** `fmt` prints a hovered value; `compact` axes print ticks as 150K, the rest with the tick step's decimals. */
 const X_VARS = {
-  tavg: { label: "Average temperature (°F)", fmt: (v: number) => v.toFixed(0) },
-  precipitation: { label: "Precipitation (in)", fmt: (v: number) => v.toFixed(1) },
-  snow: { label: "Snowfall (in)", fmt: (v: number) => v.toFixed(1) },
-  events: { label: "Permitted events (all boroughs)", fmt: (v: number) => formatCompact(v) },
-  collisions: { label: "Collisions (all boroughs)", fmt: (v: number) => v.toFixed(0) },
+  tavg: { label: "Average temperature (°F)", fmt: (v: number) => v.toFixed(0), compact: false },
+  precipitation: { label: "Precipitation (in)", fmt: (v: number) => v.toFixed(2), compact: false },
+  snow: { label: "Snowfall (in)", fmt: (v: number) => v.toFixed(1), compact: false },
+  events: { label: "Permitted events (all boroughs)", fmt: (v: number) => formatInt(v), compact: true },
+  collisions: { label: "Collisions (all boroughs)", fmt: (v: number) => v.toFixed(0), compact: false },
 } as const;
 const Y_VARS = {
-  trips: { label: "Trips that day", fmt: (v: number) => formatCompact(v) },
-  median: { label: "Median trip minutes", fmt: (v: number) => v.toFixed(1) },
+  trips: { label: "Trips that day", fmt: (v: number) => formatInt(v), compact: true },
+  median: { label: "Median trip minutes", fmt: (v: number) => v.toFixed(1), compact: false },
 } as const;
+
+const tickFormat = (compact: boolean, step: number) => (v: number) =>
+  compact ? formatCompact(v) : v.toFixed(stepDecimals(step));
 
 type XKey = keyof typeof X_VARS;
 type YKey = keyof typeof Y_VARS;
@@ -34,12 +39,16 @@ export function ScatterExplorer({ data }: { data: DailyPoint[] }) {
   const fit = olsLine(xs, ys);
   const W = 560;
   const H = 320;
-  const p = { l: 52, r: 12, t: 12, b: 40 };
-  const [x0, x1] = [Math.min(...xs), Math.max(...xs)];
-  const [y0, y1] = [Math.min(...ys), Math.max(...ys)];
+  const p = { l: 66, r: 12, t: 12, b: 40 };
+  const xt = niceTicks(Math.min(...xs), Math.max(...xs));
+  const yt = niceTicks(Math.min(...ys), Math.max(...ys));
+  const [x0, x1] = [xt.ticks[0], xt.ticks.at(-1)!];
+  const [y0, y1] = [yt.ticks[0], yt.ticks.at(-1)!];
+  const fx = tickFormat(X_VARS[xk].compact, xt.step);
+  const fy = tickFormat(Y_VARS[yk].compact, yt.step);
   const sx = (v: number) => p.l + ((v - x0) / (x1 - x0 || 1)) * (W - p.l - p.r);
   const sy = (v: number) => H - p.b - ((v - y0) / (y1 - y0 || 1)) * (H - p.t - p.b);
-  const ticks = (a: number, b: number) => [0, 0.25, 0.5, 0.75, 1].map((t) => a + (b - a) * t);
+  const [dx0, dx1] = [Math.min(...xs), Math.max(...xs)];
   return (
     <div className="grid gap-4 lg:grid-cols-[240px_1fr]">
       <div className="grid content-start gap-4">
@@ -81,7 +90,7 @@ export function ScatterExplorer({ data }: { data: DailyPoint[] }) {
         role="img"
         aria-label={`Scatter of ${Y_VARS[yk].label} against ${X_VARS[xk].label}, Pearson r ${formatFixed(r, 2)}`}
       >
-        {ticks(y0, y1).map((v) => (
+        {yt.ticks.map((v) => (
           <g key={`y${v}`}>
             <line
               x1={p.l}
@@ -97,11 +106,11 @@ export function ScatterExplorer({ data }: { data: DailyPoint[] }) {
               textAnchor="end"
               className="fill-muted-foreground font-mono text-[10px]"
             >
-              {Y_VARS[yk].fmt(v)}
+              {fy(v)}
             </text>
           </g>
         ))}
-        {ticks(x0, x1).map((v) => (
+        {xt.ticks.map((v) => (
           <text
             key={`x${v}`}
             x={sx(v)}
@@ -109,11 +118,18 @@ export function ScatterExplorer({ data }: { data: DailyPoint[] }) {
             textAnchor="middle"
             className="fill-muted-foreground font-mono text-[10px]"
           >
-            {X_VARS[xk].fmt(v)}
+            {fx(v)}
           </text>
         ))}
         <text x={(W + p.l) / 2} y={H - 6} textAnchor="middle" className="fill-muted-foreground text-[11px]">
           {X_VARS[xk].label}
+        </text>
+        <text
+          transform={`translate(12 ${(H - p.b + p.t) / 2}) rotate(-90)`}
+          textAnchor="middle"
+          className="fill-muted-foreground text-[11px]"
+        >
+          {Y_VARS[yk].label}
         </text>
         {pts.map((d) => (
           <circle
@@ -128,10 +144,10 @@ export function ScatterExplorer({ data }: { data: DailyPoint[] }) {
           />
         ))}
         <line
-          x1={sx(x0)}
-          x2={sx(x1)}
-          y1={sy(fit.a + fit.b * x0)}
-          y2={sy(fit.a + fit.b * x1)}
+          x1={sx(dx0)}
+          x2={sx(dx1)}
+          y1={sy(fit.a + fit.b * dx0)}
+          y2={sy(fit.a + fit.b * dx1)}
           stroke="var(--taxi)"
           strokeWidth={3}
           strokeLinecap="round"

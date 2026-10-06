@@ -30,6 +30,9 @@ export interface DailyPoint {
 const MONTH_TICKS = Array.from({ length: 12 }, (_, m) => `2019-${String(m + 1).padStart(2, "0")}-01`);
 const tick = { fontSize: 10, fill: "var(--muted-foreground)", fontFamily: "var(--font-jetbrains)" };
 const GAP_END = "2019-01-20";
+/** Left and right axis widths shared by every panel, so the four plots line up day for day. */
+const LEFT_AXIS = 44;
+const RIGHT_AXIS = 34;
 
 function Tip({ active, payload }: { active?: boolean; payload?: readonly { payload?: unknown }[] }) {
   if (!active || !payload?.length) return null;
@@ -80,6 +83,8 @@ export function DailyCharts({ data }: { data: DailyPoint[] }) {
     syncId: "daily",
     margin: { top: 4, right: 8, bottom: 0, left: 0 },
   };
+  // single-axis panels reserve the right axis's width as margin instead
+  const single = { ...common, margin: { ...common.margin, right: 8 + RIGHT_AXIS } };
   const x = (
     <XAxis
       dataKey="date"
@@ -110,14 +115,14 @@ export function DailyCharts({ data }: { data: DailyPoint[] }) {
   return (
     <div className="grid gap-6">
       <Panel title="Cleaned trips per day" height={190}>
-        <ComposedChart {...common}>
+        <ComposedChart {...single}>
           {grid}
           {gap}
           {x}
           <YAxis
             tick={tick}
             tickFormatter={(v: number) => formatCompact(v)}
-            width={44}
+            width={LEFT_AXIS}
             axisLine={false}
             tickLine={false}
           />
@@ -134,13 +139,13 @@ export function DailyCharts({ data }: { data: DailyPoint[] }) {
         </ComposedChart>
       </Panel>
       <Panel title="Median trip minutes" height={130}>
-        <ComposedChart {...common}>
+        <ComposedChart {...single}>
           {grid}
           {gap}
           {x}
           <YAxis
             tick={tick}
-            width={44}
+            width={LEFT_AXIS}
             axisLine={false}
             tickLine={false}
             domain={["dataMin - 1", "dataMax + 1"]}
@@ -161,8 +166,15 @@ export function DailyCharts({ data }: { data: DailyPoint[] }) {
         <ComposedChart {...common}>
           {grid}
           {x}
-          <YAxis yAxisId="t" tick={tick} width={44} axisLine={false} tickLine={false} />
-          <YAxis yAxisId="p" orientation="right" tick={tick} width={34} axisLine={false} tickLine={false} />
+          <YAxis yAxisId="t" tick={tick} width={LEFT_AXIS} axisLine={false} tickLine={false} />
+          <YAxis
+            yAxisId="p"
+            orientation="right"
+            tick={tick}
+            width={RIGHT_AXIS}
+            axisLine={false}
+            tickLine={false}
+          />
           {tip}
           <Bar yAxisId="p" dataKey="precipitation" fill="var(--line-blue)" isAnimationActive={false} />
           <Line
@@ -180,8 +192,15 @@ export function DailyCharts({ data }: { data: DailyPoint[] }) {
         <ComposedChart {...common}>
           {grid}
           {x}
-          <YAxis yAxisId="e" tick={tick} width={44} axisLine={false} tickLine={false} />
-          <YAxis yAxisId="c" orientation="right" tick={tick} width={34} axisLine={false} tickLine={false} />
+          <YAxis yAxisId="e" tick={tick} width={LEFT_AXIS} axisLine={false} tickLine={false} />
+          <YAxis
+            yAxisId="c"
+            orientation="right"
+            tick={tick}
+            width={RIGHT_AXIS}
+            axisLine={false}
+            tickLine={false}
+          />
           {tip}
           <Bar
             yAxisId="e"

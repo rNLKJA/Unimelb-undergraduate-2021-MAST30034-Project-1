@@ -2,9 +2,6 @@
 
 export const SEQ_STEPS = 6;
 
-/** CSS variable names of the sequential ramp (defined in globals.css for both themes). */
-export const SEQ_VARS = Array.from({ length: SEQ_STEPS }, (_, i) => `--seq-${i}`);
-
 /**
  * Quantile class breaks: `k - 1` thresholds splitting the positive values into
  * k roughly equal-count classes. Zeros/nulls are "no data" and not classed.
@@ -44,4 +41,33 @@ export function rampIndex(cls: number, classes: number): number {
 export function unit(v: number, lo: number, hi: number): number {
   if (hi === lo) return 0.5;
   return Math.min(1, Math.max(0, (v - lo) / (hi - lo)));
+}
+
+/** Step of "nice" ticks (1, 2 or 5 times a power of ten) for about `count` intervals over [lo, hi]. */
+export function niceStep(lo: number, hi: number, count = 5): number {
+  const span = Math.abs(hi - lo) || Math.abs(hi) || 1;
+  const raw = span / Math.max(1, count);
+  const pow = 10 ** Math.floor(Math.log10(raw));
+  const err = raw / pow;
+  const mult = err >= 7.5 ? 10 : err >= 3.5 ? 5 : err >= 1.5 ? 2 : 1;
+  return mult * pow;
+}
+
+/**
+ * Round tick values covering [lo, hi]: the domain is widened outwards to whole
+ * steps (like d3's `nice()`), so the first and last ticks are the axis ends.
+ */
+export function niceTicks(lo: number, hi: number, count = 5): { ticks: number[]; step: number } {
+  const step = niceStep(lo, hi, count);
+  const start = Math.floor(lo / step) * step;
+  const stop = Math.ceil(hi / step) * step;
+  const n = Math.round((stop - start) / step);
+  // multiply instead of accumulate, and trim float noise (0.30000000000000004)
+  const ticks = Array.from({ length: n + 1 }, (_, i) => Number((start + i * step).toPrecision(12)));
+  return { ticks: ticks.length > 1 ? ticks : [start, start + step], step };
+}
+
+/** Decimal places needed to print ticks of this step without noise. */
+export function stepDecimals(step: number): number {
+  return Math.max(0, -Math.floor(Math.log10(step) + 1e-9));
 }

@@ -340,10 +340,22 @@ export function ZoneMap({
       latest.current.onSelect(f ? Number(f.properties?.id) : null);
     });
 
+    // On narrow maps the expanded attribution covers the bottom edge. MapLibre folds it
+    // away on the first drag; also fold it after a few seconds, once it has been seen
+    // (the OSMF attribution guidelines allow collapsing it on small maps after display).
+    const foldAttribution = window.setTimeout(() => {
+      if (map.getCanvasContainer().offsetWidth > 640) return;
+      map
+        .getContainer()
+        .querySelector(".maplibregl-ctrl-attrib")
+        ?.classList.remove("maplibregl-compact-show");
+    }, 6000);
+
     return () => {
       cancelled = true;
       ctl.current = null;
       window.clearTimeout(timeout);
+      window.clearTimeout(foldAttribution);
       map.remove();
       mapRef.current = null;
     };

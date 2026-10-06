@@ -305,21 +305,36 @@ function Legend({ breaks, metric, theme }: { breaks: number[]; metric: Metric; t
         ? `> ${fmt(breaks[i - 1])}`
         : `${fmt(breaks[i - 1])}–${fmt(breaks[i])}`,
   );
+  const title = metric === "trips" ? "Trips" : "Median minutes";
+  const colour = (i: number) => seqColor(theme, rampIndex(i, classes));
   return (
-    <div className="bg-card/95 absolute bottom-8 left-3 rounded-md border px-3 py-2 shadow-sm">
-      <p className="kicker text-muted-foreground mb-1.5">{metric === "trips" ? "Trips" : "Median minutes"}</p>
-      <ul className="grid gap-0.5">
-        {labels.map((l, i) => (
-          <li key={l} className="flex items-center gap-2 font-mono text-[11px]">
-            <span
-              className="inline-block h-3 w-5 rounded-[2px]"
-              style={{ background: seqColor(theme, rampIndex(i, classes)) }}
-            />
-            {l}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      {/* phones: a slim horizontal ramp that keeps the map visible */}
+      <div className="bg-card/95 absolute bottom-8 left-2 max-w-[calc(100%-1rem)] rounded-md border px-2 py-1.5 shadow-sm sm:hidden">
+        <p className="kicker text-muted-foreground mb-1 text-[0.6rem]">{title}</p>
+        <div className="flex h-2 w-40 overflow-hidden rounded-[2px]" aria-hidden>
+          {labels.map((l, i) => (
+            <span key={l} className="flex-1" style={{ background: colour(i) }} />
+          ))}
+        </div>
+        <p className="mt-0.5 flex w-40 justify-between font-mono text-[10px]">
+          <span>{labels[0]}</span>
+          <span>{labels[classes - 1]}</span>
+        </p>
+        <p className="sr-only">{labels.join(", ")}</p>
+      </div>
+      <div className="bg-card/95 absolute bottom-8 left-3 hidden rounded-md border px-3 py-2 shadow-sm sm:block">
+        <p className="kicker text-muted-foreground mb-1.5">{title}</p>
+        <ul className="grid gap-0.5">
+          {labels.map((l, i) => (
+            <li key={l} className="flex items-center gap-2 font-mono text-[11px]">
+              <span className="inline-block h-3 w-5 rounded-[2px]" style={{ background: colour(i) }} />
+              {l}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
   );
 }
 
