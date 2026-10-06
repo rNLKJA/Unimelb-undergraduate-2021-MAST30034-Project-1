@@ -16,6 +16,26 @@ export const NAV = [
   { href: "/records", label: "Records" },
 ] as const;
 
+type Env = Record<string, string | undefined>;
+
+/**
+ * Canonical origin for metadata and Open Graph URLs.
+ *
+ * NEXT_PUBLIC_SITE_URL wins when set. Otherwise this follows Next.js's own
+ * fallback chain: on Vercel, the production domain for production builds and
+ * the branch/deployment URL for previews (Vercel exposes these system variables
+ * at build time); locally, http://localhost:$PORT.
+ */
+export function siteUrl(env: Env = process.env): URL {
+  if (env.NEXT_PUBLIC_SITE_URL) return new URL(env.NEXT_PUBLIC_SITE_URL);
+  const host =
+    env.VERCEL_ENV === "preview"
+      ? (env.VERCEL_BRANCH_URL ?? env.VERCEL_URL)
+      : (env.VERCEL_PROJECT_PRODUCTION_URL ?? env.VERCEL_URL);
+  if (host) return new URL(`https://${host}`);
+  return new URL(`http://localhost:${env.PORT ?? 3000}`);
+}
+
 /** GitHub URL of a path in the repository (main branch). */
 export function repoPath(path: string): string {
   return `${SITE.repo}/blob/main/${path.split("/").map(encodeURIComponent).join("/")}`;

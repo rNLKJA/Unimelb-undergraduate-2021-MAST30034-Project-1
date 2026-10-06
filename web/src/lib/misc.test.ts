@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { toCsv } from "./csv";
 import { formatMinutes, formatSigned } from "./format";
 import { arc, haversineMiles } from "./geo";
+import { siteUrl } from "./site";
 
 describe("csv", () => {
   it("quotes commas, quotes and newlines (RFC 4180)", () => {
@@ -35,5 +36,36 @@ describe("format", () => {
     expect(formatSigned(2)).toBe("+2.0");
     expect(formatSigned(0)).toBe("0.0");
     expect(formatMinutes(12.345)).toBe("12.3 min");
+  });
+});
+
+describe("siteUrl", () => {
+  it("prefers NEXT_PUBLIC_SITE_URL", () => {
+    expect(siteUrl({ NEXT_PUBLIC_SITE_URL: "https://example.org", VERCEL_URL: "x.vercel.app" }).href).toBe(
+      "https://example.org/",
+    );
+  });
+
+  it("uses the production domain on Vercel production builds", () => {
+    const env = {
+      VERCEL_ENV: "production",
+      VERCEL_PROJECT_PRODUCTION_URL: "mast30034-nyc-taxi.vercel.app",
+      VERCEL_URL: "mast30034-nyc-taxi-abc123.vercel.app",
+    };
+    expect(siteUrl(env).origin).toBe("https://mast30034-nyc-taxi.vercel.app");
+  });
+
+  it("uses the branch URL on preview builds", () => {
+    const env = {
+      VERCEL_ENV: "preview",
+      VERCEL_PROJECT_PRODUCTION_URL: "mast30034-nyc-taxi.vercel.app",
+      VERCEL_BRANCH_URL: "mast30034-nyc-taxi-git-revive-web.vercel.app",
+    };
+    expect(siteUrl(env).origin).toBe("https://mast30034-nyc-taxi-git-revive-web.vercel.app");
+  });
+
+  it("falls back to localhost on the dev port", () => {
+    expect(siteUrl({}).origin).toBe("http://localhost:3000");
+    expect(siteUrl({ PORT: "3303" }).origin).toBe("http://localhost:3303");
   });
 });

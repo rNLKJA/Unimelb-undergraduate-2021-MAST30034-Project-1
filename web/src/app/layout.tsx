@@ -3,7 +3,7 @@ import { Archivo, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ThemeProvider } from "@/components/layout/theme-provider";
-import { SITE } from "@/lib/site";
+import { SITE, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 /** Archivo with its width axis: condensed (68%) for headlines, normal width for UI. */
@@ -27,7 +27,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3303"),
+  metadataBase: siteUrl(),
   title: { default: SITE.title, template: `%s · ${SITE.name}` },
   description: SITE.description,
   authors: [{ name: SITE.author }],
