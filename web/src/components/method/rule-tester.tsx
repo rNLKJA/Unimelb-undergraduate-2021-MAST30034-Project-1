@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle2, XCircle } from "lucide-react";
+import { AlertTriangle, CheckCircle2, XCircle } from "lucide-react";
 import { useState } from "react";
 import { judge, notebookSpeed, travelTimeMinutes, type TripRecord } from "@/lib/cleaning";
 import { formatFixed } from "@/lib/format";
@@ -88,12 +88,13 @@ const FIELDS: { key: keyof TripRecord; label: string; type: "text" | "number"; s
 export function RuleTester() {
   const [trip, setTrip] = useState<TripRecord>(BASE);
   const v = judge(trip);
-  const minutes = trip.pickup && trip.dropoff ? travelTimeMinutes(trip.pickup, trip.dropoff) : Number.NaN;
-  const speed =
-    trip.pickup && trip.dropoff && trip.tripDistance !== null ? notebookSpeed(trip as never) : Number.NaN;
+  const invalid = new Set<keyof TripRecord>(v.kept === false && v.reason === "invalid" ? v.fields : []);
+  const timesOk = trip.pickup !== null && trip.dropoff !== null && invalid.size === 0;
+  const minutes = timesOk ? travelTimeMinutes(trip.pickup!, trip.dropoff!) : Number.NaN;
+  const speed = timesOk && trip.tripDistance !== null ? notebookSpeed(trip as never) : Number.NaN;
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
-      <div>
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <div className="min-w-0">
         <div className="flex flex-wrap gap-2">
           {PRESETS.map((p) => (
             <button
@@ -110,13 +111,14 @@ export function RuleTester() {
           {FIELDS.map((f) => {
             const value = trip[f.key];
             return (
-              <label key={f.key} className="grid gap-1 text-xs">
+              <label key={f.key} className="grid min-w-0 gap-1 text-xs">
                 <span className="text-muted-foreground">{f.label}</span>
                 <input
                   type={f.type}
                   step={f.step}
                   value={value === null ? "" : String(value)}
                   placeholder="missing"
+                  aria-invalid={invalid.has(f.key) || undefined}
                   onChange={(e) => {
                     const raw = e.target.value;
                     setTrip((t) => ({
@@ -124,7 +126,7 @@ export function RuleTester() {
                       [f.key]: raw === "" ? null : f.type === "number" ? Number(raw) : raw,
                     }));
                   }}
-                  className="border-input bg-card h-8 rounded-md border px-2 font-mono text-[13px]"
+                  className="border-input bg-card aria-invalid:border-destructive h-8 w-full min-w-0 rounded-md border px-2 font-mono text-[13px]"
                 />
               </label>
             );
@@ -140,6 +142,10 @@ export function RuleTester() {
           <p className="flex items-center gap-2 text-lg font-semibold">
             <CheckCircle2 className="text-line-green size-6" aria-hidden /> Kept
           </p>
+        ) : v.reason === "invalid" ? (
+          <p className="flex items-center gap-2 text-lg font-semibold">
+            <AlertTriangle className="text-taxi-text size-6" aria-hidden /> Check the timestamps
+          </p>
         ) : (
           <p className="flex items-center gap-2 text-lg font-semibold">
             <XCircle className="text-line-red size-6" aria-hidden /> Removed
@@ -150,7 +156,9 @@ export function RuleTester() {
             ? "This trip passes every cleaning rule of rounds 1 to 3."
             : v.reason === "missing"
               ? `dropna() drops it: missing ${v.fields.join(", ")}.`
-              : `${v.rule.round}: ${v.rule.label}.`}
+              : v.reason === "invalid"
+                ? `Write the ${v.fields.map((k) => (k === "pickup" ? "pickup" : "drop-off")).join(" and ")} time as \u201cYYYY-MM-DD HH:MM:SS\u201d, e.g. 2019-06-12 08:15:00. Real TLC records always use this form, so no cleaning rule is applied until it parses.`
+                : `${v.rule.round}: ${v.rule.label}.`}
         </p>
         {!v.kept && v.reason === "rule" && (
           <code className="bg-muted rounded px-2 py-1 font-mono text-[11px]">{v.rule.code}</code>

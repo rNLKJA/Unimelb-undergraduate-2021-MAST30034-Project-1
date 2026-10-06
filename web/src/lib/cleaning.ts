@@ -64,6 +64,26 @@ export function wallSeconds(ts: string): number {
   return Date.UTC(y, mo - 1, d, h, mi, s) / 1000;
 }
 
+/**
+ * True for a real calendar timestamp written exactly "YYYY-MM-DD HH:MM:SS", the
+ * form the TLC files use. The rules compare timestamps as strings (cell 22), so
+ * anything else (a missing zero, an ISO "T", 2019-02-30) cannot be judged.
+ */
+export function isWallTimestamp(ts: string): boolean {
+  const m = /^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/.exec(ts);
+  if (!m) return false;
+  const [, y, mo, d, h, mi, s] = m.map(Number);
+  const t = new Date(Date.UTC(y, mo - 1, d, h, mi, s));
+  return (
+    t.getUTCFullYear() === y &&
+    t.getUTCMonth() === mo - 1 &&
+    t.getUTCDate() === d &&
+    t.getUTCHours() === h &&
+    t.getUTCMinutes() === mi &&
+    t.getUTCSeconds() === s
+  );
+}
+
 /** Trip duration in minutes (cell 64: (dropoff - pickup) seconds / 60). */
 export function travelTimeMinutes(pickup: string, dropoff: string): number {
   return (wallSeconds(dropoff) - wallSeconds(pickup)) / 60;
@@ -223,14 +243,21 @@ export { FARE_LIMIT };
 export type Verdict =
   | { kept: true }
   | { kept: false; reason: "missing"; fields: (keyof TripRecord)[] }
+  | { kept: false; reason: "invalid"; fields: ("pickup" | "dropoff")[] }
   | { kept: false; reason: "rule"; rule: Rule };
 
-/** First reason a record would be removed, in notebook order (or kept). */
+/**
+ * First reason a record would be removed, in notebook order (or kept).
+ * Malformed timestamps are reported as "invalid" input rather than judged:
+ * real TLC records always carry well-formed timestamps, so no 2021 rule applies.
+ */
 export function judge(trip: TripRecord): Verdict {
   const missing = (Object.keys(trip) as (keyof TripRecord)[]).filter(
     (k) => trip[k] === null || trip[k] === undefined,
   );
   if (missing.length) return { kept: false, reason: "missing", fields: missing };
+  const invalid = (["pickup", "dropoff"] as const).filter((k) => !isWallTimestamp(trip[k]!));
+  if (invalid.length) return { kept: false, reason: "invalid", fields: invalid };
   const t = trip as CleanTrip;
   for (const rule of RULES) if (!rule.keep(t)) return { kept: false, reason: "rule", rule };
   return { kept: true };

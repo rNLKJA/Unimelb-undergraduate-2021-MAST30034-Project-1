@@ -5,6 +5,7 @@ import {
   NOTEBOOK_FARE_STD,
   RULES,
   funnel,
+  isWallTimestamp,
   judge,
   notebookSpeed,
   travelTimeMinutes,
@@ -127,5 +128,34 @@ describe("funnel", () => {
     expect(f.at(-1)!.remaining).toBe(1);
     expect(f).toHaveLength(RULES.length + 1);
     for (let i = 1; i < f.length; i++) expect(f[i].remaining).toBeLessThanOrEqual(f[i - 1].remaining);
+  });
+});
+
+describe("malformed timestamps", () => {
+  it("accepts only real 'YYYY-MM-DD HH:MM:SS' timestamps", () => {
+    expect(isWallTimestamp("2019-06-12 08:15:00")).toBe(true);
+    expect(isWallTimestamp("2019-06-12 8:15:00")).toBe(false);
+    expect(isWallTimestamp("2019-12-31T10:00:00")).toBe(false);
+    expect(isWallTimestamp("garbage")).toBe(false);
+    expect(isWallTimestamp("2019-02-30 10:00:00")).toBe(false);
+    expect(isWallTimestamp("2019-06-12 24:00:00")).toBe(false);
+  });
+
+  it("reports bad input instead of blaming a cleaning rule", () => {
+    expect(judge({ ...ordinary, pickup: "2019-06-12 8:15:00" })).toEqual({
+      kept: false,
+      reason: "invalid",
+      fields: ["pickup"],
+    });
+    expect(judge({ ...ordinary, pickup: "garbage", dropoff: "2019-12-31T10:00:00" })).toEqual({
+      kept: false,
+      reason: "invalid",
+      fields: ["pickup", "dropoff"],
+    });
+  });
+
+  it("still lets missing values win, as dropna() runs first", () => {
+    const v = judge({ ...ordinary, pickup: "garbage", tipAmount: null });
+    expect(v).toEqual({ kept: false, reason: "missing", fields: ["tipAmount"] });
   });
 });
