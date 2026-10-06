@@ -60,11 +60,11 @@ The revival reproduced the 2021 results. The upgrade asks how good they are, how
 | Question | Answer | Where |
 | --- | --- | --- |
 | How does the 2021 specification do on months it never saw? | Fitted on January to October and tested on November and December, RMSE 9.47 min (95% CI 9.18 to 9.73) and R² 0.353 (0.341 to 0.365). The intervals come from a bootstrap over 61 test days (B = 2,000, seed 20190101). | `/evaluation` |
-| Is it better than a lookup table? | No. Last season's median for the same route and hour scores RMSE 6.24 min, 3.23 minutes better (paired 95% CI 3.10 to 3.34). The model adds zone effects, so it cannot know how far apart two zones are. | `/evaluation` |
+| Is it better than a lookup table? | No. The January to October median for the same route and hour scores RMSE 6.24 min, 3.23 minutes better (paired 95% CI 3.10 to 3.34). The model adds zone effects, so it cannot know how far apart two zones are. | `/evaluation` |
 | How sure are the coefficients? | The unpenalised OLS counterpart on 74,941,355 rows gets classical, HC3 and day-clustered standard errors. Clustering by day makes the weather intervals 30 to 52 times wider, because weather varies over 351 days, not 75 million trips. | `/evaluation` |
-| How wide is an honest prediction interval? | Split-conformal intervals, Mondrian by pickup borough and predicted duration, cover 90.0% of 7,497,013 held-out trips with a mean width of 26.4 min. They cover 90% in every borough and 88% to 92% in every decile, and coverage slips to 88.8% on November and December. | `/estimate`, `/evaluation`, [DR-003](docs/decisions/DR-003-conformal-intervals.md) |
-| Does rain slow taxis? | Comparing each trip with its own route and hour, wet days are 3.4% slower (95% CI 1.9% to 4.8%) after month, weekday and holiday effects, over 333 days. | `/effects` |
-| Do permitted events? | In 31 matched pairs of event-heavy and ordinary borough-days, the difference is −0.6% (95% CI −2.5% to +1.2%). There is no detectable effect, which agrees with the 2021 model's zero coefficient. | `/effects` |
+| How wide is an honest prediction interval? | Split-conformal intervals, Mondrian by pickup borough and predicted duration, cover 90.0% of 7,497,013 held-out trips (95% CI 89.9% to 90.1%, resampling 347 test days) with a mean width of 26.4 min. They cover 90% in every borough and 88% to 92% in every decile, and coverage slips to 88.8% (88.4% to 89.2%) on November and December. Coverage moves together within a day, so these intervals resample days: treating the trips as independent would make them about 6 to 12 times too narrow. | `/estimate`, `/evaluation`, [DR-003](docs/decisions/DR-003-conformal-intervals.md) |
+| Does rain slow taxis? | Comparing each trip with its own route and hour, wet days are 3.4% slower (95% CI 1.9% to 4.8%) after month, weekday and holiday effects, over 333 days. Neighbouring days are alike (Durbin–Watson 0.88), and Newey–West errors with 7 lags give 2.0% to 4.8%, so the estimate holds. | `/effects` |
+| Do permitted events? | In 31 matched pairs of event-heavy and ordinary borough-days, which fall on 16 dates, the difference is −0.6% (95% CI −2.8% to +1.8%, resampling dates rather than pairs). There is no detectable effect, which agrees with the 2021 model's zero coefficient. | `/effects` |
 | What do the cleaning rules catch, and what gets through? | Every rule's removals, its failures on its own and its sole responsibility, with reasons. One finding is that vendor 1 leaves the $2.50 congestion surcharge out of `total_amount` on 23.4 million trips. | `/data-quality`, [DR-002](docs/decisions/DR-002-cleaning-thresholds.md) |
 
 ### Methods, decision records and the model card
@@ -84,12 +84,12 @@ Each record states the decision first, then the context, the options considered,
 
 - **Your key, your browser.** Open the key icon in the header to choose Anthropic (Claude Haiku 4.5 by default, or Claude Sonnet 5.5) or OpenAI, and paste your own API key. The key is kept in sessionStorage, or in localStorage if you tick "remember on this device", and "Forget key" removes it. Your browser calls the provider directly. The key is never sent to this site's server, never logged and never committed.
 - **A human decides.** The proposed SQL, its explanation and its assumptions are shown, labelled "AI-generated". Nothing runs until you choose to run it, edit it or discard it.
-- **The server checks every query.** `/api/sql` receives only SQL. It accepts one read-only SELECT, refuses expensive plans and runs on a connection with `PRAGMA query_only = ON`. You can also write SQL yourself without a key.
-- **Measured, not trusted.** `/ask/eval` runs your chosen model on 24 questions with hand-written reference answers. It reports execution accuracy with Wilson intervals and compares two runs (two models, or two prompts) with an exact McNemar test.
+- **The server checks every query.** `/api/sql` receives only SQL. It accepts one read-only SELECT, refuses recursive and expensive plans, and runs on a connection with `PRAGMA query_only = ON`, a 64 MB SQLite memory limit and a 3-second time limit, one query at a time. Long text values are shortened, results over 1 MB are refused, and each address gets 20 queries a minute. You can also write SQL yourself without a key.
+- **Measured, not trusted.** `/ask/eval` runs your chosen model on 24 questions with hand-written reference answers. It reports execution accuracy with Wilson intervals, separately for the 7 questions the prompt's domain notes were written for, and compares two runs (two models, or two prompts) with an exact McNemar test.
 
 ### Viewing the AI audit log
 
-Every AI call made on the site is logged in your browser's IndexedDB. Each entry holds the time, the feature, the provider, the requested and the answering model, the input (never the key), the output, the latency, the token usage and your decision (accepted, edited, rejected, or not applicable for evaluation runs). Open [`/ai-log`](https://mast30034-nyc-taxi.vercel.app/ai-log) to review it, filter it, export it as JSON or CSV, or clear it. The site keeps no server-side copy, so the log only ever shows calls from your own browser.
+Every AI call made on the site is logged in your browser's IndexedDB. Each entry holds the time, the feature, the provider, the requested and the answering model, the input (never the key), the output, the latency, the token usage and every decision you made, in order (accepted, edited or rejected; "no output" for failed calls and "not applicable" for evaluation runs). Later decisions are appended, never overwritten. Open [`/ai-log`](https://mast30034-nyc-taxi.vercel.app/ai-log) to review it, filter it, export it as JSON or CSV, or clear it. The site keeps no server-side copy, so the log only ever shows calls from your own browser.
 
 ## The website
 
@@ -101,7 +101,7 @@ Every AI call made on the site is logged in your browser's IndexedDB. Each entry
 | `/conditions` | Every day of 2019 next to weather, permitted events and collisions; a day-level scatter explorer; the weekday-by-hour trip-time heatmap per vendor; the fate of the 11 numeric features |
 | `/estimate` | The 2021 regression running in the browser: pick zones, a 2019 date and an hour, and see the prediction with an 80%, 90% or 95% split-conformal interval, the refit, the observed median and every term of the sum |
 | `/evaluation` | Temporal hold-out with day-bootstrap intervals and baselines, OLS coefficients with classical, HC3 and day-clustered standard errors, residual diagnostics and conformal coverage |
-| `/effects` | Rain and permitted-event effects on a composition-adjusted duration index, with bootstrap and HC3 intervals, effect sizes, a matched comparison and caveats |
+| `/effects` | Rain and permitted-event effects on a composition-adjusted duration index, with bootstrap, HC3 and Newey–West intervals, effect sizes, a matched comparison and caveats |
 | `/data-quality` | Every cleaning rule with rows removed in sequence, failing alone and failing only that rule, missing values by month and the implausible records that got through |
 | `/ask`, `/ask/eval` | Optional bring-your-own-key text-to-SQL with human review, and its evaluation harness |
 | `/ai-log` | The AI audit log of this browser, with JSON and CSV export |
@@ -109,7 +109,7 @@ Every AI call made on the site is logged in your browser's IndexedDB. Each entry
 | `/method` | The cleaning funnel rule by rule with both sets of counts, the quirks of the 2021 rules, a "would your trip survive?" rule tester, fold-by-fold parity charts and the regularisation path |
 | `/records` | Browse, search, sort and download (CSV) every table of the analytics database |
 | `/api/zones`, `/api/routes`, `/api/route-hourly` | Read-only JSON used by the interactive pages |
-| `/api/sql` | POST one read-only SQL query and get rows back (validated, cost-checked, at most 500 rows) |
+| `/api/sql` | POST one read-only SQL query and get rows back (validated, cost-checked, stopped after 3 seconds, at most 500 rows, rate-limited) |
 
 Everything is static or served from a bundled read-only SQLite file. There is no database server, no account and no API key of mine. The optional AI feature uses the visitor's own key from their browser. Map tiles come from [OpenFreeMap](https://openfreemap.org) (free, no key). If they fail to load, the maps fall back to bundled borough outlines.
 
@@ -122,10 +122,10 @@ Everything is static or served from a bundled read-only SQLite file. There is no
 | Model | Spark MLlib elastic net, `maxIter=10`, manual 10-fold CV | NumPy coordinate descent on exact sufficient statistics, same objective as Spark |
 | Maps | Folium with Stamen tiles (discontinued) | MapLibre GL JS 6 with OpenFreeMap vector tiles and a bundled GeoJSON fallback |
 | App | A 22 MB notebook | Next.js 16 (App Router, Server Components), React 19, TypeScript (strict), Tailwind CSS 4 with shadcn/ui theme tokens, Recharts, next-themes, zod |
-| Data at runtime | n/a | `web/data/analytics.db` (15.8 MB, 36 tables of aggregates) read with `@libsql/client` |
-| Statistics | Spark's `RegressionEvaluator` | A small TypeScript library (`web/src/lib/stats/`: Wilson, bootstrap, t and normal quantiles, OLS with HC3, McNemar, effect sizes) tested against scipy, statsmodels and R. HC3 and clustered SEs over 75 million rows in NumPy (`scripts/sparse_ols.py`) |
+| Data at runtime | n/a | `web/data/analytics.db` (16.1 MB, 37 tables of aggregates) read with `@libsql/client`, and with libsql's promise API for visitor SQL so a query can be interrupted |
+| Statistics | Spark's `RegressionEvaluator` | A small TypeScript library (`web/src/lib/stats/`: Wilson, bootstrap, t and normal quantiles, OLS with HC3 and Newey–West, McNemar, effect sizes) tested against scipy, statsmodels and R. HC3 and clustered SEs over 75 million rows in NumPy (`scripts/sparse_ols.py`) |
 | AI (optional) | n/a | Bring your own key: the official Anthropic SDK in browser mode or `fetch` to OpenAI, zod-validated structured output, an IndexedDB audit log |
-| Quality | n/a | Vitest unit and parity tests (205), ESLint, Prettier, GitHub Actions CI |
+| Quality | n/a | Vitest unit and parity tests (226), ESLint, Prettier, GitHub Actions CI |
 
 ## Repository structure
 
@@ -166,7 +166,7 @@ Everything is static or served from a bundled read-only SQLite file. There is no
         ├── components/          layout/, ai/, ask/, evidence/, map/, explorer/, charts/, controls/, ...
         ├── hooks/               theme, reduced motion, JSON fetch, AI settings
         ├── lib/                 framework-free code: model, cleaning, metrics, holdout, effects, conformal,
-        │   ├── stats/           Wilson, bootstrap, distributions, OLS with HC3, McNemar, effect sizes
+        │   ├── stats/           Wilson, bootstrap, distributions, OLS with HC3 and Newey–West, McNemar, effect sizes
         │   └── ai/              provider adapters, key storage, audit log, text-to-SQL prompt and evaluation
         └── server/              server-only: analytics.db access, records, evidence, SQL guard, docs
 ```
@@ -200,7 +200,8 @@ uv run scripts/fetch_data.py       # 12 TLC Parquet files, 2019 events from NYC 
                                    # collision/weather/taxi-zone files extracted from the 2021 snapshot zip
 uv run scripts/pipeline.py         # the notebook's cleaning rounds and joins; writes scripts/out/pipeline_report.json
 uv run scripts/fit_model.py        # 10-fold scoring of the 2021 coefficients + converged refit + regularisation path
-uv run scripts/rigour.py           # OLS with HC3/clustered SEs, hold-out, residuals, conformal (about 4 minutes)
+uv run scripts/rigour.py           # OLS with HC3/clustered SEs, hold-out, residuals, conformal with day-bootstrap
+                                   # coverage intervals (about 4 minutes)
 uv run scripts/effects.py          # day and borough-day duration indices for the rain and event analyses
 uv run scripts/data_quality.py     # what each cleaning rule catches, missing values, residual checks
 uv run scripts/build_analytics.py  # web/data/analytics.db (calls build_evidence_tables.py), GeoJSON, model JSON
@@ -218,13 +219,13 @@ Sources and provenance:
 - **Weather, collisions, taxi zones:** the exact files the 2021 notebook used, taken from `coursework/mast30034_2021_s2_project_1-chuangyu-hscy-main.zip`. These are NOAA GHCN-Daily for Central Park, the NYPD motor-vehicle collisions BigQuery export, and the TLC zone lookup and shapefile.
 - **Permitted events:** NYC Open Data `bkfu-528j`, events starting in 2019. The dataset has been revised since 2021 and is much smaller now. This does not affect the model, which gave events a zero coefficient.
 
-`analytics.db` has 36 tables. The 18 from the revival hold zones, zone-by-hour and zone-by-vendor counts, every zone-to-zone route, hourly profiles of busy routes, borough flows, the daily series, weekday-by-hour-by-vendor times, weather, events, collisions, the cleaning funnel, the model's folds, coefficients, regularisation path and zone index, and the table descriptions. The 18 evidence tables added in the upgrade hold the OLS coefficients with their standard errors, the per-day hold-out errors, the residual diagnostics, the conformal bins and coverage, the duration indices behind `/effects` and the data-quality report (`dq_*`). No individual trip is stored.
+`analytics.db` has 37 tables. The 18 from the revival hold zones, zone-by-hour and zone-by-vendor counts, every zone-to-zone route, hourly profiles of busy routes, borough flows, the daily series, weekday-by-hour-by-vendor times, weather, events, collisions, the cleaning funnel, the model's folds, coefficients, regularisation path and zone index, and the table descriptions. The 19 evidence tables added in the upgrade hold the OLS coefficients with their standard errors, the per-day hold-out errors, the residual diagnostics, the conformal bins, coverage and coverage per test day, the duration indices behind `/effects` and the data-quality report (`dq_*`). No individual trip is stored.
 
 ### Viewing the records
 
 The site is read-only, so there is no admin login or hosted database: every visitor sees the same bundled `web/data/analytics.db`. Three ways to look inside it:
 
-- **On the website:** [`/records`](https://mast30034-nyc-taxi.vercel.app/records) lists all 36 tables with row counts and descriptions. Each table page has search, sortable columns, pagination and a CSV download.
+- **On the website:** [`/records`](https://mast30034-nyc-taxi.vercel.app/records) lists all 37 tables with row counts and descriptions. Each table page has search, sortable columns, pagination and a CSV download.
 - **Locally:** open `web/data/analytics.db` in any SQLite browser (DB Browser for SQLite, Datasette, the `sqlite3` shell). For example: `sqlite3 web/data/analytics.db "select * from routes order by trips desc limit 5"`.
 - **As JSON:** the read-only API routes `/api/zones`, `/api/routes` and `/api/route-hourly` serve the slices the interactive pages use.
 
@@ -240,17 +241,18 @@ The revival runs the rules as the notebook ran them, not as its comments describ
 
 ## Tests and parity
 
-`pnpm test` runs 205 Vitest tests. No test calls an AI provider: every provider call is made against a mocked `fetch`. The suites cover the TypeScript ports of 2021, the statistics behind the upgrade and the AI client:
+`pnpm test` runs 226 Vitest tests. No test calls an AI provider: every provider call is made against a mocked `fetch`. The suites cover the TypeScript ports of 2021, the statistics behind the upgrade and the AI client:
 
 - `model.ts`: the 579-feature VectorAssembler layout, one-hot encoding and prediction. The shipped coefficients must equal fold 1 of `coursework/10-folds-linear-regression.csv` (read from the original file), the coefficients printed in notebook cell 296 and the zone order the notebook's StringIndexer produced (pickup 125 is Borough Park, drop-off 20 is Sutton Place/Turtle Bay North, so coefficients 64 and 70 are JFK and LaGuardia). For 40 real rows of the revived model table, the TypeScript port must also reproduce the feature indices and both predictions (2021 and refit) computed in Python with NumPy to 9 decimal places.
 - `cleaning.ts`: every cleaning rule as a predicate, tested against rows and thresholds printed in the notebook, such as the z-score bound 13.0258 + 3 × 94.3733. Malformed timestamps typed into the `/method` rule tester are reported as input errors instead of being blamed on a rule.
 - `metrics.ts`: R² and RMSE as Spark's `RegressionEvaluator` computes them, and scoring from sufficient statistics as `fit_model.py` does.
 - `server/analytics.test.ts`: the bundled database against the notebook. It checks the funnel counts, the vendor-by-weekday mean trip times and the borough matrix from the notebook's 10% sample, and the 2021 fold results.
 - `server/records.test.ts`: the records browser's default order, sorting and search escaping.
-- `lib/stats/`: the normal, t and binomial distributions, Wilson intervals, type-7 and conformal quantiles, Welch and paired t tests, Cohen's d, Hedges' g, OLS with classical, HC0, HC1 and HC3 standard errors, and the exact McNemar test. Each is checked against values computed with scipy, statsmodels and R by `scripts/stats_reference.py`, mostly to 1e-10 or better. The seeded bootstrap is checked for reproducibility and against t intervals.
-- `lib/effects.test.ts`, `lib/holdout.ts`, `lib/conformal.ts`: the rain analysis recovers a planted 5% effect, the matched event comparison pairs only same-weekday days within four weeks and skips holidays, day-bootstrap metrics match metrics computed from the trips, and the estimator's interval lookup bins predictions as numpy does.
+- `lib/stats/`: the normal, t and binomial distributions, Wilson intervals, type-7 and conformal quantiles, Welch and paired t tests, Cohen's d, Hedges' g, OLS with classical, HC0, HC1, HC3 and Newey–West standard errors, the Durbin–Watson statistic, and the exact McNemar test. Each is checked against values computed with scipy, statsmodels and R by `scripts/stats_reference.py`, mostly to 1e-10 or better. The seeded bootstrap is checked for reproducibility and against t intervals.
+- `lib/effects.test.ts`, `lib/holdout.ts`, `lib/conformal.ts`: the rain analysis recovers a planted 5% effect, the matched event comparison pairs only same-weekday days within four weeks, skips holidays and treats dates rather than pairs as the independent units, day-bootstrap metrics match metrics computed from the trips, and the estimator's interval lookup bins predictions as numpy does and reports coverage for the same borough and bin.
+- `server/evidence.test.ts`: the coverage intervals that `scripts/rigour.py` computes (it ports the website's mulberry32 generator) match the website's own day bootstrap to 1e-10, and they are much wider than Wilson intervals that treat trips as independent.
 - `lib/ai/`: the Anthropic adapter sends the browser-access header, the key and structured-output settings, and the Sonnet requests carry server-side fallbacks. Errors map to visitor messages (invalid key, rate limit, overloaded, network or CORS, refusal, truncation) without echoing the key. The OpenAI adapter, zod validation, key storage (sessionStorage by default, localStorage on request, forget), the IndexedDB audit log (through `fake-indexeddb`), key redaction, JSON and CSV export, the execution-accuracy comparison and the paired run comparison are tested too.
-- `server/sql-guard.test.ts`, `server/ask.test.ts`: the SQL validator rejects writes, pragmas, multiple statements, recursive CTEs and dangerous functions. The plan-based cost guard refuses cartesian products and runaway correlated subqueries. Writes fail even if validation is bypassed (`PRAGMA query_only`). All 24 evaluation reference queries pass the guard and have no ties at their cut-off.
+- `server/sql-guard.test.ts`, `server/ask.test.ts`: the SQL validator rejects writes, pragmas, multiple statements, the RECURSIVE keyword, dangerous functions (also when their names are quoted) and `generate_series`. The plan check refuses recursive CTEs written without the keyword. The cost guard refuses cartesian products, runaway correlated subqueries and joins on low-cardinality columns. Queries that build huge strings hit the 64 MB heap limit, slow queries are interrupted without blocking the event loop, long cells are shortened, results over 1 MB are refused, a full queue answers "busy" and a noisy client is rate-limited. Writes fail even if validation is bypassed (`PRAGMA query_only`). All 24 evaluation reference queries pass the guard and have no ties at their cut-off.
 - `server/content.test.ts`: `web/content/` matches `docs/` exactly, and every decision record has the six sections in order.
 
 ## Credits

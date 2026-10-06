@@ -40,9 +40,9 @@ At the 90% level on the random test fold:
 | Mondrian by decile | 90.0% | 90.0% in every decile | 68.5% | 35.3% | 26.6 min |
 | Mondrian by borough and decile | 90.0% | 88% to 92% | 90.0% | 90.3% | 26.4 min |
 
-With 7.5 million test trips, the Wilson intervals on these coverages are narrower than a tenth of a percentage point overall. Staten Island has 258 test trips and a much wider interval.
+My first draft put Wilson intervals on these coverages, which came out narrower than a tenth of a percentage point because they treated 7.5 million trips as independent. Coverage moves together within a day, though: the daily coverage of the global 90% interval ranges from 82.7% to 95.8% across the 345 test days with at least 1,000 test trips. The intervals now resample whole test days (B = 2,000, seed 20190101), as the hold-out metrics do. For the borough and decile method, 90.0% overall becomes 89.9% to 90.1%, about 6 times wider than the Wilson interval, and for the global method the factor is about 12. Staten Island has 258 test trips on 188 days, and its interval runs from 86.4% to 93.7%. The estimator now quotes coverage for the trip's own borough and bin, with the same kind of interval, rather than for the whole borough.
 
-The weak numbers are worth stating plainly. The intervals are wide, 26 minutes on average at 90%, because the model's errors are large. Staten Island has only 238 calibration trips, so it gets a single bin and 90% intervals about 94 minutes wide, which is honest and not useful. On November and December, after refitting on January to October, coverage falls to 88.8% at the 90% level. That is what a broken exchangeability assumption looks like, since holiday traffic is not like the rest of the year.
+The weak numbers are worth stating plainly. The intervals are wide, 26 minutes on average at 90%, because the model's errors are large. Staten Island has only 238 calibration trips, so it gets a single bin and 90% intervals about 94 minutes wide, which is honest and not useful. On November and December, after refitting on January to October, coverage falls to 88.8% at the 90% level (95% CI 88.4% to 89.2% over 61 test days). That is what a broken exchangeability assumption looks like, since holiday traffic is not like the rest of the year.
 
 ## What I'd change
 

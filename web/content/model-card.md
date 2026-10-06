@@ -32,10 +32,10 @@ It is not meant for real-time arrival estimates, fare or pricing decisions, disp
 | 2021 coefficients on the revived folds | R² 0.3681, RMSE 9.179 min | folds range from R² 0.3670 to 0.3689 |
 | 2021 specification refitted on Jan to Oct, tested on Nov to Dec | RMSE 9.47 min, MAE 6.79 min, R² 0.353 | 95% CIs 9.18 to 9.73, 6.61 to 6.95, and 0.341 to 0.365 (bootstrap over 61 test days, B = 2,000, seed 20190101) |
 | Route-by-hour median lookup, same hold-out | RMSE 6.24 min, R² 0.719 | 95% CI 6.00 to 6.47 |
-| 90% prediction intervals on 7,497,013 held-out 2019 trips | 90.0% coverage, 26.4 min mean width | 90% in every borough, 88% to 92% in every predicted-duration decile |
-| 90% prediction intervals, refitted on Jan to Oct, tested on Nov to Dec | 88.8% coverage | 12,936,277 test trips |
+| 90% prediction intervals on 7,497,013 held-out 2019 trips | 90.0% coverage, 26.4 min mean width | 95% CI 89.9% to 90.1% (bootstrap over 347 test days); 90% in every borough, 88% to 92% in every predicted-duration decile |
+| 90% prediction intervals, refitted on Jan to Oct, tested on Nov to Dec | 88.8% coverage | 95% CI 88.4% to 89.2% (bootstrap over 61 test days); 12,936,277 test trips |
 
-The temporal hold-out and the intervals are produced by `scripts/rigour.py`, and the bootstrap runs in `web/src/lib/holdout.ts`. The full tables are on `/evaluation`.
+The temporal hold-out and the intervals are produced by `scripts/rigour.py`. The hold-out bootstrap runs in `web/src/lib/holdout.ts`, and the coverage bootstrap runs in `scripts/rigour.py` with the same generator and seed, checked against the website's bootstrap by a test. The full tables are on `/evaluation`.
 
 ## Known failure modes
 
