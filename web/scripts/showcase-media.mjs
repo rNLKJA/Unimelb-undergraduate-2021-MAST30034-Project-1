@@ -28,7 +28,8 @@ const tmp = path.join(raw, "tmp");
 const KB = 1024;
 const MB = 1024 * KB;
 const PNG_LIMIT = 600 * KB;
-const VIDEO_LIMIT = 8 * MB;
+// Decimal megabytes, the stricter reading of "8 MB" (GitHub and most tools show 1 MB = 10^6 bytes).
+const VIDEO_LIMIT = 8_000_000;
 
 /** Poster frame: this step's caption, plus a delay (seconds) for the UI to settle. */
 const POSTER = {
@@ -150,7 +151,7 @@ function encodeMp4(src, out, trimStart) {
     ]);
     if (size(out) <= VIDEO_LIMIT) return crf;
   }
-  throw new Error(`${out} is larger than 8 MB even at CRF 34`);
+  throw new Error(`${out} is larger than 8,000,000 bytes even at CRF 34`);
 }
 
 /**
@@ -189,7 +190,7 @@ function encodeGif(src, out, info, duration) {
     ffmpeg(["-ss", info.trimStart.toFixed(2), "-i", src, "-filter_complex", filter, "-loop", "0", out]);
     if (size(out) <= VIDEO_LIMIT) return { ...a, seconds: probeDuration(out) };
   }
-  throw new Error(`${out} is larger than 8 MB`);
+  throw new Error(`${out} is larger than 8,000,000 bytes`);
 }
 
 async function poster(id, mp4, info) {

@@ -23,7 +23,6 @@ const README = readFileSync(path.join(ROOT, "README.md"), "utf8");
 const PRODUCTION = "https://mast30034-nyc-taxi.vercel.app";
 
 const KB = 1024;
-const MB = 1024 * KB;
 const publicFile = (src: string) => path.join(PUBLIC, src);
 
 describe("showcase definitions", () => {
@@ -96,14 +95,14 @@ describe("showcase media (pnpm showcase)", () => {
     }
   });
 
-  it("has an MP4 and a GIF of at most 8 MB, a poster and captions for every walkthrough", () => {
+  it("has an MP4 and a GIF of at most 8 MB (8,000,000 bytes), a poster and captions for every walkthrough", () => {
     for (const w of WALKTHROUGHS) {
       const media = walkthroughMedia(w.id);
       const mp4 = publicFile(media.mp4);
       const gif = path.join(DOCS_SHOWCASE, `${w.id}.gif`);
       for (const file of [mp4, gif]) {
         expect(existsSync(file), file).toBe(true);
-        expect(statSync(file).size, file).toBeLessThanOrEqual(8 * MB);
+        expect(statSync(file).size, file).toBeLessThanOrEqual(8_000_000);
       }
       expect(existsSync(publicFile(media.poster)), media.poster).toBe(true);
     }
