@@ -48,6 +48,12 @@ describe("rain analysis", () => {
     expect(r.adjusted.boot.upper).toBeGreaterThan(0.05);
     expect(r.regression.wetPct.estimate).toBeCloseTo(0.05, 2);
     expect(r.regression.wetPct.lower).toBeLessThan(0.05);
+    // Newey-West changes the interval, not the estimate; independent noise has no serial correlation
+    expect(r.regression.wetPctHac.estimate).toBe(r.regression.wetPct.estimate);
+    expect(r.regression.hacLags).toBe(7);
+    expect(r.regression.durbinWatson).toBeGreaterThan(1.5);
+    expect(r.regression.durbinWatson).toBeLessThan(2.5);
+    expect(Math.abs(r.regression.lag1)).toBeLessThan(0.25);
     expect(r.rawMinutes.boot.estimate).toBeCloseTo(1, 1);
     expect(r.wet.days + r.dry.days + r.light.days).toBe(r.usableDays);
     expect(r.dose.find((d) => d.label === "1 in or more")!.days).toBeGreaterThan(0);
@@ -84,6 +90,18 @@ describe("matched event comparison", () => {
     }
     expect(r.overall.effect.estimate).toBeCloseTo(0.03, 10);
     expect(r.overall.sign.positive).toBe(12);
+    expect(r.overall.distinctDates).toBe(12);
+  });
+
+  it("treats dates, not pairs, as the independent units", () => {
+    const both = [...rows, ...rows.map((x) => ({ ...x, borough: "Brooklyn" }))];
+    const r = eventMatching(both, ["Manhattan", "Brooklyn"], { B: 200 });
+    expect(r.overall.pairs).toBe(24);
+    expect(r.overall.distinctDates).toBe(12);
+    // the t test and sign test use one mean difference per date
+    expect(r.overall.ttest.df).toBe(11);
+    expect(r.overall.sign.positive).toBe(12);
+    expect(r.overall.effect.estimate).toBeCloseTo(0.03, 10);
   });
 
   it("compares only within the same weather and skips holidays", () => {
@@ -159,6 +177,8 @@ describe("conformal lookup", () => {
     description: "",
     calibrationTrips: 100,
     testTrips: 100,
+    testDays: 10,
+    bootstrap: { unit: "test day", B: 2000, seed: 20190101, confidence: 0.95 },
     levels: [
       {
         level: 0.9,
@@ -172,13 +192,18 @@ describe("conformal lookup", () => {
               [-9, 20],
             ],
             nCal: [30, 30, 40],
-            test: { trips: 100, covered: 90 },
+            test: { trips: 100, covered: 90, ciLow: 0.85, ciHigh: 0.94 },
+            binTest: [
+              { trips: 30, covered: 27, ciLow: 0.8, ciHigh: 0.97 },
+              { trips: 30, covered: 28, ciLow: 0.83, ciHigh: 0.99 },
+              null,
+            ],
           },
-          { borough: "Queens", edges: [], offsets: [[-10, 30]], nCal: [50], test: null },
+          { borough: "Queens", edges: [], offsets: [[-10, 30]], nCal: [50], test: null, binTest: [null] },
         ],
-        test: { trips: 100, covered: 90, meanWidth: 20 },
+        test: { trips: 100, covered: 90, meanWidth: 20, ciLow: 0.85, ciHigh: 0.94 },
         globalHalfWidth: 12,
-        globalTest: { trips: 100, covered: 90, meanWidth: 22 },
+        globalTest: { trips: 100, covered: 90, meanWidth: 22, ciLow: 0.85, ciHigh: 0.94 },
       },
     ],
   };
@@ -194,7 +219,10 @@ describe("conformal lookup", () => {
       upper: 23,
       bin: 1,
       bins: 3,
+      // coverage is reported for the same borough and bin, not the whole borough
+      test: { trips: 30, covered: 28 },
     });
+    expect(predictionInterval(table, 0.9, "Manhattan", 25)!.test).toBeNull();
     expect(predictionInterval(table, 0.9, "Queens", 6)).toMatchObject({ lower: 0, rawLower: -4, upper: 36 });
     expect(predictionInterval(table, 0.9, "Staten Island", 15)!.borough).toBe("Manhattan");
     expect(predictionInterval(table, 0.5, "Manhattan", 15)).toBeNull();

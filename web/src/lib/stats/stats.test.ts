@@ -3,7 +3,7 @@ import ref from "./__fixtures__/reference.json";
 import { bootstrap, bootstrapMean, bootstrapTwoSample } from "./bootstrap";
 import { mean, sum } from "./descriptive";
 import { cohensD, hedgesG, pairedDz } from "./effect-size";
-import { coefficient, dummies, invert, ols } from "./ols";
+import { coefficient, dummies, durbinWatson, invert, lag1Autocorrelation, ols } from "./ols";
 import { mcnemarExact, signTest } from "./paired";
 import { conformalOffsets, conformalQuantile, median, quantile } from "./quantile";
 import { mulberry32 } from "./rng";
@@ -114,6 +114,13 @@ describe("OLS with robust standard errors (statsmodels)", () => {
     for (const kind of ["classical", "hc0", "hc1", "hc3"] as const) {
       o.se[kind].forEach((se, j) => close(Math.sqrt(fit.cov[kind][j][j]), se, 1e-10));
     }
+  });
+  it("Newey-West (HAC) standard errors and serial-correlation diagnostics", () => {
+    const hac = ols(o.X, o.y, undefined, { hacLags: o.hac_lags });
+    o.hac.forEach((se, j) => close(Math.sqrt(hac.cov.hac![j][j]), se, 1e-10));
+    close(durbinWatson(fit.residuals), o.durbin_watson, 1e-12);
+    close(lag1Autocorrelation(fit.residuals), o.lag1_autocorrelation, 1e-12);
+    expect(() => coefficient(fit, 1, "hac")).toThrow(/hacLags/);
   });
   it("t-based HC3 confidence intervals", () => {
     o.ci_hc3_t.forEach(([lo, hi], j) => {

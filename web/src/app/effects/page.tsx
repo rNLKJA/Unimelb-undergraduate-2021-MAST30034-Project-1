@@ -85,7 +85,7 @@ export default async function EffectsPage() {
             {rain.excluded.lowTrips} sparse days in early January and {rain.excluded.snow} snow days left
             out). A day is wet with at least {WET_INCHES} inch at Central Park. Bootstrap intervals resample
             days within each group (B = {formatInt(EFFECTS_B)}, seed {BOOTSTRAP_SEED}), and the regression
-            uses HC3 standard errors.
+            uses HC3 standard errors, checked against Newey–West errors because neighbouring days are alike.
           </p>
         }
       >
@@ -105,7 +105,7 @@ export default async function EffectsPage() {
               <Stat
                 k="Same trips, adjusted for month, weekday and holidays"
                 v={formatSignedPct(rain.regression.wetPct.estimate)}
-                note={`95% CI ${formatSignedPct(rain.regression.wetPct.lower)} to ${formatSignedPct(rain.regression.wetPct.upper)} · OLS with HC3, n = ${rain.regression.n} days, ${rain.regression.p} parameters, R² ${formatFixed(rain.regression.r2, 2)}`}
+                note={`95% CI ${formatSignedPct(rain.regression.wetPct.lower)} to ${formatSignedPct(rain.regression.wetPct.upper)} · OLS with HC3, n = ${rain.regression.n} days, ${rain.regression.p} parameters, R² ${formatFixed(rain.regression.r2, 2)} · Newey–West (${rain.regression.hacLags} lags) ${formatSignedPct(rain.regression.wetPctHac.lower)} to ${formatSignedPct(rain.regression.wetPctHac.upper)}`}
               />
             </dl>
             <CiPlot
@@ -183,17 +183,17 @@ export default async function EffectsPage() {
           <div className="grid content-start gap-8">
             <dl className="grid gap-3 sm:grid-cols-3">
               <Stat
-                k={`${o.pairs} matched pairs (${o.highDays} event-heavy days)`}
+                k={`${o.pairs} matched pairs on ${o.distinctDates} dates`}
                 v={formatSignedPct(o.effect.estimate)}
-                note={`95% CI ${formatSignedPct(o.effect.lower)} to ${formatSignedPct(o.effect.upper)} (bootstrap over pairs, B = ${formatInt(EFFECTS_B)}, seed ${BOOTSTRAP_SEED})`}
+                note={`95% CI ${formatSignedPct(o.effect.lower)} to ${formatSignedPct(o.effect.upper)} (bootstrap over dates, B = ${formatInt(EFFECTS_B)}, seed ${BOOTSTRAP_SEED})`}
               />
               <Stat
-                k="Paired t test on the log index"
+                k="Paired t test, one mean per date"
                 v={`p ${formatP(o.ttest.p)}`}
-                note={`mean difference ${formatInterval({ estimate: o.ttest.estimate, lower: o.ttest.lower, upper: o.ttest.upper }, 4)} · d_z ${formatFixed(o.dz, 2)}`}
+                note={`mean difference in the log index ${formatInterval({ estimate: o.ttest.estimate, lower: o.ttest.lower, upper: o.ttest.upper }, 4)} · d_z ${formatFixed(o.dz, 2)}`}
               />
               <Stat
-                k="Sign test"
+                k="Sign test, one mean per date"
                 v={`${o.sign.positive} slower, ${o.sign.negative} faster`}
                 note={`exact two-sided p ${formatP(o.sign.p)}`}
               />
@@ -202,7 +202,7 @@ export default async function EffectsPage() {
               rows={[
                 {
                   label: "All boroughs",
-                  sub: `${o.pairs} pairs`,
+                  sub: `${o.pairs} pairs, ${o.distinctDates} dates`,
                   emphasis: true,
                   points: [{ name: "estimate", color: "var(--foreground)", ...o.effect }],
                   value: formatPctInterval(o.effect),
@@ -273,7 +273,9 @@ export default async function EffectsPage() {
             </Note>
             <Note title="Small sample, stated plainly">
               Only {o.highDays} borough-days met the definition, {o.unmatched} found no control, and{" "}
-              {o.distinctControls} distinct control days were used.{" "}
+              {o.distinctControls} distinct control days were used. The {o.pairs} pairs fall on{" "}
+              {o.distinctDates} dates, and pairs on the same date share that day&apos;s citywide traffic, so
+              the interval resamples dates rather than pairs.{" "}
               {events.excluded.length > 0 && (
                 <>{events.excluded.join(" and ")} had too few indexed trips per day to compare. </>
               )}
@@ -311,9 +313,17 @@ export default async function EffectsPage() {
             ), and a block party and a marathon each count as one permit.
           </li>
           <li>
+            <strong>Neighbouring days are alike.</strong> Residuals of the day-level rain regression are
+            serially correlated (lag-1 autocorrelation {formatFixed(rain.regression.lag1, 2)}, Durbin–Watson{" "}
+            {formatFixed(rain.regression.durbinWatson, 2)}), which HC3 errors ignore. Newey–West errors with{" "}
+            {rain.regression.hacLags} lags give {formatSignedPct(rain.regression.wetPctHac.lower)} to{" "}
+            {formatSignedPct(rain.regression.wetPctHac.upper)}, so the headline holds.
+          </li>
+          <li>
             <strong>Exploratory cuts.</strong> The dose-response bins and the per-borough results are
-            uncorrected for multiple comparisons. The two pre-specified estimates are the rain regression and
-            the overall matched event effect.
+            uncorrected for multiple comparisons. The two headline estimates are the rain regression and the
+            overall matched event effect. I chose the wet-day threshold and the event definition while
+            building the analysis, not in a plan written beforehand.
           </li>
         </ul>
       </Section>
@@ -331,101 +341,18 @@ function Stat({ k, v, note }: { k: string; v: string; note: string }) {
   );
 }
 
-function RainScatter({
-  days,
-}: {
-  days: { date: string; precipitation: number; mean_log_ratio: number | null }[];
-}) {
-  const W = 960;
-  const H = 360;
-  const m = { l: 48, r: 12, t: 12, b: 38 };
-  const pts = days.map((d) => ({
-    x: Math.sqrt(d.precipitation),
-    y: Math.expm1(d.mean_log_ratio as number),
-    d,
-  }));
-  const xMax = Math.ceil(Math.max(...pts.map((p) => p.x)) * 10) / 10;
-  const yLo = Math.floor(Math.min(...pts.map((p) => p.y)) * 20) / 20;
-  const yHi = Math.ceil(Math.max(...pts.map((p) => p.y)) * 20) / 20;
-  const sx = (v: number) => m.l + (v / xMax) * (W - m.l - m.r);
-  const sy = (v: number) => m.t + (1 - (v - yLo) / (yHi - yLo)) * (H - m.t - m.b);
-  const xt = [0, 0.1, 0.25, 0.5, 1, 1.5].filter((v) => Math.sqrt(v) <= xMax);
-  const yt: number[] = [];
-  for (let v = yLo; v <= yHi + 1e-9; v += 0.05) yt.push(Math.round(v * 100) / 100 || 0);
+type RainDay = { date: string; precipitation: number; mean_log_ratio: number | null };
+
+function RainScatter({ days }: { days: RainDay[] }) {
   return (
     <figure>
-      <svg
-        viewBox={`0 0 ${W} ${H}`}
-        className="h-auto w-full"
-        role="img"
-        aria-label="Daily duration index against precipitation"
-      >
-        {yt.map((v) => (
-          <g key={v}>
-            <line
-              x1={m.l}
-              x2={W - m.r}
-              y1={sy(v)}
-              y2={sy(v)}
-              className="stroke-border"
-              strokeDasharray={v === 0 ? undefined : "2 4"}
-            />
-            <text
-              x={m.l - 6}
-              y={sy(v) + 3}
-              textAnchor="end"
-              className="fill-muted-foreground font-mono text-[10px]"
-            >
-              {formatPct(v, 0)}
-            </text>
-          </g>
-        ))}
-        {xt.map((v) => (
-          <text
-            key={v}
-            x={sx(Math.sqrt(v))}
-            y={H - m.b + 14}
-            textAnchor="middle"
-            className="fill-muted-foreground font-mono text-[10px]"
-          >
-            {v}
-          </text>
-        ))}
-        <line
-          x1={sx(Math.sqrt(WET_INCHES))}
-          x2={sx(Math.sqrt(WET_INCHES))}
-          y1={m.t}
-          y2={H - m.b}
-          className="stroke-foreground/40"
-          strokeDasharray="4 3"
-        />
-        {pts.map((p) => (
-          <circle
-            key={p.d.date}
-            cx={sx(p.x)}
-            cy={sy(p.y)}
-            r={2.6}
-            fill={
-              p.d.precipitation >= WET_INCHES
-                ? "var(--line-blue)"
-                : p.d.precipitation > 0
-                  ? "var(--line-grey)"
-                  : "var(--taxi-text)"
-            }
-            fillOpacity={0.75}
-          >
-            <title>{`${p.d.date}: ${p.d.precipitation} in, ${formatSignedPct(p.y)}`}</title>
-          </circle>
-        ))}
-        <text
-          x={(m.l + W - m.r) / 2}
-          y={H - 4}
-          textAnchor="middle"
-          className="fill-muted-foreground text-[11px]"
-        >
-          Central Park precipitation, inches (square-root scale)
-        </text>
-      </svg>
+      {/* a narrow layout below the sm breakpoint keeps the axis text readable on a phone */}
+      <div className="sm:hidden">
+        <RainScatterSvg days={days} compact />
+      </div>
+      <div className="hidden sm:block">
+        <RainScatterSvg days={days} />
+      </div>
       <figcaption className="text-muted-foreground mt-1 flex flex-wrap gap-x-4 gap-y-1 text-xs">
         <span className="text-foreground inline-flex items-center gap-1.5">
           <span className="bg-taxi-text inline-block size-2.5 rounded-full" /> dry
@@ -440,5 +367,99 @@ function RainScatter({
         <span>One dot per day: how much longer than its route-hour median the day&apos;s trips took.</span>
       </figcaption>
     </figure>
+  );
+}
+
+function RainScatterSvg({ days, compact = false }: { days: RainDay[]; compact?: boolean }) {
+  const W = compact ? 360 : 960;
+  const H = compact ? 300 : 360;
+  const m = compact ? { l: 40, r: 8, t: 10, b: 36 } : { l: 48, r: 12, t: 12, b: 38 };
+  const tick = compact ? "font-mono text-[11px]" : "font-mono text-[10px]";
+  const label = compact ? "text-[12px]" : "text-[11px]";
+  const pts = days.map((d) => ({
+    x: Math.sqrt(d.precipitation),
+    y: Math.expm1(d.mean_log_ratio as number),
+    d,
+  }));
+  const xMax = Math.ceil(Math.max(...pts.map((p) => p.x)) * 10) / 10;
+  const yLo = Math.floor(Math.min(...pts.map((p) => p.y)) * 20) / 20;
+  const yHi = Math.ceil(Math.max(...pts.map((p) => p.y)) * 20) / 20;
+  const sx = (v: number) => m.l + (v / xMax) * (W - m.l - m.r);
+  const sy = (v: number) => m.t + (1 - (v - yLo) / (yHi - yLo)) * (H - m.t - m.b);
+  const xt = (compact ? [0, 0.25, 0.5, 1, 1.5] : [0, 0.1, 0.25, 0.5, 1, 1.5]).filter(
+    (v) => Math.sqrt(v) <= xMax,
+  );
+  const yt: number[] = [];
+  for (let v = yLo; v <= yHi + 1e-9; v += 0.05) yt.push(Math.round(v * 100) / 100 || 0);
+  return (
+    <svg
+      viewBox={`0 0 ${W} ${H}`}
+      className="h-auto w-full"
+      role="img"
+      aria-label="Daily duration index against precipitation"
+    >
+      {yt.map((v) => (
+        <g key={v}>
+          <line
+            x1={m.l}
+            x2={W - m.r}
+            y1={sy(v)}
+            y2={sy(v)}
+            className="stroke-border"
+            strokeDasharray={v === 0 ? undefined : "2 4"}
+          />
+          <text x={m.l - 6} y={sy(v) + 3} textAnchor="end" className={`fill-muted-foreground ${tick}`}>
+            {formatPct(v, 0)}
+          </text>
+        </g>
+      ))}
+      {xt.map((v) => (
+        <text
+          key={v}
+          x={sx(Math.sqrt(v))}
+          y={H - m.b + 14}
+          textAnchor="middle"
+          className={`fill-muted-foreground ${tick}`}
+        >
+          {v}
+        </text>
+      ))}
+      <line
+        x1={sx(Math.sqrt(WET_INCHES))}
+        x2={sx(Math.sqrt(WET_INCHES))}
+        y1={m.t}
+        y2={H - m.b}
+        className="stroke-foreground/40"
+        strokeDasharray="4 3"
+      />
+      {pts.map((p) => (
+        <circle
+          key={p.d.date}
+          cx={sx(p.x)}
+          cy={sy(p.y)}
+          r={compact ? 2.4 : 2.6}
+          fill={
+            p.d.precipitation >= WET_INCHES
+              ? "var(--line-blue)"
+              : p.d.precipitation > 0
+                ? "var(--line-grey)"
+                : "var(--taxi-text)"
+          }
+          fillOpacity={0.75}
+        >
+          <title>{`${p.d.date}: ${p.d.precipitation} in, ${formatSignedPct(p.y)}`}</title>
+        </circle>
+      ))}
+      <text
+        x={(m.l + W - m.r) / 2}
+        y={H - 4}
+        textAnchor="middle"
+        className={`fill-muted-foreground ${label}`}
+      >
+        {compact
+          ? "Precipitation, inches (square-root scale)"
+          : "Central Park precipitation, inches (square-root scale)"}
+      </text>
+    </svg>
   );
 }

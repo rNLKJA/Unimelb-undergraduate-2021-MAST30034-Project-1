@@ -24,6 +24,7 @@ import statsmodels.api as sm
 from scipy import special, stats
 from statsmodels.stats.contingency_tables import mcnemar
 from statsmodels.stats.proportion import proportion_confint
+from statsmodels.stats.stattools import durbin_watson
 
 from common import WEB, write_json
 
@@ -164,6 +165,11 @@ def main() -> None:
             [float(lo), float(hi)]
             for lo, hi in sm.OLS(y, X).fit(cov_type="HC3", use_t=True).conf_int(0.05)
         ],
+        # Newey-West (Bartlett kernel), rows taken in order as a time series, no small-sample correction
+        "hac_lags": 3,
+        "hac": sm.OLS(y, X).fit(cov_type="HAC", cov_kwds={"maxlags": 3, "use_correction": False}).bse.tolist(),
+        "durbin_watson": float(durbin_watson(f.resid)),
+        "lag1_autocorrelation": float(np.sum(f.resid[1:] * f.resid[:-1]) / np.sum(f.resid**2)),
     }
     out["mcnemar"] = [
         {"b": b_, "c": c_, "p": float(mcnemar([[10, b_], [c_, 7]], exact=True).pvalue)}

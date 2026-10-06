@@ -3,13 +3,14 @@ import { tQuantile, tTestPValue } from "./distributions";
 /**
  * Ordinary least squares with classical and heteroskedasticity-consistent standard errors
  * (White's HC0, the n / (n - p) scaled HC1, and MacKinnon and White's HC3, which divides each
- * squared residual by (1 - h_ii)^2). Verified against statsmodels in ols.test.ts.
+ * squared residual by (1 - h_ii)^2), and optionally Newey-West (HAC) standard errors for rows
+ * that form a time series. Verified against statsmodels in stats.test.ts.
  *
  * Small dense problems only (hundreds of rows, tens of columns): the website runs it on
  * day-level data. The 75-million-row trip regression is fitted in scripts/rigour.py.
  */
 
-export type CovarianceKind = "classical" | "hc0" | "hc1" | "hc3";
+export type CovarianceKind = "classical" | "hc0" | "hc1" | "hc3" | "hac";
 
 export interface OlsFit {
   names: string[];
@@ -22,8 +23,10 @@ export interface OlsFit {
   leverage: number[];
   r2: number;
   sigma: number;
-  /** covariance matrices of beta */
-  cov: Record<CovarianceKind, number[][]>;
+  /** covariance matrices of beta ("hac" only when `hacLags` was given) */
+  cov: Record<Exclude<CovarianceKind, "hac">, number[][]> & { hac?: number[][] };
+  /** Newey-West lag truncation used for cov.hac */
+  hacLags?: number;
 }
 
 /** Inverse of a symmetric positive-definite matrix by Gauss-Jordan elimination with partial pivoting. */
@@ -66,7 +69,64 @@ function sandwich(A: number[][], X: readonly (readonly number[])[], w: readonly 
   return AM.map((row) => A[0].map((_, j) => row.reduce((s, v, k) => s + v * A[k][j], 0)));
 }
 
-export function ols(X: readonly (readonly number[])[], y: readonly number[], names?: string[]): OlsFit {
+/**
+ * Newey-West covariance: A (sum_t u_t u_t' + sum_{l=1..L} w_l sum_t (u_t u_{t-l}' + u_{t-l} u_t')) A
+ * with u_t = x_t e_t and Bartlett weights w_l = 1 - l / (L + 1), no small-sample correction
+ * (statsmodels cov_type="HAC", use_correction=False). Rows must be in time order.
+ */
+function neweyWest(
+  A: number[][],
+  X: readonly (readonly number[])[],
+  e: readonly number[],
+  lags: number,
+): number[][] {
+  const p = A.length;
+  const u = X.map((x, t) => x.map((v) => v * e[t]));
+  const S = Array.from({ length: p }, () => new Array<number>(p).fill(0));
+  for (let l = 0; l <= lags; l++) {
+    const w = l === 0 ? 1 : 1 - l / (lags + 1);
+    for (let t = l; t < u.length; t++) {
+      const a = u[t];
+      const b = u[t - l];
+      for (let i = 0; i < p; i++) {
+        for (let j = 0; j < p; j++) {
+          S[i][j] += l === 0 ? a[i] * b[j] : w * (a[i] * b[j] + b[i] * a[j]);
+        }
+      }
+    }
+  }
+  const AS = A.map((row) => S[0].map((_, j) => row.reduce((s, v, k) => s + v * S[k][j], 0)));
+  return AS.map((row) => A[0].map((_, j) => row.reduce((s, v, k) => s + v * A[k][j], 0)));
+}
+
+/** Durbin-Watson statistic of residuals in time order (about 2 when there is no autocorrelation). */
+export function durbinWatson(e: readonly number[]): number {
+  let num = 0;
+  let den = 0;
+  e.forEach((v, t) => {
+    den += v * v;
+    if (t) num += (v - e[t - 1]) ** 2;
+  });
+  return num / den;
+}
+
+/** Lag-1 autocorrelation of residuals in time order (sum e_t e_(t-1) / sum e_t^2). */
+export function lag1Autocorrelation(e: readonly number[]): number {
+  let num = 0;
+  let den = 0;
+  e.forEach((v, t) => {
+    den += v * v;
+    if (t) num += v * e[t - 1];
+  });
+  return num / den;
+}
+
+export function ols(
+  X: readonly (readonly number[])[],
+  y: readonly number[],
+  names?: string[],
+  { hacLags }: { hacLags?: number } = {},
+): OlsFit {
   const n = X.length;
   const p = X[0]?.length ?? 0;
   if (n !== y.length) throw new Error("X and y have different numbers of rows");
@@ -115,7 +175,9 @@ export function ols(X: readonly (readonly number[])[], y: readonly number[], nam
         X,
         e2.map((v, i) => v / (1 - leverage[i]) ** 2),
       ),
+      ...(hacLags !== undefined ? { hac: neweyWest(A, X, residuals, hacLags) } : {}),
     },
+    ...(hacLags !== undefined ? { hacLags } : {}),
   };
 }
 
@@ -136,7 +198,9 @@ export function coefficient(
   kind: CovarianceKind = "hc3",
   confidence = 0.95,
 ): Coefficient {
-  const se = Math.sqrt(fit.cov[kind][j][j]);
+  const cov = fit.cov[kind];
+  if (!cov) throw new Error(`no ${kind} covariance: fit with { hacLags } first`);
+  const se = Math.sqrt(cov[j][j]);
   const estimate = fit.beta[j];
   const t = estimate / se;
   const q = tQuantile(1 - (1 - confidence) / 2, fit.df);

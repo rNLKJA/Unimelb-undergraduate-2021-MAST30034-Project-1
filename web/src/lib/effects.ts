@@ -1,7 +1,7 @@
-import { bootstrapMean, bootstrapTwoSample, DEFAULT_SEED, type BootstrapResult } from "./stats/bootstrap";
+import { bootstrap, bootstrapTwoSample, DEFAULT_SEED, type BootstrapResult } from "./stats/bootstrap";
 import { mean } from "./stats/descriptive";
 import { hedgesG, pairedDz } from "./stats/effect-size";
-import { coefficient, dummies, ols, type Coefficient } from "./stats/ols";
+import { coefficient, dummies, durbinWatson, lag1Autocorrelation, ols, type Coefficient } from "./stats/ols";
 import { signTest } from "./stats/paired";
 import { quantile } from "./stats/quantile";
 import { pairedTTest, welchTTest, type TTestResult } from "./stats/ttest";
@@ -49,6 +49,8 @@ export const WET_INCHES = 0.1;
 export const MIN_DAY_TRIPS = 1000;
 export const MIN_BOROUGH_DAY_TRIPS = 200;
 export const MATCH_WINDOW_DAYS = 28;
+/** Newey-West lag truncation for the day-level rain regression: one week. */
+export const HAC_LAGS = 7;
 /** US federal holidays in 2019, excluded from the matched comparison. */
 export const HOLIDAYS_2019 = [
   "2019-01-01",
@@ -98,6 +100,13 @@ export interface RainAnalysis {
     wet: Coefficient;
     light: Coefficient;
     wetPct: { estimate: number; lower: number; upper: number };
+    /** the same coefficient with Newey-West (HAC) standard errors, for serially correlated days */
+    wetHac: Coefficient;
+    wetPctHac: { estimate: number; lower: number; upper: number };
+    hacLags: number;
+    /** residual serial correlation, days in date order */
+    durbinWatson: number;
+    lag1: number;
     n: number;
     p: number;
     r2: number;
@@ -150,13 +159,16 @@ export function rainAnalysis(
   ];
   // drop dummy columns that are all zero (e.g. months without usable days)
   const keep = names.map((_, j) => j < 2 || X.some((r) => r[j] !== 0));
+  // days are in date order, so the residuals form a (gappy) daily series for the HAC errors
   const fit = ols(
     X.map((r) => r.filter((_, j) => keep[j])),
     usable.map((d) => d.mean_log_ratio as number),
     names.filter((_, j) => keep[j]),
+    { hacLags: HAC_LAGS },
   );
   const wetCoef = coefficient(fit, 1, "hc3");
   const lightCoef = coefficient(fit, 2, "hc3");
+  const wetHac = coefficient(fit, 1, "hac");
 
   const bins: [string, (p: number) => boolean][] = [
     ["Trace to 0.1 in", (p) => p > 0 && p < 0.1],
@@ -183,6 +195,11 @@ export function rainAnalysis(
       wet: wetCoef,
       light: lightCoef,
       wetPct: { estimate: pct(wetCoef.estimate), lower: pct(wetCoef.lower), upper: pct(wetCoef.upper) },
+      wetHac,
+      wetPctHac: { estimate: pct(wetHac.estimate), lower: pct(wetHac.lower), upper: pct(wetHac.upper) },
+      hacLags: HAC_LAGS,
+      durbinWatson: durbinWatson(fit.residuals),
+      lag1: lag1Autocorrelation(fit.residuals),
       n: fit.n,
       p: fit.p,
       r2: fit.r2,
@@ -215,14 +232,20 @@ export interface MatchedPair {
 export interface PairSummary {
   borough: string;
   pairs: number;
+  /** distinct event-heavy dates: pairs on the same date share citywide shocks */
+  distinctDates: number;
   /** borough-days that met the event-heavy definition */
   highDays: number;
   unmatched: number;
   distinctControls: number;
   meanEvents: { high: number; control: number };
   balance: { meanGapDays: number; meanTavgDiff: number; meanPrecipitationDiff: number };
-  /** % change in the duration index, event-heavy day vs matched control */
+  /**
+   * % change in the duration index, event-heavy day vs matched control: the mean over pairs,
+   * with a cluster bootstrap that resamples event-heavy dates (all pairs of a date together)
+   */
   effect: BootstrapResult;
+  /** paired t test, sign test and d_z on one mean difference per date */
   ttest: TTestResult;
   sign: { positive: number; negative: number; p: number };
   dz: number;
@@ -332,12 +355,33 @@ export function eventMatching(
   const B = opts.B ?? 4000;
   const seed = opts.seed ?? DEFAULT_SEED;
   const summarise = (borough: string, ps: MatchedPair[]): PairSummary => {
-    const d = ps.map((p) => p.diff);
+    // several boroughs can be event-heavy on the same date and share that day's citywide shocks,
+    // so dates, not pairs, are the independent units
+    const byDate = new Map<string, number[]>();
+    for (const p of ps) byDate.set(p.date, [...(byDate.get(p.date) ?? []), p.diff]);
+    const dates = [...byDate.keys()].sort();
+    const sums = dates.map((k) => byDate.get(k)!.reduce((s, x) => s + x, 0));
+    const counts = dates.map((k) => byDate.get(k)!.length);
+    const dateMeans = sums.map((s, i) => s / counts[i]);
+    const effect = bootstrap(
+      dates.length,
+      (w) => {
+        let s = 0;
+        let n = 0;
+        for (let i = 0; i < dates.length; i++) {
+          s += w[i] * sums[i];
+          n += w[i] * counts[i];
+        }
+        return s / n;
+      },
+      { B, seed },
+    );
     const m = borough === "All boroughs" ? null : meta.get(borough);
     const all = [...meta.values()];
     return {
       borough,
       pairs: ps.length,
+      distinctDates: dates.length,
       highDays: m ? m.highDays : all.reduce((s, x) => s + x.highDays, 0),
       unmatched: m ? m.unmatched : all.reduce((s, x) => s + x.unmatched, 0),
       distinctControls: new Set(ps.map((p) => `${p.borough}|${p.control}`)).size,
@@ -347,10 +391,10 @@ export function eventMatching(
         meanTavgDiff: mean(ps.map((p) => p.tavgDiff)),
         meanPrecipitationDiff: mean(ps.map((p) => p.precipitationDiff)),
       },
-      effect: toPct(bootstrapMean(d, { B, seed })),
-      ttest: pairedTTest(d),
-      sign: signTest(d),
-      dz: pairedDz(d),
+      effect: toPct(effect),
+      ttest: pairedTTest(dateMeans),
+      sign: signTest(dateMeans),
+      dz: pairedDz(dateMeans),
     };
   };
   return {
