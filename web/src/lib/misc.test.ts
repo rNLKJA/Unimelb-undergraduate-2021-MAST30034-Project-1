@@ -3,6 +3,7 @@ import { toCsv } from "./csv";
 import { formatMinutes, formatSigned } from "./format";
 import { arc, haversineMiles } from "./geo";
 import { siteUrl } from "./site";
+import { zoneLabels } from "./zone-labels";
 
 describe("csv", () => {
   it("quotes commas, quotes and newlines (RFC 4180)", () => {
@@ -67,5 +68,16 @@ describe("siteUrl", () => {
   it("falls back to localhost on the dev port", () => {
     expect(siteUrl({}).origin).toBe("http://localhost:3000");
     expect(siteUrl({ PORT: "3303" }).origin).toBe("http://localhost:3303");
+  });
+});
+
+describe("zoneLabels", () => {
+  it("adds the LocationID only to names that repeat", () => {
+    const labels = zoneLabels([
+      { id: 56, zone: "Corona", borough: "Queens" },
+      { id: 57, zone: "Corona", borough: "Queens" },
+      { id: 132, zone: "JFK Airport", borough: "Queens" },
+    ]);
+    expect([...labels.values()]).toEqual(["Corona (#56)", "Corona (#57)", "JFK Airport"]);
   });
 });

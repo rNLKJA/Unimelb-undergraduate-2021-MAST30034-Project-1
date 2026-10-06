@@ -72,6 +72,13 @@ const BLOCK_LABEL: Record<BlockName, string> = {
   store_and_fwd_flag: "Store-and-forward flag",
 };
 
+/** TLC rate code 2 is the flat fare between Manhattan and JFK; a trip on that route is billed with it. */
+function isJfkFlatFareRoute(a: EstimatorZone | undefined, b: EstimatorZone | undefined): boolean {
+  if (!a || !b) return false;
+  const jfk = (z: EstimatorZone) => z.zone === "JFK Airport";
+  return (jfk(a) && b.borough === "Manhattan") || (jfk(b) && a.borough === "Manhattan");
+}
+
 export function Estimator({
   zones,
   conditions,
@@ -88,7 +95,14 @@ export function Estimator({
   const [hour, setHour] = useState(17);
   const [passengers, setPassengers] = useState(1);
   const [vendor, setVendor] = useState(2);
-  const [ratecode, setRatecode] = useState(1);
+  const [ratecode, setRatecode] = useState(() =>
+    isJfkFlatFareRoute(
+      zones.find((z) => z.id === initial.pu),
+      zones.find((z) => z.id === initial.do),
+    )
+      ? 2
+      : 1,
+  );
   const [flag, setFlag] = useState("N");
   const [clickSets, setClickSets] = useState<"pickup" | "dropoff">("dropoff");
 
@@ -101,6 +115,7 @@ export function Estimator({
   const collisions = day.collisions[borough] ?? 0;
   const iso = isoWeekdayOf(date);
   const removedDay = date <= "2019-01-20";
+  const flatFareRoute = isJfkFlatFareRoute(p, d);
 
   const ctx: TripContext | null =
     p && d
@@ -220,7 +235,24 @@ export function Estimator({
             </select>
           </Field>
         </div>
-        <Field label="Rate code" htmlFor="est-rate">
+        <Field
+          label="Rate code"
+          htmlFor="est-rate"
+          hint={
+            flatFareRoute ? (
+              ratecode === 2 ? (
+                "Manhattan–JFK rides are billed at the flat fare, rate code 2."
+              ) : (
+                <>
+                  Manhattan–JFK rides are normally billed at rate code 2.{" "}
+                  <button type="button" className="link-taxi font-medium" onClick={() => setRatecode(2)}>
+                    Use rate code 2
+                  </button>
+                </>
+              )
+            ) : undefined
+          }
+        >
           <select
             id="est-rate"
             className={selectClass}
@@ -387,7 +419,7 @@ export function Estimator({
                   key={b.name}
                   className="grid grid-cols-[10rem_minmax(0,1fr)_4.5rem] items-center gap-3 text-sm sm:grid-cols-[13rem_minmax(0,1fr)_5rem]"
                 >
-                  <span className="truncate">{BLOCK_LABEL[b.name]}</span>
+                  <span className="leading-tight">{BLOCK_LABEL[b.name]}</span>
                   <span className="bg-muted relative h-5 rounded-sm" aria-hidden>
                     <span className="bg-foreground/30 absolute top-0 bottom-0 left-1/2 w-px" />
                     <span
@@ -425,7 +457,7 @@ export function Estimator({
         <section aria-labelledby="map-h">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <h2 id="map-h" className="kicker text-muted-foreground">
-              Map: click a zone to set the
+              Map: click a zone to set the pickup or drop-off
             </h2>
             <Segmented
               className="w-56"
