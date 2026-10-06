@@ -5,6 +5,7 @@ import { formatInt, formatPct } from "@/lib/format";
 import { repoPath } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { getDataQuality, getEvidenceMeta } from "@/server/evidence";
+import { ScrollRegion } from "@/components/scroll-region";
 
 export const metadata: Metadata = {
   title: "Data quality",
@@ -72,7 +73,7 @@ export default async function DataQualityPage() {
         }
       >
         <div className="grid gap-10 lg:grid-cols-2">
-          <div className="relative overflow-x-auto">
+          <ScrollRegion label="Missing values per monthly TLC file">
             <table className="w-full min-w-[480px] text-sm">
               <caption className="sr-only">Missing values per monthly TLC file</caption>
               <thead>
@@ -117,7 +118,7 @@ export default async function DataQualityPage() {
               Passenger count, rate code and store-and-forward flag are always missing together: about 0.4% of
               each month, the same rows each time.
             </p>
-          </div>
+          </ScrollRegion>
           <figure>
             <h3 className="kicker text-muted-foreground mb-3">
               January 2019: rows per pickup day, missing surcharge shaded
@@ -280,7 +281,7 @@ export default async function DataQualityPage() {
             </li>
           ))}
         </ul>
-        <div className="relative hidden overflow-x-auto md:block">
+        <ScrollRegion label="Residual plausibility checks by vendor" className="hidden md:block">
           <table className="w-full min-w-[760px] text-sm">
             <caption className="sr-only">Residual plausibility checks by vendor</caption>
             <thead>
@@ -333,7 +334,7 @@ export default async function DataQualityPage() {
               ))}
             </tbody>
           </table>
-        </div>
+        </ScrollRegion>
         {surcharge && (
           <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
             <figure>

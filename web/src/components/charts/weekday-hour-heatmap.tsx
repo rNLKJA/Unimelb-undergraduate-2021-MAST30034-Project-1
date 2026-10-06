@@ -6,6 +6,7 @@ import { useThemeName } from "@/hooks/use-theme-name";
 import { formatFixed, formatInt } from "@/lib/format";
 import { seqColor } from "@/lib/palette";
 import { hourLabel, isoWeekdayName } from "@/lib/time";
+import { ScrollRegion } from "@/components/scroll-region";
 
 export interface WhvRow {
   vendor: number;
@@ -57,7 +58,7 @@ export function WeekdayHourHeatmap({ rows }: { rows: WhvRow[] }) {
           )}
         </p>
       </div>
-      <div className="relative mt-3 overflow-x-auto">
+      <ScrollRegion label="Mean trip minutes by weekday and pickup hour" className="mt-3">
         <table className="w-full min-w-[640px] table-fixed border-separate border-spacing-[2px]">
           <caption className="sr-only">Mean trip minutes by weekday (rows) and pickup hour (columns)</caption>
           <thead>
@@ -104,7 +105,7 @@ export function WeekdayHourHeatmap({ rows }: { rows: WhvRow[] }) {
             ))}
           </tbody>
         </table>
-      </div>
+      </ScrollRegion>
     </div>
   );
 }

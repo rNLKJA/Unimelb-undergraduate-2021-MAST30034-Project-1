@@ -10,6 +10,7 @@ import { formatInt, formatPct } from "@/lib/format";
 import { wilsonInterval } from "@/lib/stats/wilson";
 import { cn } from "@/lib/utils";
 import { AiBadge } from "./ai-badge";
+import { ScrollRegion } from "@/components/scroll-region";
 
 const DECISION_LABEL: Record<HumanDecision, string> = {
   pending: "Pending",
@@ -160,7 +161,7 @@ export function AiLog() {
           will appear here.
         </p>
       ) : (
-        <div className="relative overflow-x-auto rounded-lg border">
+        <ScrollRegion label="AI calls made from this browser" className="rounded-lg border">
           <table className="w-full min-w-[760px] text-sm">
             <caption className="sr-only">AI calls made from this browser, newest first</caption>
             <thead className="bg-card">
@@ -241,7 +242,7 @@ export function AiLog() {
               })}
             </tbody>
           </table>
-        </div>
+        </ScrollRegion>
       )}
       {shown
         .filter((e) => e.id === open)

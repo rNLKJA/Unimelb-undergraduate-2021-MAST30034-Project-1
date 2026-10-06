@@ -1,5 +1,6 @@
 import { formatInt } from "@/lib/format";
 import type { FunnelRow } from "@/server/analytics";
+import { ScrollRegion } from "@/components/scroll-region";
 
 const STAGE_COLOR: Record<string, string> = {
   Raw: "var(--line-grey)",
@@ -21,7 +22,7 @@ export function FunnelTable({ rows }: { rows: FunnelRow[] }) {
         stay visible. Model-stage rows differ from the analysis dataset because the shapefile join duplicates
         zones 56 and 103.
       </p>
-      <div className="relative overflow-x-auto">
+      <ScrollRegion label="Cleaning funnel, rule by rule">
         <table className="w-full min-w-[760px] text-sm" aria-describedby="funnel-note">
           <caption className="sr-only">
             Cleaning funnel: rows left after each step, revived and notebook
@@ -98,7 +99,7 @@ export function FunnelTable({ rows }: { rows: FunnelRow[] }) {
             ))}
           </tbody>
         </table>
-      </div>
+      </ScrollRegion>
     </div>
   );
 }

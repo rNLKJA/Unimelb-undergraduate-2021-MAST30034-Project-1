@@ -6,6 +6,7 @@ import { Note, PageHeader, Section } from "@/components/page-header";
 import { formatFixed, formatInt } from "@/lib/format";
 import { formatDate } from "@/lib/time";
 import { getCoefficients, getDaily, getSideTotals, getWeekdayHourVendor } from "@/server/analytics";
+import { ScrollRegion } from "@/components/scroll-region";
 
 export const metadata: Metadata = {
   title: "Weather, events and collisions",
@@ -126,7 +127,7 @@ export default async function ConditionsPage() {
           </p>
         }
       >
-        <div className="relative overflow-x-auto">
+        <ScrollRegion label="Coefficients of the numeric features">
           <table className="w-full min-w-[520px] text-sm">
             <caption className="sr-only">Coefficients of the numeric features, minutes per unit</caption>
             <thead>
@@ -162,7 +163,7 @@ export default async function ConditionsPage() {
               ))}
             </tbody>
           </table>
-        </div>
+        </ScrollRegion>
       </Section>
     </>
   );

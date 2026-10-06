@@ -37,6 +37,7 @@ import { downloadText } from "@/lib/download";
 import { formatFixed, formatInt, formatP, formatPct } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { runSql, SqlRunError } from "./run-sql";
+import { ScrollRegion } from "@/components/scroll-region";
 
 export interface EvalQuestion {
   id: string;
@@ -464,7 +465,7 @@ export function EvalHarness({ questions, schema }: { questions: EvalQuestion[]; 
             . With {summary.n} questions the intervals are wide: treat small differences between runs as
             noise.
           </p>
-          <div className="relative overflow-x-auto rounded-lg border">
+          <ScrollRegion label="Per-question results" className="rounded-lg border">
             <table className="w-full min-w-[760px] text-sm">
               <caption className="sr-only">Per-question results</caption>
               <thead className="bg-card">
@@ -526,7 +527,7 @@ export function EvalHarness({ questions, schema }: { questions: EvalQuestion[]; 
                 })}
               </tbody>
             </table>
-          </div>
+          </ScrollRegion>
         </section>
       )}
 

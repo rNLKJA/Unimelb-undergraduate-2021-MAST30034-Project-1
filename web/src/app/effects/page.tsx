@@ -28,6 +28,7 @@ import {
   getEvidenceMeta,
   getRainAnalysis,
 } from "@/server/evidence";
+import { ScrollRegion } from "@/components/scroll-region";
 
 export const metadata: Metadata = {
   title: "Rain and events",
@@ -219,7 +220,7 @@ export default async function EffectsPage() {
               format={formatPctTick}
               axisLabel="Event-heavy day minus matched control, duration index % (95% CI)"
             />
-            <div className="relative overflow-x-auto">
+            <ScrollRegion label="Balance of the matched pairs">
               <table className="w-full min-w-[560px] text-sm">
                 <caption className="text-muted-foreground mb-2 text-left text-xs">
                   Balance of the matched pairs (means)
@@ -261,7 +262,7 @@ export default async function EffectsPage() {
                   ))}
                 </tbody>
               </table>
-            </div>
+            </ScrollRegion>
           </div>
           <div className="grid content-start gap-4">
             <Note title="No detectable effect">

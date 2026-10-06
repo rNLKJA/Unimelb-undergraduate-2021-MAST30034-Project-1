@@ -20,6 +20,7 @@ import {
   type ConformalCoverageRow,
   type OlsCoefficient,
 } from "@/server/evidence";
+import { ScrollRegion } from "@/components/scroll-region";
 
 export const metadata: Metadata = {
   title: "Evaluation",
@@ -253,7 +254,7 @@ export default async function EvaluationPage() {
               format={(v) => formatFixed(v, 0)}
               axisLabel="RMSE in minutes, lower is better. Right-hand figures show Nov–Dec with its 95% interval"
             />
-            <div className="relative overflow-x-auto">
+            <ScrollRegion label="Temporal hold-out metrics with 95% intervals">
               <table className="w-full min-w-[860px] text-sm">
                 <caption className="sr-only">
                   Temporal hold-out metrics with 95% day-bootstrap intervals
@@ -293,7 +294,7 @@ export default async function EvaluationPage() {
                   ))}
                 </tbody>
               </table>
-            </div>
+            </ScrollRegion>
           </div>
           <div className="grid content-start gap-4">
             <Note title="A lookup table beats the regression">
@@ -359,7 +360,7 @@ export default async function EvaluationPage() {
           </p>
         }
       >
-        <div className="relative overflow-x-auto">
+        <ScrollRegion label="OLS coefficients for weather, events and collisions">
           <table className="w-full min-w-[820px] text-sm">
             <caption className="text-muted-foreground mb-3 text-left text-xs">
               Weather, events and collisions: minutes added per unit. Every trip on a day shares these values.
@@ -412,7 +413,7 @@ export default async function EvaluationPage() {
               })}
             </tbody>
           </table>
-        </div>
+        </ScrollRegion>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           <Note title="75 million trips, 351 independent days">
             HC3 intervals for the weather terms are hundredths of a minute wide, but clustering by day makes
@@ -533,7 +534,7 @@ export default async function EvaluationPage() {
           </p>
         }
       >
-        <div className="relative overflow-x-auto">
+        <ScrollRegion label="Conformal coverage with 95% intervals">
           <table className="w-full min-w-[760px] text-sm">
             <caption className="text-muted-foreground mb-3 text-left text-xs">
               Empirical coverage with a 95% interval that resamples whole test days ({randomCal.test_days}{" "}
@@ -593,7 +594,7 @@ export default async function EvaluationPage() {
               ])}
             </tbody>
           </table>
-        </div>
+        </ScrollRegion>
         <div className="mt-10 grid gap-10 lg:grid-cols-2">
           <CiPlot
             rows={bins.map((b) => {

@@ -2,7 +2,9 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { ScrollRegion } from "@/components/scroll-region";
 import { docHref, slugify } from "@/lib/doc-links";
+import { markdownTableLabel } from "@/lib/table-label";
 import { cn } from "@/lib/utils";
 
 function textOf(node: ReactNode): string {
@@ -87,10 +89,10 @@ export function Markdown({
     code: ({ children }) => (
       <code className="bg-muted rounded px-1 py-0.5 font-mono text-[0.85em]">{children}</code>
     ),
-    table: ({ children }) => (
-      <div className="relative mt-4 overflow-x-auto">
+    table: ({ node, children }) => (
+      <ScrollRegion label={markdownTableLabel(node)} className="mt-4">
         <table className="w-full min-w-[560px] text-left text-sm">{children}</table>
-      </div>
+      </ScrollRegion>
     ),
     thead: ({ children }) => <thead className="border-b">{children}</thead>,
     tbody: ({ children }) => <tbody className="divide-y">{children}</tbody>,
