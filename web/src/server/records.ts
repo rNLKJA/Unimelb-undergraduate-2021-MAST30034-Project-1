@@ -61,6 +61,28 @@ export const tableParamsSchema = z.object({
 
 export type TableParams = z.infer<typeof tableParamsSchema>;
 
+/**
+ * Default order of the browsable tables when no column is chosen: busiest first
+ * where a table counts trips, otherwise its natural key (the insertion order).
+ */
+const DEFAULT_SORT: Record<string, { sort: string; dir: "asc" | "desc" }> = {
+  borough_flows: { sort: "trips", dir: "desc" },
+  routes: { sort: "trips", dir: "desc" },
+  route_hourly: { sort: "trips", dir: "desc" },
+  zone_hourly: { sort: "trips", dir: "desc" },
+};
+
+/** The sort actually applied: the requested column if it exists, else the table's default. */
+export function effectiveSort(
+  t: TableInfo,
+  params: Pick<TableParams, "sort" | "dir">,
+): { sort: string; dir: "asc" | "desc"; isDefault: boolean } | null {
+  const requested = t.columns.find((c) => c.name === params.sort)?.name;
+  if (requested) return { sort: requested, dir: params.dir, isDefault: false };
+  const d = DEFAULT_SORT[t.name];
+  return d && t.columns.some((c) => c.name === d.sort) ? { ...d, isDefault: true } : null;
+}
+
 function whereClause(t: TableInfo, q: string): { sql: string; args: string[] } {
   if (!q) return { sql: "", args: [] };
   const parts = t.columns.map((c) => `CAST("${c.name}" AS TEXT) LIKE ? ESCAPE '\\'`);
@@ -70,9 +92,9 @@ function whereClause(t: TableInfo, q: string): { sql: string; args: string[] } {
 
 export async function queryTable(t: TableInfo, params: TableParams) {
   const where = whereClause(t, params.q);
-  const sortCol = t.columns.find((c) => c.name === params.sort)?.name;
-  const order = sortCol
-    ? `ORDER BY "${sortCol}" ${params.dir === "desc" ? "DESC" : "ASC"}`
+  const sorted = effectiveSort(t, params);
+  const order = sorted
+    ? `ORDER BY "${sorted.sort}" ${sorted.dir === "desc" ? "DESC" : "ASC"}, rowid`
     : "ORDER BY rowid";
   const [{ n }] = await query<{ n: number }>(
     `SELECT COUNT(*) AS n FROM "${t.name}" ${where.sql}`,

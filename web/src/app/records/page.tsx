@@ -32,12 +32,11 @@ export default async function RecordsPage() {
             <li key={t.name} className="bg-background flex flex-col gap-2 p-5">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <Link
-                    href={`/records/${t.name}`}
-                    className="font-condensed text-2xl font-bold uppercase hover:underline"
-                  >
-                    {t.title}
-                  </Link>
+                  <h2 className="font-condensed text-2xl font-bold uppercase">
+                    <Link href={`/records/${t.name}`} className="hover:underline">
+                      {t.title}
+                    </Link>
+                  </h2>
                   <p className="text-muted-foreground font-mono text-xs">
                     <Database className="mr-1 inline size-3" aria-hidden />
                     {t.name} · {formatInt(t.rows)} rows · {t.columns.length} columns

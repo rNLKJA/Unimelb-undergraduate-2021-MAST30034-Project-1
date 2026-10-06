@@ -1,9 +1,9 @@
-import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, Download } from "lucide-react";
+import { ArrowDown, ArrowUp, ArrowUpDown, ChevronLeft, ChevronRight, Download } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { formatInt } from "@/lib/format";
-import { getTable, queryTable, tableParamsSchema, type TableParams } from "@/server/records";
+import { effectiveSort, getTable, queryTable, tableParamsSchema, type TableParams } from "@/server/records";
 
 export async function generateMetadata({ params }: PageProps<"/records/[table]">): Promise<Metadata> {
   const { table } = await params;
@@ -29,6 +29,7 @@ export default async function TablePage({ params, searchParams }: PageProps<"/re
   const flat = Object.fromEntries(Object.entries(sp).map(([k, v]) => [k, Array.isArray(v) ? v[0] : v]));
   const p = tableParamsSchema.parse(flat);
   const { rows, total, page, pages } = await queryTable(t, p);
+  const sorted = effectiveSort(t, p);
   const csv = `/records/${t.name}/csv${p.q ? `?q=${encodeURIComponent(p.q)}` : ""}`;
   return (
     <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6">
@@ -73,6 +74,7 @@ export default async function TablePage({ params, searchParams }: PageProps<"/re
         <div className="flex items-center gap-3 text-sm">
           <span className="text-muted-foreground font-mono text-xs">
             {formatInt(total)} {p.q ? "matching " : ""}rows
+            {sorted ? ` · by ${sorted.sort} ${sorted.dir === "desc" ? "↓" : "↑"}` : ""}
           </span>
           <a
             href={csv}
@@ -83,7 +85,7 @@ export default async function TablePage({ params, searchParams }: PageProps<"/re
         </div>
       </div>
 
-      <div className="mt-4 overflow-x-auto rounded-lg border">
+      <div className="relative mt-4 overflow-x-auto rounded-lg border">
         <table className="w-full text-sm">
           <caption className="sr-only">
             {t.name}, page {page} of {pages}
@@ -91,26 +93,34 @@ export default async function TablePage({ params, searchParams }: PageProps<"/re
           <thead className="bg-card">
             <tr>
               {t.columns.map((c) => {
-                const active = p.sort === c.name;
-                const nextDir = active && p.dir === "asc" ? "desc" : "asc";
+                const active = sorted?.sort === c.name;
+                const dir = active ? sorted!.dir : undefined;
+                const nextDir = active && dir === "asc" ? "desc" : "asc";
                 return (
                   <th
                     key={c.name}
                     scope="col"
                     className="border-b px-3 py-2 text-left font-semibold whitespace-nowrap"
-                    aria-sort={active ? (p.dir === "asc" ? "ascending" : "descending") : undefined}
+                    aria-sort={active ? (dir === "asc" ? "ascending" : "descending") : undefined}
                   >
                     <Link
                       href={href(t.name, { q: p.q, sort: c.name, dir: nextDir })}
-                      className="inline-flex items-center gap-1 hover:underline"
+                      className="group inline-flex items-center gap-1 hover:underline"
+                      aria-label={`${c.name}: sort ${nextDir === "asc" ? "ascending" : "descending"}`}
                     >
                       {c.name}
-                      {active &&
-                        (p.dir === "asc" ? (
+                      {active ? (
+                        dir === "asc" ? (
                           <ArrowUp className="size-3" aria-hidden />
                         ) : (
                           <ArrowDown className="size-3" aria-hidden />
-                        ))}
+                        )
+                      ) : (
+                        <ArrowUpDown
+                          className="text-muted-foreground size-3 opacity-50 transition-opacity group-hover:opacity-100"
+                          aria-hidden
+                        />
+                      )}
                     </Link>
                     <span className="text-muted-foreground block font-mono text-[10px] font-normal">
                       {c.type}
