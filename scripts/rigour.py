@@ -24,10 +24,12 @@ changing it:
    days (trips on the same day share weather and traffic, so they are not
    independent).
 4. **Split-conformal prediction intervals** (global symmetric and Mondrian by
-   predicted-duration decile), with empirical coverage on held-out trips.
+   predicted-duration decile), with empirical coverage on held-out trips and
+   day-cluster bootstrap intervals for that coverage.
 
-Folds are the pipeline's deterministic hash of each trip (no random seeds are
-involved in this script). Output: scripts/out/rigour.json.
+Folds are the pipeline's deterministic hash of each trip. The only resampling is
+the coverage bootstrap, which uses mulberry32 with seed 20190101, ported from the
+website so both draw the same days. Output: scripts/out/rigour.json.
 """
 
 from __future__ import annotations
@@ -50,6 +52,9 @@ LEVELS = [0.8, 0.9, 0.95]
 N_BINS = 10
 CHUNK = 2_000_000
 MIN_CELL = 20  # minimum trips for a route x hour median in the lookup baseline
+# Day-cluster bootstrap for conformal coverage: the same B and seed as the website's hold-out intervals
+BOOT_B = 2000
+BOOT_SEED = 20190101
 
 # Residual-diagnostic grids (minutes)
 FIT_LO, FIT_HI, FIT_STEP = -10.0, 90.0, 1.0
@@ -357,6 +362,42 @@ class Diag:
         }
 
 
+def mulberry32(seed: int, count: int) -> np.ndarray:
+    """The first `count` draws of mulberry32(seed), bit-for-bit the generator in web/src/lib/stats/rng.ts.
+
+    mulberry32 is counter-based (state k is seed + k * 0x6D2B79F5 mod 2^32), so it vectorises.
+    """
+    M = np.uint64(0xFFFFFFFF)
+    k = np.arange(1, count + 1, dtype=np.uint64)
+    a = (np.uint64(seed) + k * np.uint64(0x6D2B79F5)) & M
+    t = ((a ^ (a >> np.uint64(15))) * (a | np.uint64(1))) & M
+    t = t ^ ((t + (((t ^ (t >> np.uint64(7))) * (t | np.uint64(61))) & M)) & M)
+    return ((t ^ (t >> np.uint64(14))) & M).astype(np.float64) / 4294967296.0
+
+
+# first draws of mulberry32(20190101) in JavaScript (node, web/src/lib/stats/rng.ts)
+assert np.allclose(mulberry32(20190101, 3), [0.70984389539808035, 0.41209807479754090, 0.49334556492976844], rtol=0, atol=1e-16)
+
+
+def day_weights(n_days: int, B: int = BOOT_B, seed: int = BOOT_SEED) -> np.ndarray:
+    """B x n_days multiplicities of a bootstrap that resamples days, identical to `bootstrap()` in
+    web/src/lib/stats/bootstrap.ts for the same n and seed (n draws per resample, in order)."""
+    u = mulberry32(seed, B * n_days).reshape(B, n_days)
+    idx = np.floor(u * n_days).astype(np.int64)
+    w = np.zeros((B, n_days))
+    np.add.at(w, (np.repeat(np.arange(B), n_days), idx.ravel()), 1.0)
+    return w
+
+
+def ratio_ci(W: np.ndarray, num: np.ndarray, den: np.ndarray) -> tuple[float, float]:
+    """95% percentile interval (type-7 quantiles, as in the website) of sum(w*num) / sum(w*den)."""
+    with np.errstate(invalid="ignore", divide="ignore"):
+        reps = (W @ num) / (W @ den)
+    reps = reps[np.isfinite(reps)]
+    lo, hi = np.quantile(reps, [0.025, 0.975])
+    return float(lo), float(hi)
+
+
 def _split_quantiles(eb: np.ndarray, alpha: float) -> tuple[float, float]:
     """Lower and upper split-conformal offsets from sorted signed residuals (alpha/2 in each tail)."""
     nb = len(eb)
@@ -367,7 +408,7 @@ def _split_quantiles(eb: np.ndarray, alpha: float) -> tuple[float, float]:
     return lo, hi
 
 
-def conformal(edge_yhat, edge_bor, cal_yhat, cal_e, cal_bor, test_yhat, test_y, test_bor, test_hour) -> dict:
+def conformal(edge_yhat, edge_bor, cal_yhat, cal_e, cal_bor, test_yhat, test_y, test_bor, test_hour, test_day) -> dict:
     """Split-conformal intervals with three taxonomies.
 
     * global: one symmetric |residual| quantile for every trip;
@@ -376,7 +417,16 @@ def conformal(edge_yhat, edge_bor, cal_yhat, cal_e, cal_bor, test_yhat, test_y, 
       borough has few calibration trips: one bin per 1,000, at most 10).
 
     Bin edges come from a separate fold (features only), never from the calibration labels.
+
+    Coverage intervals resample whole test days (BOOT_B resamples, seed BOOT_SEED): trips on the same
+    day share weather, traffic and events, so their coverage is correlated and a Wilson interval that
+    treats millions of trips as independent would be far too narrow. Every group and method sees the
+    same resampled days.
     """
+    days = np.unique(test_day)
+    day_pos = np.searchsorted(days, test_day)
+    D = len(days)
+    W = day_weights(D)
     edges = np.quantile(edge_yhat, np.linspace(0, 1, N_BINS + 1)[1:-1])
     cal_bin = np.searchsorted(edges, cal_yhat, side="right")
     test_bin = np.searchsorted(edges, test_yhat, side="right")
@@ -448,6 +498,7 @@ def conformal(edge_yhat, edge_bor, cal_yhat, cal_e, cal_bor, test_yhat, test_y, 
                     }
                 )
         methods = {}
+        daily = {}
         for method in ("global", "mondrian", "mondrian_borough"):
             if method == "global":
                 lo, hi = test_yhat - q, test_yhat + q
@@ -470,20 +521,49 @@ def conformal(edge_yhat, edge_bor, cal_yhat, cal_e, cal_bor, test_yhat, test_y, 
                 cnt = np.bincount(gi, minlength=size)
                 cov = np.bincount(gi, weights=covered, minlength=size)
                 wid = np.bincount(gi, weights=width, minlength=size)
-                res[gk] = [
-                    {"group": g, "trips": int(cnt[g]), "covered": int(cov[g]), "mean_width": float(wid[g] / cnt[g])}
-                    for g in range(size)
-                    if cnt[g] > 0
-                ]
+                # per day x group counts for the day-cluster bootstrap
+                cell = day_pos * size + gi
+                cnt_dg = np.bincount(cell, minlength=D * size).reshape(D, size).astype(np.float64)
+                cov_dg = np.bincount(cell, weights=covered, minlength=D * size).reshape(D, size)
+                rows = []
+                for g in range(size):
+                    if cnt[g] == 0:
+                        continue
+                    ci_lo, ci_hi = ratio_ci(W, cov_dg[:, g], cnt_dg[:, g])
+                    rows.append(
+                        {
+                            "group": g,
+                            "trips": int(cnt[g]),
+                            "covered": int(cov[g]),
+                            "mean_width": float(wid[g] / cnt[g]),
+                            "days": int(np.count_nonzero(cnt_dg[:, g])),
+                            "ci_low": ci_lo,
+                            "ci_high": ci_hi,
+                        }
+                    )
+                res[gk] = rows
+                if gk == "all":
+                    daily[method] = [
+                        {"day": int(days[d]), "trips": int(cnt_dg[d, 0]), "covered": int(cov_dg[d, 0])} for d in range(D)
+                    ]
             methods[method] = res
         out_levels.append(
-            {"level": level, "global_q": q, "bins": bins, "borough_bins": borough_bins, "coverage": methods}
+            {
+                "level": level,
+                "global_q": q,
+                "bins": bins,
+                "borough_bins": borough_bins,
+                "coverage": methods,
+                "daily": daily,
+            }
         )
     return {
         "edges": [float(x) for x in edges],
         "n_edge": int(len(edge_yhat)),
         "n_cal": int(len(cal_e)),
         "n_test": int(len(test_y)),
+        "test_days": int(D),
+        "bootstrap": {"unit": "test day", "B": BOOT_B, "seed": BOOT_SEED, "confidence": 0.95},
         "levels": out_levels,
     }
 
@@ -610,7 +690,7 @@ def main() -> None:
             s1_cal_e.append((y - y21)[mk])
             s1_cal_bor.append(bor[mk])
             mk = fold == 1
-            s1_test.append(np.column_stack([y21[mk], y[mk], bor[mk], hour[mk]]))
+            s1_test.append(np.column_stack([y21[mk], y[mk], bor[mk], hour[mk], day[mk]]))
             # conformal scheme 2: 2021 specification refit on Jan-Oct, tested on Nov-Dec
             y1 = yh["en_2021_spec"]
             mk = (day < NOV1) & (fold == 2)
@@ -620,7 +700,7 @@ def main() -> None:
             s2_cal_e.append((y - y1)[mk])
             s2_cal_bor.append(bor[mk])
             mk = day >= NOV1
-            s2_test.append(np.column_stack([y1[mk], y[mk], bor[mk], hour[mk]]))
+            s2_test.append(np.column_stack([y1[mk], y[mk], bor[mk], hour[mk], day[mk]]))
 
             done += len(y)
             if done % 10_000_000 < CHUNK:
@@ -721,19 +801,22 @@ def main() -> None:
         t1, e1 = cat(s1_test), cat(s1_edge)
         conf1 = conformal(
             e1[:, 0], e1[:, 1].astype(np.int64), cat(s1_cal_yhat), cat(s1_cal_e), cat(s1_cal_bor),
-            t1[:, 0], t1[:, 1], t1[:, 2].astype(np.int64), t1[:, 3].astype(np.int64),
+            t1[:, 0], t1[:, 1], t1[:, 2].astype(np.int64), t1[:, 3].astype(np.int64), t1[:, 4].astype(np.int64),
         )
     with Timer("conformal: Jan-Oct refit, tested on Nov-Dec"):
         t2, e2 = cat(s2_test), cat(s2_edge)
         conf2 = conformal(
             e2[:, 0], e2[:, 1].astype(np.int64), cat(s2_cal_yhat), cat(s2_cal_e), cat(s2_cal_bor),
-            t2[:, 0], t2[:, 1], t2[:, 2].astype(np.int64), t2[:, 3].astype(np.int64),
+            t2[:, 0], t2[:, 1], t2[:, 2].astype(np.int64), t2[:, 3].astype(np.int64), t2[:, 4].astype(np.int64),
         )
     for name, c in (("random", conf1), ("temporal", conf2)):
         for lv in c["levels"]:
             for meth in ("global", "mondrian", "mondrian_borough"):
                 a = lv["coverage"][meth]["all"][0]
-                print(f"     {name} {lv['level']:.2f} {meth:<8} coverage {a['covered'] / a['trips']:.4f} width {a['mean_width']:.2f}")
+                print(
+                    f"     {name} {lv['level']:.2f} {meth:<8} coverage {a['covered'] / a['trips']:.4f} "
+                    f"(day bootstrap {a['ci_low']:.4f} to {a['ci_high']:.4f}, {c['test_days']} days) width {a['mean_width']:.2f}"
+                )
 
     level = rh_info["level"]
     report = {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { toCsv } from "./csv";
-import { formatMinutes, formatSigned } from "./format";
+import { formatFixed, formatInterval, formatMinutes, formatSigned } from "./format";
 import { arc, haversineMiles } from "./geo";
 import { siteUrl } from "./site";
 import { zoneLabels } from "./zone-labels";
@@ -36,6 +36,12 @@ describe("format", () => {
     expect(formatSigned(-1.25)).toBe("−1.3");
     expect(formatSigned(2)).toBe("+2.0");
     expect(formatSigned(0)).toBe("0.0");
+    expect(formatFixed(-0.0004, 3)).toBe("0.000");
+    expect(formatFixed(-0.0004, 0)).toBe("0");
+    expect(formatFixed(-0.004, 3)).toBe("-0.004");
+    expect(formatInterval({ estimate: -0.0008, lower: -0.003, upper: -0.0001 }, 3)).toBe(
+      "-0.001 (-0.003 to 0.000)",
+    );
     expect(formatMinutes(12.345)).toBe("12.3 min");
   });
 });

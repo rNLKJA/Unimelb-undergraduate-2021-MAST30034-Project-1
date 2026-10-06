@@ -42,7 +42,16 @@ export const getEvidenceMeta = cache(async () => {
     >;
     conformal: Record<
       string,
-      { model: string; label: string; edges: number[]; n_edge: number; n_cal: number; n_test: number }
+      {
+        model: string;
+        label: string;
+        edges: number[];
+        n_edge: number;
+        n_cal: number;
+        n_test: number;
+        test_days: number;
+        bootstrap: { unit: string; B: number; seed: number; confidence: number };
+      }
     >;
     effects_reference: { min_cell: number; cells: number; trips: number; indexed_trips: number };
     data_quality: { raw_rows: number; dropna_rows: number; round1_rows: number; final_rows: number };
@@ -124,12 +133,30 @@ export interface ConformalCoverageRow {
   trips: number;
   covered: number;
   mean_width: number;
+  /** test days with at least one trip in the group */
+  days: number;
+  /** 95% interval from a bootstrap that resamples whole test days (scripts/rigour.py, seed 20190101) */
+  ci_low: number;
+  ci_high: number;
 }
 
 export const getConformalCoverage = cache(() =>
   query<ConformalCoverageRow>(
     "SELECT * FROM conformal_coverage ORDER BY scheme, method, level, group_type, group_value",
   ),
+);
+
+export interface ConformalCoverageDay {
+  scheme: string;
+  method: string;
+  level: number;
+  date: string;
+  trips: number;
+  covered: number;
+}
+
+export const getConformalCoverageDaily = cache(() =>
+  query<ConformalCoverageDay>("SELECT * FROM conformal_coverage_daily ORDER BY scheme, method, level, date"),
 );
 
 export const getConformalBins = cache(() =>

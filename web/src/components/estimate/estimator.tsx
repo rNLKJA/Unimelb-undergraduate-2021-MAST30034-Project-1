@@ -24,7 +24,6 @@ import {
   type TripContext,
 } from "@/lib/model";
 import { INK_HEX, TAXI_HEX } from "@/lib/palette";
-import { wilsonInterval } from "@/lib/stats/wilson";
 import { hourLabel, isoToSparkWeekday, isoWeekdayName, isoWeekdayOf } from "@/lib/time";
 import { cn } from "@/lib/utils";
 
@@ -527,7 +526,7 @@ function PredictionBand({
 }) {
   const max = Math.max(30, Math.ceil((interval.upper * 1.08) / 10) * 10);
   const pos = (v: number) => `${Math.min(100, Math.max(0, (v / max) * 100))}%`;
-  const cov = interval.test ? wilsonInterval(interval.test.covered, interval.test.trips) : null;
+  const cov = interval.test;
   return (
     <div className="mt-4 grid gap-2">
       <div className="flex flex-wrap items-center justify-between gap-2">
@@ -575,14 +574,15 @@ function PredictionBand({
         Split-conformal, from {formatInt(interval.nCal)} held-out 2019 trips picked up in {interval.borough}{" "}
         with a similar prediction (bin {interval.bin + 1} of {interval.bins}).
         {interval.borough !== borough && ` ${borough} has no calibration trips, so Manhattan's are used.`}
-        {cov && interval.test && (
+        {cov && (
           <>
             {" "}
-            On {formatInt(interval.test.trips)} other {interval.borough} trips, {formatPct(cov.estimate, 1)}{" "}
-            fell inside (95% CI {formatPct(cov.lower, 2)} to {formatPct(cov.upper, 2)}).
+            On {formatInt(cov.trips)} other {interval.borough} trips in the same bin,{" "}
+            {formatPct(cov.covered / cov.trips, 1)} fell inside (95% CI {formatPct(cov.ciLow, 1)} to{" "}
+            {formatPct(cov.ciHigh, 1)}, resampling whole days).
           </>
         )}{" "}
-        Black: the prediction; dashed blue: the observed median at this hour.{" "}
+        Solid line: the prediction. Dashed blue line: the observed median at this hour.{" "}
         <a href="/evaluation#intervals" className="link-taxi">
           How the intervals are built
         </a>

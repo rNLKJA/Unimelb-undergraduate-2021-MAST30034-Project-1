@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import json
 import sqlite3
+from datetime import date, timedelta
 
 from common import ANALYTICS_DB, OUT, WEB, write_json
 
@@ -31,7 +32,8 @@ TABLE_DOCS = {
     "residual_qq": ("Residual quantiles (QQ)", "Residual quantiles against the normal quantiles with the same mean and standard deviation."),
     "residual_groups": ("Residual spread by group", "Trips, mean residual, residual SD and MAE per pickup borough, pickup hour and borough x hour."),
     "conformal_bins": ("Conformal interval table", "Split-conformal offsets per calibration bin: global symmetric, Mondrian by predicted decile, and Mondrian by pickup borough x predicted bin, at 80%, 90% and 95%."),
-    "conformal_coverage": ("Conformal coverage", "Empirical coverage of each conformal method on held-out trips, overall and by bin, borough and hour, with mean interval width (lower end clipped at 0)."),
+    "conformal_coverage": ("Conformal coverage", "Empirical coverage of each conformal method on held-out trips, overall and by bin, borough and hour, with mean interval width (lower end clipped at 0) and a 95% interval from a bootstrap that resamples whole test days (B = 2,000, seed 20190101)."),
+    "conformal_coverage_daily": ("Conformal coverage per test day", "Trips and covered trips per test day for each scheme, method and level: the units the coverage bootstrap resamples."),
     "effects_daily": ("Daily duration index", "Per day: trips, mean minutes and the composition-adjusted duration index (mean log of minutes / route-hour median), with weather, events and collisions."),
     "effects_borough_daily": ("Borough-day duration index", "Per pickup borough and day: trips, the duration index, permitted events and collisions in that borough."),
     "dq_rules": ("Data-quality rules", "Every 2021 cleaning rule with its reason, rows removed in sequence, rows failing it on its own and rows failing only it."),
@@ -137,10 +139,14 @@ def main(db_path=ANALYTICS_DB) -> None:
         ],
     )
 
-    bins, cov = [], []
+    bins, cov, cov_daily = [], [], []
+    day0 = date(2019, 1, 1)
     for scheme, c in rig["conformal"].items():
         for lv in c["levels"]:
             level = lv["level"]
+            for method, days in lv["daily"].items():
+                for d in days:
+                    cov_daily.append((scheme, method, level, (day0 + timedelta(days=d["day"])).isoformat(), d["trips"], d["covered"]))
             bins.append((scheme, "global", level, None, 0, None, None, c["n_cal"], -lv["global_q"], lv["global_q"]))
             for b in lv["bins"]:
                 bins.append((scheme, "mondrian", level, None, b["bin"], b["pred_lo"], b["pred_hi"], b["n_cal"], b["q_lo"], b["q_hi"]))
@@ -158,7 +164,9 @@ def main(db_path=ANALYTICS_DB) -> None:
                             else f"{g:02d}" if kind == "hour"
                             else str(g)
                         )
-                        cov.append((scheme, method, level, kind, value, r["trips"], r["covered"], r["mean_width"]))
+                        cov.append(
+                            (scheme, method, level, kind, value, r["trips"], r["covered"], r["mean_width"], r["days"], r["ci_low"], r["ci_high"])
+                        )
     put(
         "conformal_bins",
         "scheme TEXT, method TEXT, level REAL, borough TEXT, bin INTEGER, pred_lo REAL, pred_hi REAL, n_cal INTEGER, q_lo REAL, q_hi REAL",
@@ -166,8 +174,14 @@ def main(db_path=ANALYTICS_DB) -> None:
     )
     put(
         "conformal_coverage",
-        "scheme TEXT, method TEXT, level REAL, group_type TEXT, group_value TEXT, trips INTEGER, covered INTEGER, mean_width REAL",
+        "scheme TEXT, method TEXT, level REAL, group_type TEXT, group_value TEXT, trips INTEGER, covered INTEGER, mean_width REAL, "
+        "days INTEGER, ci_low REAL, ci_high REAL",
         cov,
+    )
+    put(
+        "conformal_coverage_daily",
+        "scheme TEXT, method TEXT, level REAL, date TEXT, trips INTEGER, covered INTEGER",
+        cov_daily,
     )
 
     put(
@@ -254,6 +268,18 @@ def main(db_path=ANALYTICS_DB) -> None:
     levels = []
     for lv in c["levels"]:
         cov_b = {r["group"]: r for r in lv["coverage"]["mondrian_borough"]["borough"]}
+        # borough x bin groups are numbered in the order of lv["borough_bins"]
+        cov_bb = {r["group"]: r for r in lv["coverage"]["mondrian_borough"]["borough_bin"]}
+
+        def bin_test(g: int) -> list:
+            return [
+                {"trips": cov_bb[k]["trips"], "covered": cov_bb[k]["covered"], "ciLow": cov_bb[k]["ci_low"], "ciHigh": cov_bb[k]["ci_high"]}
+                if k in cov_bb
+                else None
+                for k, b in enumerate(lv["borough_bins"])
+                if b["borough"] == g
+            ]
+
         cov_all = lv["coverage"]["mondrian_borough"]["all"][0]
         g_all = lv["coverage"]["global"]["all"][0]
         levels.append(
@@ -265,22 +291,35 @@ def main(db_path=ANALYTICS_DB) -> None:
                         "edges": [b["pred_hi"] for b in lv["borough_bins"] if b["borough"] == g and b["pred_hi"] is not None],
                         "offsets": [[b["q_lo"], b["q_hi"]] for b in lv["borough_bins"] if b["borough"] == g],
                         "nCal": [b["n_cal"] for b in lv["borough_bins"] if b["borough"] == g],
-                        "test": {"trips": cov_b[g]["trips"], "covered": cov_b[g]["covered"]} if g in cov_b else None,
+                        "binTest": bin_test(g),
+                        "test": (
+                            {"trips": cov_b[g]["trips"], "covered": cov_b[g]["covered"], "ciLow": cov_b[g]["ci_low"], "ciHigh": cov_b[g]["ci_high"]}
+                            if g in cov_b
+                            else None
+                        ),
                     }
                     for g, name in enumerate(BOROUGHS)
                     if any(b["borough"] == g and b["n_cal"] > 0 for b in lv["borough_bins"])
                 ],
-                "test": {"trips": cov_all["trips"], "covered": cov_all["covered"], "meanWidth": cov_all["mean_width"]},
+                "test": {
+                    "trips": cov_all["trips"], "covered": cov_all["covered"], "meanWidth": cov_all["mean_width"],
+                    "ciLow": cov_all["ci_low"], "ciHigh": cov_all["ci_high"],
+                },
                 "globalHalfWidth": lv["global_q"],
-                "globalTest": {"trips": g_all["trips"], "covered": g_all["covered"], "meanWidth": g_all["mean_width"]},
+                "globalTest": {
+                    "trips": g_all["trips"], "covered": g_all["covered"], "meanWidth": g_all["mean_width"],
+                    "ciLow": g_all["ci_low"], "ciHigh": g_all["ci_high"],
+                },
             }
         )
     write_json(
         WEB / "src" / "lib" / "data" / "conformal.json",
         {
-            "description": "Split-conformal prediction intervals for the 2021 coefficients: Mondrian by pickup borough x predicted-duration bin. Bins from fold 2, calibration fold 0, coverage on fold 1 (all of 2019). Built by scripts/build_evidence_tables.py from scripts/out/rigour.json.",
+            "description": "Split-conformal prediction intervals for the 2021 coefficients: Mondrian by pickup borough x predicted-duration bin. Bins from fold 2, calibration fold 0, coverage on fold 1 (all of 2019) with 95% intervals from a bootstrap over test days. Built by scripts/build_evidence_tables.py from scripts/out/rigour.json.",
             "calibrationTrips": c["n_cal"],
             "testTrips": c["n_test"],
+            "testDays": c["test_days"],
+            "bootstrap": c["bootstrap"],
             "levels": levels,
         },
     )

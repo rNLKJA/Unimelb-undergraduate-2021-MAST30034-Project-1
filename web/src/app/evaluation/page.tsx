@@ -11,6 +11,7 @@ import {
   BOOTSTRAP_SEED,
   getConformalBins,
   getConformalCoverage,
+  getConformalCoverageDaily,
   getEvidenceMeta,
   getHoldout,
   getOlsCoefficients,
@@ -82,13 +83,14 @@ const METHODS = [
 ] as const;
 
 export default async function EvaluationPage() {
-  const [meta, holdout, coefs, residuals, coverage, conformalBins] = await Promise.all([
+  const [meta, holdout, coefs, residuals, coverage, conformalBins, coverageDaily] = await Promise.all([
     getEvidenceMeta(),
     getHoldout(),
     getOlsCoefficients(),
     getResiduals(),
     getConformalCoverage(),
     getConformalBins(),
+    getConformalCoverageDaily(),
   ]);
   const temporal = holdoutRows(holdout.temporal);
   const random = holdoutRows(holdout.random);
@@ -110,6 +112,8 @@ export default async function EvaluationPage() {
   const refs = meta.ols.references;
   const collisions = numeric.find((c) => c.label === "number_of_collision")!;
   const ratios = numeric.map((c) => c.se_cluster_day / c.se_hc3);
+
+  const randomCal = meta.conformal.random;
 
   const diagnostics: DiagnosticsData[] = (["coef_2021", "ols"] as const).map((model) => {
     const cellW = 2;
@@ -164,10 +168,32 @@ export default async function EvaluationPage() {
     };
   });
 
+  // coverage with its day-bootstrap 95% interval (trips on the same day are not independent)
   const cov = (scheme: string, method: string, level: number, groupType = "all", value = "all") => {
     const r = coverageOf(coverage, scheme, method, level, groupType, value);
-    return r ? { ...wilsonInterval(r.covered, r.trips), trips: r.trips, width: r.mean_width } : null;
+    return r
+      ? {
+          estimate: r.covered / r.trips,
+          lower: r.ci_low,
+          upper: r.ci_high,
+          trips: r.trips,
+          days: r.days,
+          width: r.mean_width,
+          covered: r.covered,
+        }
+      : null;
   };
+  // the same headline coverage as if every trip were independent, for contrast
+  const headline = cov("random", "global", 0.9)!;
+  const naive = wilsonInterval(headline.covered, headline.trips);
+  // days with enough test trips for a daily coverage to mean something (two January days have 5 and 32)
+  const headlineDays = coverageDaily
+    .filter(
+      (d) =>
+        d.scheme === "random" && d.method === "global" && Math.abs(d.level - 0.9) < 1e-9 && d.trips >= 1000,
+    )
+    .map((d) => d.covered / d.trips);
+  const boot = randomCal.bootstrap;
   const bins = [
     ...new Set(coverage.filter((r) => r.group_type === "bin").map((r) => Number(r.group_value))),
   ].sort((a, b) => a - b);
@@ -181,7 +207,6 @@ export default async function EvaluationPage() {
         b.borough === "Staten Island",
     )
     .reduce((s, b) => s + b.n_cal, 0);
-  const randomCal = meta.conformal.random;
   const temporalCal = meta.conformal.temporal;
 
   return (
@@ -272,7 +297,7 @@ export default async function EvaluationPage() {
           </div>
           <div className="grid content-start gap-4">
             <Note title="A lookup table beats the regression">
-              Predicting last season&apos;s median for the same pickup zone, drop-off zone and hour gives an
+              Predicting the January–October median for the same pickup zone, drop-off zone and hour gives an
               RMSE of {formatFixed(lookup.rmse.estimate, 2)} minutes against{" "}
               {formatFixed(spec.rmse.estimate, 2)} for the 2021 specification:{" "}
               {formatFixed(-lookup.dRmse!.estimate, 2)} minutes better (95% CI{" "}
@@ -511,7 +536,9 @@ export default async function EvaluationPage() {
         <div className="relative overflow-x-auto">
           <table className="w-full min-w-[760px] text-sm">
             <caption className="text-muted-foreground mb-3 text-left text-xs">
-              Empirical coverage (Wilson 95% CI) and mean width in minutes (lower end clipped at 0).
+              Empirical coverage with a 95% interval that resamples whole test days ({randomCal.test_days}{" "}
+              days in scheme 1, {temporalCal.test_days} in scheme 2, B = {formatInt(boot.B)}, seed {boot.seed}
+              ), and mean width in minutes (lower end clipped at 0).
             </caption>
             <thead>
               <tr className="border-b text-left">
@@ -550,9 +577,9 @@ export default async function EvaluationPage() {
                           {c ? (
                             <>
                               {formatPct(c.estimate, 1)}{" "}
-                              <span className="text-muted-foreground">
-                                ({formatPct(c.lower, 2)}–{formatPct(c.upper, 2)}) · {formatFixed(c.width, 1)}{" "}
-                                min
+                              <span className="text-muted-foreground whitespace-nowrap">
+                                ({formatPct(c.lower, 1)} to {formatPct(c.upper, 1)}) ·{" "}
+                                {formatFixed(c.width, 1)} min
                               </span>
                             </>
                           ) : (
@@ -619,6 +646,16 @@ export default async function EvaluationPage() {
               format={formatPctTick}
               axisLabel="Coverage of 90% intervals by pickup borough (scheme 1)"
             />
+            <Note title="Why the intervals resample days">
+              Coverage moves together within a day: on the {headlineDays.length} test days of scheme 1 with at
+              least 1,000 test trips, the global 90% interval covered between{" "}
+              {formatPct(Math.min(...headlineDays), 1)} and {formatPct(Math.max(...headlineDays), 1)} of each
+              day&apos;s trips. Treating the {formatInt(headline.trips)} test trips as independent gives a
+              Wilson interval of {formatPct(naive.lower, 2)} to {formatPct(naive.upper, 2)}. Resampling whole
+              days gives {formatPct(headline.lower, 2)} to {formatPct(headline.upper, 2)}, about{" "}
+              {formatFixed((headline.upper - headline.lower) / (naive.upper - naive.lower), 0)} times wider.
+              Every coverage interval on this page and in the estimator resamples days.
+            </Note>
             <Note title="What this means for the estimator">
               <Link href="/estimate" className="link-taxi">
                 Estimate a trip

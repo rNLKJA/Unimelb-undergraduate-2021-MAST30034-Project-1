@@ -3,6 +3,17 @@
  * scripts/build_evidence_tables.py from scripts/out/rigour.json).
  */
 
+/**
+ * Empirical coverage on held-out trips. ciLow / ciHigh: 95% interval from a bootstrap that
+ * resamples whole test days (trips on the same day are not independent).
+ */
+export interface CoverageTest {
+  trips: number;
+  covered: number;
+  ciLow: number;
+  ciHigh: number;
+}
+
 export interface ConformalBorough {
   borough: string;
   /** interior bin edges on the predicted duration, ascending */
@@ -10,21 +21,26 @@ export interface ConformalBorough {
   /** [lower, upper] residual offsets per bin */
   offsets: [number, number][];
   nCal: number[];
-  test: { trips: number; covered: number } | null;
+  /** coverage of the borough's test trips, all bins together */
+  test: CoverageTest | null;
+  /** coverage of the borough's test trips in each bin */
+  binTest: (CoverageTest | null)[];
 }
 
 export interface ConformalLevel {
   level: number;
   boroughs: ConformalBorough[];
-  test: { trips: number; covered: number; meanWidth: number };
+  test: CoverageTest & { meanWidth: number };
   globalHalfWidth: number;
-  globalTest: { trips: number; covered: number; meanWidth: number };
+  globalTest: CoverageTest & { meanWidth: number };
 }
 
 export interface ConformalTable {
   description: string;
   calibrationTrips: number;
   testTrips: number;
+  testDays: number;
+  bootstrap: { unit: string; B: number; seed: number; confidence: number };
   levels: ConformalLevel[];
 }
 
@@ -49,7 +65,8 @@ export interface PredictionInterval {
   bins: number;
   nCal: number;
   borough: string;
-  test: { trips: number; covered: number } | null;
+  /** coverage on held-out trips of the same borough and bin */
+  test: CoverageTest | null;
 }
 
 /**
@@ -77,6 +94,6 @@ export function predictionInterval(
     bins: b.offsets.length,
     nCal: b.nCal[i],
     borough: b.borough,
-    test: b.test,
+    test: b.binTest[i] ?? null,
   };
 }

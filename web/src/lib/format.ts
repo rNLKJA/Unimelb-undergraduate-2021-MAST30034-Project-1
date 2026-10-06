@@ -10,9 +10,10 @@ export function formatCompact(n: number | null | undefined): string {
 }
 
 export function formatFixed(n: number | null | undefined, digits = 1): string {
-  return n === null || n === undefined || Number.isNaN(n)
-    ? "–"
-    : n.toLocaleString("en-AU", { minimumFractionDigits: digits, maximumFractionDigits: digits });
+  if (n === null || n === undefined || Number.isNaN(n)) return "–";
+  const s = n.toLocaleString("en-AU", { minimumFractionDigits: digits, maximumFractionDigits: digits });
+  // a small negative number that rounds to zero is zero, not "-0.000"
+  return /^-0(\.0*)?$/.test(s) ? s.slice(1) : s;
 }
 
 /** "12.4 min" */
