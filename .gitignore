@@ -1,18 +1,41 @@
-**/tmp
+# ---------------------------------------------------------------- OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
 
-**Data/2019 yellow taxi data
-yellow_trip_data_2019-01
-yellow_trip_data_2019-02
-yellow_trip_data_2019-03
-yellow_trip_data_2019-04
-yellow_trip_data_2019-05
-yellow_trip_data_2019-06
-yellow_trip_data_2019-07
-yellow_trip_data_2019-08
-yellow_trip_data_2019-09
-yellow_trip_data_2019-11
-yellow_trip_data_2019-12
+# ---------------------------------------------------------------- secrets
+.env*
+!.env.example
+*.pem
 
-**Data/2019 permitted event
+# ---------------------------------------------------------------- Node / Next.js / Vercel
+# (web/ has its own .gitignore as well)
+node_modules/
+.next/
+.vercel
+*.tsbuildinfo
+coverage/
 
+# ---------------------------------------------------------------- Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
 .ipython_checkpoints
+
+# ---------------------------------------------------------------- data (never commit raw data)
+# Revival cache: 12 monthly TLC Parquet files (~1.2 GB), extracted side inputs and
+# the DuckDB work file (~27 GB). Recreate with `uv run scripts/fetch_data.py`
+# and `uv run scripts/pipeline.py`.
+/data-cache/
+
+# The 2021 notebook's own data folders (filled by coursework/Download scripts)
+/coursework/Data/
+/coursework/Preprocess/*
+!/coursework/Preprocess/.gitkeep
+!/coursework/Preprocess/preprocess_readme.md
+**/tmp

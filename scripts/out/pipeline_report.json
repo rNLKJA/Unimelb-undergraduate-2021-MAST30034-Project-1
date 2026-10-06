@@ -1,0 +1,275 @@
+{
+  "funnel": [
+    {
+      "key": "raw",
+      "stage": "Raw",
+      "label": "Raw 2019 yellow-taxi records",
+      "revived_rows": 84598444,
+      "notebook_rows": 84399019,
+      "difference_pct": 0.236,
+      "note": ""
+    },
+    {
+      "key": "dropna",
+      "stage": "Round 1",
+      "label": "Drop rows with any missing value",
+      "revived_rows": 79297843,
+      "notebook_rows": 79296437,
+      "difference_pct": 0.002,
+      "note": ""
+    },
+    {
+      "key": null,
+      "stage": "Round 1",
+      "label": "Trip distance must be positive",
+      "revived_rows": 78592625,
+      "notebook_rows": null,
+      "difference_pct": null,
+      "note": "trip_distance > 0"
+    },
+    {
+      "key": null,
+      "stage": "Round 1",
+      "label": "Passenger count between 1 and 6",
+      "revived_rows": 77161380,
+      "notebook_rows": null,
+      "difference_pct": null,
+      "note": "passenger_count BETWEEN 1 AND 6"
+    },
+    {
+      "key": null,
+      "stage": "Round 1",
+      "label": "Known rate code (drops 99)",
+      "revived_rows": 77159577,
+      "notebook_rows": null,
+      "difference_pct": null,
+      "note": "RatecodeID BETWEEN 1 AND 6"
+    },
+    {
+      "key": null,
+      "stage": "Round 1",
+      "label": "Fare must be positive",
+      "revived_rows": 77003149,
+      "notebook_rows": null,
+      "difference_pct": null,
+      "note": "fare_amount > 0"
+    },
+    {
+      "key": null,
+      "stage": "Round 1",
+      "label": "Extra charge cannot be negative",
+      "revived_rows": 77002549,
+      "notebook_rows": null,
+      "difference_pct": null,
+      "note": "extra >= 0"
+    },
+    {
+      "key": null,
+      "stage": "Round 1",
+      "label": "MTA tax of $0.50 to $1",
+      "revived_rows": 76696242,
+      "notebook_rows": null,
+      "difference_pct": null,
+      "note": "mta_tax BETWEEN 0.5 AND 1"
+    },
+    {
+      "key": null,
+      "stage": "Round 1",
+      "label": "Tolls cannot be negative",
+      "revived_rows": 76696242,
+      "notebook_rows": null,
+      "difference_pct": null,
+      "note": "tolls_amount >= 0"
+    },
+    {
+      "key": null,
+      "stage": "Round 1",
+      "label": "Improvement surcharge equals $0.30",
+      "revived_rows": 76688394,
+      "notebook_rows": null,
+      "difference_pct": null,
+      "note": "improvement_surcharge = 0.30"
+    },
+    {
+      "key": null,
+      "stage": "Round 1",
+      "label": "Total amount must be positive",
+      "revived_rows": 76688394,
+      "notebook_rows": null,
+      "difference_pct": null,
+      "note": "total_amount > 0"
+    },
+    {
+      "key": null,
+      "stage": "Round 1",
+      "label": "Congestion surcharge cannot be negative",
+      "revived_rows": 76688394,
+      "notebook_rows": null,
+      "difference_pct": null,
+      "note": "congestion_surcharge >= 0"
+    },
+    {
+      "key": null,
+      "stage": "Round 1",
+      "label": "Pickup between 2018-01-01 and 2019-12-31",
+      "revived_rows": 76687429,
+      "notebook_rows": null,
+      "difference_pct": null,
+      "note": "pickup_dt BETWEEN TIMESTAMP '2018-01-01 00:00:00' AND TIMESTAMP '2019-12-31 23:59:59'"
+    },
+    {
+      "key": null,
+      "stage": "Round 1",
+      "label": "Drop-off within 2019",
+      "revived_rows": 76686279,
+      "notebook_rows": null,
+      "difference_pct": null,
+      "note": "dropoff_dt BETWEEN TIMESTAMP '2019-01-01 00:00:00' AND TIMESTAMP '2019-12-31 23:59:59'"
+    },
+    {
+      "key": "round1",
+      "stage": "Round 1",
+      "label": "Drop unknown vendor 4 (end of round 1)",
+      "revived_rows": 76488807,
+      "notebook_rows": 76487438,
+      "difference_pct": 0.002,
+      "note": "VendorID != 4"
+    },
+    {
+      "key": "zscore",
+      "stage": "Round 2",
+      "label": "Fare z-score at most 3",
+      "revived_rows": 76488060,
+      "notebook_rows": 76486691,
+      "difference_pct": 0.002,
+      "note": "fare <= mean + 3 sd = 296.1433 (notebook 296.1457)"
+    },
+    {
+      "key": "dedup",
+      "stage": "Round 2",
+      "label": "Drop exact duplicate rows",
+      "revived_rows": 76488057,
+      "notebook_rows": 76486688,
+      "difference_pct": 0.002,
+      "note": ""
+    },
+    {
+      "key": "min_fare",
+      "stage": "Round 3",
+      "label": "Fare at least the $2.50 flag-fall",
+      "revived_rows": 76487706,
+      "notebook_rows": 76486337,
+      "difference_pct": 0.002,
+      "note": "fare_amount >= 2.5"
+    },
+    {
+      "key": null,
+      "stage": "Round 3",
+      "label": "Drop-off after pick-up",
+      "revived_rows": 76484522,
+      "notebook_rows": null,
+      "difference_pct": null,
+      "note": "travel_time > 0"
+    },
+    {
+      "key": null,
+      "stage": "Round 3",
+      "label": "At most 6 passengers",
+      "revived_rows": 76484522,
+      "notebook_rows": null,
+      "difference_pct": null,
+      "note": "passenger_count <= 6"
+    },
+    {
+      "key": "speed",
+      "stage": "Round 3",
+      "label": "Distance / minutes at most 50 (the 'mph' rule)",
+      "revived_rows": 76478068,
+      "notebook_rows": 76475571,
+      "difference_pct": 0.003,
+      "note": "trip_distance / travel_time <= 50"
+    },
+    {
+      "key": "max_duration",
+      "stage": "Round 3",
+      "label": "Trip at most 180 minutes",
+      "revived_rows": 76271886,
+      "notebook_rows": 76269392,
+      "difference_pct": 0.003,
+      "note": "travel_time <= 180"
+    },
+    {
+      "key": "tip",
+      "stage": "Round 3",
+      "label": "Tip at most half the fare",
+      "revived_rows": 75675844,
+      "notebook_rows": 75673363,
+      "difference_pct": 0.003,
+      "note": "fare_amount >= 2 * tip_amount"
+    },
+    {
+      "key": null,
+      "stage": "Merge",
+      "label": "Join taxi zones; drop trips from zone 264 to zone 265",
+      "revived_rows": 75675163,
+      "notebook_rows": null,
+      "difference_pct": null,
+      "note": ""
+    },
+    {
+      "key": "merge",
+      "stage": "Merge",
+      "label": "Drop zones NA/NV; join weather (2019 pickups) and events",
+      "revived_rows": 75185703,
+      "notebook_rows": 75183226,
+      "difference_pct": 0.003,
+      "note": ""
+    },
+    {
+      "key": "final",
+      "stage": "Merge",
+      "label": "Join collisions; drop Unknown boroughs (final analysis dataset)",
+      "revived_rows": 74910889,
+      "notebook_rows": 74908426,
+      "difference_pct": 0.003,
+      "note": ""
+    },
+    {
+      "key": null,
+      "stage": "Model",
+      "label": "Join shapefile zone names (cell 255)",
+      "revived_rows": 74942128,
+      "notebook_rows": null,
+      "difference_pct": null,
+      "note": ""
+    },
+    {
+      "key": null,
+      "stage": "Model",
+      "label": "Drop rows without an event count (dropna, cell 269)",
+      "revived_rows": 74941355,
+      "notebook_rows": null,
+      "difference_pct": null,
+      "note": ""
+    }
+  ],
+  "fare_zscore": {
+    "mean": 13.02584039557584,
+    "std": 94.37247143093745,
+    "threshold": 296.14325468838814,
+    "notebook_mean": 13.025828555402784,
+    "notebook_std": 94.37330125809798,
+    "notebook_threshold": 296.1457323296967
+  },
+  "side_inputs": {
+    "event_rows_2019": 233110,
+    "notebook_event_rows_2019": 2823378,
+    "collision_rows_known_borough": 134821,
+    "notebook_collision_rows_known_borough": 134821
+  },
+  "one_hot_sizes": {
+    "pickup_zone": 258,
+    "dropoff_zone": 259,
+    "flag": 2
+  }
+}

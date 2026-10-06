@@ -1,0 +1,1522 @@
+[
+  {
+    "y": 88.03333333333333,
+    "numeric": [
+      0.68,
+      0.0,
+      0.0,
+      43.5,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      114.0,
+      118.0
+    ],
+    "indices": [
+      17,
+      26,
+      45,
+      52,
+      64,
+      317,
+      370,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 6,
+      "hour": 7,
+      "ratecode": 2,
+      "passengers": 2,
+      "pickupZone": "JFK Airport",
+      "vendor": 2,
+      "dropoffZone": "Stuy Town/Peter Cooper Village",
+      "flag": "N"
+    },
+    "predictOriginal": 47.29353263543567,
+    "predictRefit": 47.06880388425952
+  },
+  {
+    "y": 4.316666666666666,
+    "numeric": [
+      0.0,
+      0.0,
+      0.0,
+      63.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      372.0,
+      85.0
+    ],
+    "indices": [
+      15,
+      36,
+      44,
+      51,
+      85,
+      317,
+      318,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 4,
+      "hour": 17,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "Central Park",
+      "vendor": 2,
+      "dropoffZone": "Upper East Side North",
+      "flag": "N"
+    },
+    "predictOriginal": 12.893769816181592,
+    "predictRefit": 12.885316322659527
+  },
+  {
+    "y": 10.15,
+    "numeric": [
+      1.33,
+      0.0,
+      0.0,
+      47.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      11.0,
+      113.0
+    ],
+    "indices": [
+      16,
+      32,
+      44,
+      51,
+      70,
+      316,
+      383,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 5,
+      "hour": 13,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "LaGuardia Airport",
+      "vendor": 1,
+      "dropoffZone": "Sunnyside",
+      "flag": "N"
+    },
+    "predictOriginal": 28.777652462200898,
+    "predictRefit": 28.774036617759528
+  },
+  {
+    "y": 11.733333333333333,
+    "numeric": [
+      0.0,
+      0.0,
+      0.0,
+      55.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      313.0,
+      90.0
+    ],
+    "indices": [
+      14,
+      38,
+      44,
+      51,
+      58,
+      317,
+      326,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 3,
+      "hour": 19,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "Midtown Center",
+      "vendor": 2,
+      "dropoffZone": "Union Sq",
+      "flag": "N"
+    },
+    "predictOriginal": 13.383760942361114,
+    "predictRefit": 13.403831651559528
+  },
+  {
+    "y": 17.866666666666667,
+    "numeric": [
+      0.0,
+      0.0,
+      0.0,
+      47.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      50.0,
+      0.0
+    ],
+    "indices": [
+      18,
+      34,
+      44,
+      51,
+      63,
+      317,
+      342,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 7,
+      "hour": 15,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "Clinton East",
+      "vendor": 2,
+      "dropoffZone": "Garment District",
+      "flag": "N"
+    },
+    "predictOriginal": 11.398290065732159,
+    "predictRefit": 11.406469995659528
+  },
+  {
+    "y": 7.066666666666666,
+    "numeric": [
+      0.01,
+      0.0,
+      0.0,
+      71.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      255.0,
+      88.0
+    ],
+    "indices": [
+      14,
+      40,
+      44,
+      51,
+      58,
+      317,
+      320,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 3,
+      "hour": 21,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "Midtown Center",
+      "vendor": 2,
+      "dropoffZone": "Upper East Side South",
+      "flag": "N"
+    },
+    "predictOriginal": 12.250000532534653,
+    "predictRefit": 12.253102791859527
+  },
+  {
+    "y": 25.25,
+    "numeric": [
+      0.0,
+      0.0,
+      0.0,
+      44.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      195.0,
+      81.0
+    ],
+    "indices": [
+      17,
+      27,
+      44,
+      52,
+      75,
+      317,
+      322,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 6,
+      "hour": 8,
+      "ratecode": 1,
+      "passengers": 2,
+      "pickupZone": "Gramercy",
+      "vendor": 2,
+      "dropoffZone": "Times Sq/Theatre District",
+      "flag": "N"
+    },
+    "predictOriginal": 13.108973159647524,
+    "predictRefit": 13.109981569559528
+  },
+  {
+    "y": 13.616666666666667,
+    "numeric": [
+      0.0,
+      0.0,
+      0.0,
+      75.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      334.0,
+      79.0
+    ],
+    "indices": [
+      12,
+      27,
+      44,
+      52,
+      90,
+      317,
+      364,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 1,
+      "hour": 8,
+      "ratecode": 1,
+      "passengers": 2,
+      "pickupZone": "Yorkville East",
+      "vendor": 2,
+      "dropoffZone": "Central Harlem",
+      "flag": "N"
+    },
+    "predictOriginal": 12.493787780525999,
+    "predictRefit": 12.480961503159527
+  },
+  {
+    "y": 22.266666666666666,
+    "numeric": [
+      0.04,
+      0.0,
+      0.0,
+      32.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      86.0,
+      60.0
+    ],
+    "indices": [
+      12,
+      37,
+      44,
+      51,
+      61,
+      317,
+      368,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 1,
+      "hour": 18,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "Penn Station/Madison Sq West",
+      "vendor": 2,
+      "dropoffZone": "Alphabet City",
+      "flag": "N"
+    },
+    "predictOriginal": 13.127442192201201,
+    "predictRefit": 13.119061979259527
+  },
+  {
+    "y": 10.166666666666666,
+    "numeric": [
+      0.26,
+      0.0,
+      0.0,
+      64.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      271.0,
+      72.0
+    ],
+    "indices": [
+      13,
+      35,
+      44,
+      51,
+      100,
+      317,
+      356,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 2,
+      "hour": 16,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "Financial District North",
+      "vendor": 2,
+      "dropoffZone": "Battery Park City",
+      "flag": "N"
+    },
+    "predictOriginal": 16.89155265265549,
+    "predictRefit": 16.918757947859525
+  },
+  {
+    "y": 16.683333333333334,
+    "numeric": [
+      0.02,
+      0.0,
+      0.0,
+      73.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      313.0,
+      76.0
+    ],
+    "indices": [
+      16,
+      41,
+      44,
+      56,
+      58,
+      317,
+      360,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 5,
+      "hour": 22,
+      "ratecode": 1,
+      "passengers": 6,
+      "pickupZone": "Midtown Center",
+      "vendor": 2,
+      "dropoffZone": "SoHo",
+      "flag": "N"
+    },
+    "predictOriginal": 13.206530645000605,
+    "predictRefit": 13.207002142259528
+  },
+  {
+    "y": 41.983333333333334,
+    "numeric": [
+      0.0,
+      0.0,
+      0.0,
+      77.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      227.0,
+      109.0
+    ],
+    "indices": [
+      16,
+      38,
+      45,
+      54,
+      137,
+      317,
+      360,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 5,
+      "hour": 19,
+      "ratecode": 2,
+      "passengers": 4,
+      "pickupZone": "Baisley Park",
+      "vendor": 2,
+      "dropoffZone": "SoHo",
+      "flag": "N"
+    },
+    "predictOriginal": 35.74187212430107,
+    "predictRefit": 35.55648733665953
+  },
+  {
+    "y": 29.383333333333333,
+    "numeric": [
+      0.0,
+      0.0,
+      0.0,
+      75.5,
+      1.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      336.0,
+      86.0
+    ],
+    "indices": [
+      13,
+      34,
+      44,
+      51,
+      81,
+      316,
+      363,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 2,
+      "hour": 15,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "Lenox Hill East",
+      "vendor": 1,
+      "dropoffZone": "Morningside Heights",
+      "flag": "N"
+    },
+    "predictOriginal": 14.419415610318623,
+    "predictRefit": 14.424173505859528
+  },
+  {
+    "y": 2.5166666666666666,
+    "numeric": [
+      0.0,
+      0.0,
+      0.0,
+      29.5,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      72.0,
+      77.0
+    ],
+    "indices": [
+      18,
+      36,
+      44,
+      53,
+      59,
+      317,
+      318,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 7,
+      "hour": 17,
+      "ratecode": 1,
+      "passengers": 3,
+      "pickupZone": "Upper East Side North",
+      "vendor": 2,
+      "dropoffZone": "Upper East Side North",
+      "flag": "N"
+    },
+    "predictOriginal": 12.210879696416596,
+    "predictRefit": 12.224237734459527
+  },
+  {
+    "y": 11.966666666666667,
+    "numeric": [
+      0.07,
+      0.0,
+      0.0,
+      75.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      333.0,
+      69.0
+    ],
+    "indices": [
+      14,
+      31,
+      44,
+      51,
+      60,
+      317,
+      323,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 3,
+      "hour": 12,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "Midtown East",
+      "vendor": 2,
+      "dropoffZone": "Midtown East",
+      "flag": "N"
+    },
+    "predictOriginal": 12.68742075807732,
+    "predictRefit": 12.688906661159528
+  },
+  {
+    "y": 22.35,
+    "numeric": [
+      0.0,
+      0.0,
+      0.0,
+      59.5,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      305.0,
+      73.0
+    ],
+    "indices": [
+      17,
+      41,
+      44,
+      52,
+      71,
+      317,
+      318,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 6,
+      "hour": 22,
+      "ratecode": 1,
+      "passengers": 2,
+      "pickupZone": "East Village",
+      "vendor": 2,
+      "dropoffZone": "Upper East Side North",
+      "flag": "N"
+    },
+    "predictOriginal": 11.491699622129609,
+    "predictRefit": 11.487182559659528
+  },
+  {
+    "y": 12.016666666666667,
+    "numeric": [
+      0.0,
+      0.0,
+      0.0,
+      61.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      308.0,
+      82.0
+    ],
+    "indices": [
+      16,
+      41,
+      44,
+      52,
+      89,
+      317,
+      344,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 5,
+      "hour": 22,
+      "ratecode": 1,
+      "passengers": 2,
+      "pickupZone": "Lower East Side",
+      "vendor": 2,
+      "dropoffZone": "Flatiron",
+      "flag": "N"
+    },
+    "predictOriginal": 13.194461542910135,
+    "predictRefit": 13.219978446159526
+  },
+  {
+    "y": 7.266666666666667,
+    "numeric": [
+      0.0,
+      0.0,
+      0.0,
+      75.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      274.0,
+      74.0
+    ],
+    "indices": [
+      13,
+      36,
+      44,
+      52,
+      62,
+      317,
+      324,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 2,
+      "hour": 17,
+      "ratecode": 1,
+      "passengers": 2,
+      "pickupZone": "Times Sq/Theatre District",
+      "vendor": 2,
+      "dropoffZone": "Clinton East",
+      "flag": "N"
+    },
+    "predictOriginal": 13.843585384546683,
+    "predictRefit": 13.841413394259526
+  },
+  {
+    "y": 22.3,
+    "numeric": [
+      0.0,
+      0.0,
+      0.0,
+      52.5,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      312.0,
+      64.0
+    ],
+    "indices": [
+      15,
+      26,
+      44,
+      51,
+      62,
+      316,
+      365,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 4,
+      "hour": 7,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "Times Sq/Theatre District",
+      "vendor": 1,
+      "dropoffZone": "Hudson Sq",
+      "flag": "N"
+    },
+    "predictOriginal": 12.038998086295281,
+    "predictRefit": 12.057725724759527
+  },
+  {
+    "y": 5.183333333333334,
+    "numeric": [
+      0.0,
+      0.0,
+      0.0,
+      43.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      79.0,
+      52.0
+    ],
+    "indices": [
+      12,
+      31,
+      44,
+      52,
+      57,
+      317,
+      339,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 1,
+      "hour": 12,
+      "ratecode": 1,
+      "passengers": 2,
+      "pickupZone": "Upper East Side South",
+      "vendor": 2,
+      "dropoffZone": "Lenox Hill East",
+      "flag": "N"
+    },
+    "predictOriginal": 10.923449615619909,
+    "predictRefit": 10.932417358459528
+  },
+  {
+    "y": 16.133333333333333,
+    "numeric": [
+      0.03,
+      0.0,
+      0.0,
+      39.5,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      188.0,
+      62.0
+    ],
+    "indices": [
+      18,
+      19,
+      44,
+      51,
+      66,
+      317,
+      362,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 7,
+      "hour": 0,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "Union Sq",
+      "vendor": 2,
+      "dropoffZone": "Financial District North",
+      "flag": "N"
+    },
+    "predictOriginal": 13.011632362047019,
+    "predictRefit": 13.016714635159527
+  },
+  {
+    "y": 16.9,
+    "numeric": [
+      0.0,
+      0.0,
+      0.0,
+      46.5,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      307.0,
+      66.0
+    ],
+    "indices": [
+      18,
+      39,
+      44,
+      51,
+      83,
+      317,
+      365,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 7,
+      "hour": 20,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "West Chelsea/Hudson Yards",
+      "vendor": 2,
+      "dropoffZone": "Hudson Sq",
+      "flag": "N"
+    },
+    "predictOriginal": 12.582032657684769,
+    "predictRefit": 12.583637934059528
+  },
+  {
+    "y": 4.816666666666666,
+    "numeric": [
+      0.01,
+      0.0,
+      0.0,
+      69.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      296.0,
+      61.0
+    ],
+    "indices": [
+      17,
+      35,
+      44,
+      51,
+      65,
+      316,
+      323,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 6,
+      "hour": 16,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "Murray Hill",
+      "vendor": 1,
+      "dropoffZone": "Midtown East",
+      "flag": "N"
+    },
+    "predictOriginal": 13.575636327865695,
+    "predictRefit": 13.581731317759528
+  },
+  {
+    "y": 4.516666666666667,
+    "numeric": [
+      0.96,
+      0.0,
+      0.0,
+      55.5,
+      1.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      313.0,
+      74.0
+    ],
+    "indices": [
+      13,
+      26,
+      44,
+      52,
+      62,
+      316,
+      351,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 2,
+      "hour": 7,
+      "ratecode": 1,
+      "passengers": 2,
+      "pickupZone": "Times Sq/Theatre District",
+      "vendor": 1,
+      "dropoffZone": "Clinton West",
+      "flag": "N"
+    },
+    "predictOriginal": 12.390291754270452,
+    "predictRefit": 12.408621481759528
+  },
+  {
+    "y": 3.4833333333333334,
+    "numeric": [
+      0.0,
+      0.0,
+      0.0,
+      35.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      90.0,
+      44.0
+    ],
+    "indices": [
+      17,
+      27,
+      44,
+      54,
+      58,
+      317,
+      319,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 6,
+      "hour": 8,
+      "ratecode": 1,
+      "passengers": 4,
+      "pickupZone": "Midtown Center",
+      "vendor": 2,
+      "dropoffZone": "Midtown Center",
+      "flag": "N"
+    },
+    "predictOriginal": 11.809186588139394,
+    "predictRefit": 11.811667268659527
+  },
+  {
+    "y": 9.716666666666667,
+    "numeric": [
+      0.57,
+      1.3,
+      0.0,
+      29.5,
+      1.0,
+      1.0,
+      0.0,
+      1.0,
+      0.0,
+      70.0,
+      75.0
+    ],
+    "indices": [
+      15,
+      38,
+      44,
+      51,
+      85,
+      317,
+      325,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 4,
+      "hour": 19,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "Central Park",
+      "vendor": 2,
+      "dropoffZone": "Lincoln Square East",
+      "flag": "N"
+    },
+    "predictOriginal": 12.495355807704966,
+    "predictRefit": 12.501501266959528
+  },
+  {
+    "y": 5.183333333333334,
+    "numeric": [
+      0.0,
+      0.0,
+      0.0,
+      39.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      39.0,
+      75.0
+    ],
+    "indices": [
+      16,
+      40,
+      44,
+      51,
+      67,
+      317,
+      330,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 5,
+      "hour": 21,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "Lincoln Square East",
+      "vendor": 2,
+      "dropoffZone": "Midtown North",
+      "flag": "N"
+    },
+    "predictOriginal": 13.171401278203088,
+    "predictRefit": 13.171912566559527
+  },
+  {
+    "y": 6.75,
+    "numeric": [
+      0.0,
+      0.0,
+      0.0,
+      34.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      57.0,
+      73.0
+    ],
+    "indices": [
+      17,
+      28,
+      44,
+      51,
+      61,
+      316,
+      319,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 6,
+      "hour": 9,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "Penn Station/Madison Sq West",
+      "vendor": 1,
+      "dropoffZone": "Midtown Center",
+      "flag": "N"
+    },
+    "predictOriginal": 14.129050606095413,
+    "predictRefit": 14.134067378359529
+  },
+  {
+    "y": 10.283333333333333,
+    "numeric": [
+      0.53,
+      0.0,
+      0.0,
+      71.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      341.0,
+      100.0
+    ],
+    "indices": [
+      17,
+      42,
+      44,
+      51,
+      57,
+      316,
+      336,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 6,
+      "hour": 23,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "Upper East Side South",
+      "vendor": 1,
+      "dropoffZone": "West Chelsea/Hudson Yards",
+      "flag": "N"
+    },
+    "predictOriginal": 13.154585867427215,
+    "predictRefit": 13.175557907059527
+  },
+  {
+    "y": 26.533333333333335,
+    "numeric": [
+      1.38,
+      0.0,
+      0.0,
+      61.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      279.0,
+      65.0
+    ],
+    "indices": [
+      12,
+      35,
+      44,
+      51,
+      87,
+      316,
+      361,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 1,
+      "hour": 16,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "UN/Turtle Bay South",
+      "vendor": 1,
+      "dropoffZone": "East Harlem North",
+      "flag": "N"
+    },
+    "predictOriginal": 13.171227149529273,
+    "predictRefit": 13.163248705559528
+  },
+  {
+    "y": 6.216666666666667,
+    "numeric": [
+      0.0,
+      0.0,
+      0.0,
+      48.5,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      193.0,
+      80.0
+    ],
+    "indices": [
+      13,
+      38,
+      44,
+      51,
+      69,
+      317,
+      359,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 2,
+      "hour": 19,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "Upper West Side South",
+      "vendor": 2,
+      "dropoffZone": "Manhattan Valley",
+      "flag": "N"
+    },
+    "predictOriginal": 12.972009525557132,
+    "predictRefit": 12.996422858459526
+  },
+  {
+    "y": 11.45,
+    "numeric": [
+      0.24,
+      0.0,
+      0.0,
+      68.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      366.0,
+      91.0
+    ],
+    "indices": [
+      18,
+      32,
+      44,
+      51,
+      75,
+      317,
+      357,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 7,
+      "hour": 13,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "Gramercy",
+      "vendor": 2,
+      "dropoffZone": "Little Italy/NoLiTa",
+      "flag": "N"
+    },
+    "predictOriginal": 13.460266827622695,
+    "predictRefit": 13.460877326559528
+  },
+  {
+    "y": 2.4,
+    "numeric": [
+      0.53,
+      0.0,
+      0.0,
+      71.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      341.0,
+      100.0
+    ],
+    "indices": [
+      17,
+      25,
+      44,
+      51,
+      66,
+      317,
+      333,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 6,
+      "hour": 6,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "Union Sq",
+      "vendor": 2,
+      "dropoffZone": "Midtown South",
+      "flag": "N"
+    },
+    "predictOriginal": 11.44752611253137,
+    "predictRefit": 11.462252664859527
+  },
+  {
+    "y": 29.533333333333335,
+    "numeric": [
+      0.0,
+      0.0,
+      0.0,
+      16.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      55.0,
+      74.0
+    ],
+    "indices": [
+      17,
+      28,
+      44,
+      51,
+      58,
+      317,
+      340,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 6,
+      "hour": 9,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "Midtown Center",
+      "vendor": 2,
+      "dropoffZone": "TriBeCa/Civic Center",
+      "flag": "N"
+    },
+    "predictOriginal": 12.863067592064905,
+    "predictRefit": 12.864354539659526
+  },
+  {
+    "y": 11.833333333333334,
+    "numeric": [
+      0.0,
+      0.0,
+      0.0,
+      53.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      360.0,
+      103.0
+    ],
+    "indices": [
+      15,
+      27,
+      44,
+      52,
+      59,
+      317,
+      374,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 4,
+      "hour": 8,
+      "ratecode": 1,
+      "passengers": 2,
+      "pickupZone": "Upper East Side North",
+      "vendor": 2,
+      "dropoffZone": "Bloomingdale",
+      "flag": "N"
+    },
+    "predictOriginal": 13.479964043808039,
+    "predictRefit": 13.501590252359527
+  },
+  {
+    "y": 26.666666666666668,
+    "numeric": [
+      0.0,
+      0.0,
+      2.0,
+      26.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      75.0,
+      81.0
+    ],
+    "indices": [
+      14,
+      39,
+      44,
+      51,
+      88,
+      317,
+      325,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 3,
+      "hour": 20,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "Greenwich Village South",
+      "vendor": 2,
+      "dropoffZone": "Lincoln Square East",
+      "flag": "N"
+    },
+    "predictOriginal": 12.70613200849007,
+    "predictRefit": 12.712038721159528
+  },
+  {
+    "y": 5.766666666666667,
+    "numeric": [
+      0.04,
+      0.0,
+      0.0,
+      72.5,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      373.0,
+      60.0
+    ],
+    "indices": [
+      12,
+      33,
+      44,
+      52,
+      80,
+      316,
+      320,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 1,
+      "hour": 14,
+      "ratecode": 1,
+      "passengers": 2,
+      "pickupZone": "Yorkville West",
+      "vendor": 1,
+      "dropoffZone": "Upper East Side South",
+      "flag": "N"
+    },
+    "predictOriginal": 10.839387199469751,
+    "predictRefit": 10.853993095359527
+  },
+  {
+    "y": 16.966666666666665,
+    "numeric": [
+      0.75,
+      1.2,
+      0.0,
+      31.0,
+      1.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      54.0,
+      78.0
+    ],
+    "indices": [
+      14,
+      33,
+      44,
+      51,
+      57,
+      316,
+      323,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 3,
+      "hour": 14,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "Upper East Side South",
+      "vendor": 1,
+      "dropoffZone": "Midtown East",
+      "flag": "N"
+    },
+    "predictOriginal": 13.009220704892074,
+    "predictRefit": 13.032044237259527
+  },
+  {
+    "y": 35.233333333333334,
+    "numeric": [
+      0.03,
+      0.0,
+      0.0,
+      78.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      293.0,
+      93.0
+    ],
+    "indices": [
+      15,
+      31,
+      44,
+      52,
+      66,
+      317,
+      325,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 4,
+      "hour": 12,
+      "ratecode": 1,
+      "passengers": 2,
+      "pickupZone": "Union Sq",
+      "vendor": 2,
+      "dropoffZone": "Lincoln Square East",
+      "flag": "N"
+    },
+    "predictOriginal": 13.127684410060274,
+    "predictRefit": 13.133113629559528
+  },
+  {
+    "y": 10.083333333333334,
+    "numeric": [
+      0.06,
+      0.0,
+      0.0,
+      52.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      255.0,
+      42.0
+    ],
+    "indices": [
+      12,
+      38,
+      44,
+      51,
+      83,
+      316,
+      330,
+      577
+    ],
+    "context": {
+      "sparkWeekday": 1,
+      "hour": 19,
+      "ratecode": 1,
+      "passengers": 1,
+      "pickupZone": "West Chelsea/Hudson Yards",
+      "vendor": 1,
+      "dropoffZone": "Midtown North",
+      "flag": "N"
+    },
+    "predictOriginal": 11.19400120901787,
+    "predictRefit": 11.182647202259528
+  }
+]

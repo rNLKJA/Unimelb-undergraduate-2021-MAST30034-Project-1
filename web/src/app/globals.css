@@ -1,0 +1,266 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design tokens: NYC editorial.
+ *  light = newsprint (warm paper, ink, hairline rules)
+ *  dark  = asphalt (charcoal road surface, warm white type)
+ *  accent = taxi yellow; categorical colours borrow the MTA subway palette.
+ */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-archivo);
+  --font-serif: var(--font-source-serif);
+  --font-mono: var(--font-jetbrains);
+  --font-heading: var(--font-archivo);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-rule: var(--rule);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-taxi: var(--taxi);
+  --color-taxi-ink: var(--taxi-ink);
+  --color-taxi-text: var(--taxi-text);
+  --color-line-red: var(--line-red);
+  --color-line-green: var(--line-green);
+  --color-line-blue: var(--line-blue);
+  --color-line-orange: var(--line-orange);
+  --color-line-purple: var(--line-purple);
+  --color-line-lime: var(--line-lime);
+  --color-line-brown: var(--line-brown);
+  --color-line-grey: var(--line-grey);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --text-display: clamp(2.75rem, 1.6rem + 5.2vw, 6.25rem);
+  --text-display--line-height: 0.9;
+}
+
+:root {
+  --radius: 0.375rem;
+  --background: oklch(0.962 0.012 86);
+  --foreground: oklch(0.2 0.006 270);
+  --card: oklch(0.982 0.008 86);
+  --card-foreground: oklch(0.2 0.006 270);
+  --popover: oklch(0.985 0.006 86);
+  --popover-foreground: oklch(0.2 0.006 270);
+  --primary: oklch(0.2 0.006 270);
+  --primary-foreground: oklch(0.97 0.01 86);
+  --secondary: oklch(0.925 0.016 86);
+  --secondary-foreground: oklch(0.22 0.006 270);
+  --muted: oklch(0.93 0.014 86);
+  --muted-foreground: oklch(0.45 0.012 80);
+  --accent: oklch(0.91 0.03 90);
+  --accent-foreground: oklch(0.2 0.006 270);
+  --destructive: oklch(0.55 0.2 27);
+  --border: oklch(0.86 0.016 86);
+  --rule: oklch(0.2 0.006 270);
+  --input: oklch(0.84 0.016 86);
+  --ring: oklch(0.62 0.15 75);
+  /* taxi yellow: as a fill, plus a darker shade for yellow-ish text on paper */
+  --taxi: oklch(0.83 0.165 84);
+  --taxi-ink: oklch(0.2 0.006 270);
+  --taxi-text: oklch(0.52 0.12 70);
+  --line-red: #d6302a;
+  --line-green: #00843a;
+  --line-blue: #0039a6;
+  --line-orange: #e8590f;
+  --line-purple: #a52f9c;
+  --line-lime: #4f9a2f;
+  --line-brown: #8a5a2b;
+  --line-grey: #6d7076;
+  --chart-1: oklch(0.72 0.16 80);
+  --chart-2: #0039a6;
+  --chart-3: #d6302a;
+  --chart-4: #00843a;
+  --chart-5: #a52f9c;
+  /* sequential ramp for choropleths: paper -> yellow -> burnt umber */
+  --seq-0: #f3ead2;
+  --seq-1: #f6d77a;
+  --seq-2: #f2b72c;
+  --seq-3: #dd8a14;
+  --seq-4: #ae5a12;
+  --seq-5: #6e3410;
+  --map-nodata: #e3dccb;
+  --map-line: rgba(30, 30, 34, 0.35);
+}
+
+.dark {
+  --background: oklch(0.185 0.006 265);
+  --foreground: oklch(0.93 0.012 85);
+  --card: oklch(0.215 0.007 265);
+  --card-foreground: oklch(0.93 0.012 85);
+  --popover: oklch(0.23 0.007 265);
+  --popover-foreground: oklch(0.93 0.012 85);
+  --primary: oklch(0.86 0.165 86);
+  --primary-foreground: oklch(0.18 0.006 265);
+  --secondary: oklch(0.26 0.007 265);
+  --secondary-foreground: oklch(0.93 0.012 85);
+  --muted: oklch(0.25 0.007 265);
+  --muted-foreground: oklch(0.72 0.014 85);
+  --accent: oklch(0.3 0.02 85);
+  --accent-foreground: oklch(0.95 0.01 85);
+  --destructive: oklch(0.68 0.19 25);
+  --border: oklch(0.32 0.008 265);
+  --rule: oklch(0.86 0.165 86);
+  --input: oklch(0.36 0.008 265);
+  --ring: oklch(0.86 0.165 86);
+  --taxi: oklch(0.86 0.165 86);
+  --taxi-ink: oklch(0.18 0.006 265);
+  --taxi-text: oklch(0.86 0.165 86);
+  --line-red: #ff5a50;
+  --line-green: #2fbf62;
+  --line-blue: #5b8cff;
+  --line-orange: #ff8a3d;
+  --line-purple: #e06bd5;
+  --line-lime: #9be06c;
+  --line-brown: #c99258;
+  --line-grey: #b6b9be;
+  --chart-1: oklch(0.86 0.165 86);
+  --chart-2: #5b8cff;
+  --chart-3: #ff5a50;
+  --chart-4: #2fbf62;
+  --chart-5: #e06bd5;
+  --seq-0: #2a2a2c;
+  --seq-1: #4d4128;
+  --seq-2: #87661d;
+  --seq-3: #c39114;
+  --seq-4: #f2b72c;
+  --seq-5: #ffe17a;
+  --map-nodata: #26272b;
+  --map-line: rgba(255, 255, 255, 0.22);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    scroll-padding-top: 5rem;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "ss01", "tnum";
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: var(--taxi);
+    color: var(--taxi-ink);
+  }
+}
+
+@layer components {
+  /* condensed grotesk headline (Archivo's width axis) */
+  .font-condensed {
+    font-family: var(--font-archivo);
+    font-stretch: 64%;
+    letter-spacing: -0.005em;
+  }
+  .kicker {
+    font-family: var(--font-jetbrains);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  /* newspaper double rule */
+  .rule-double {
+    border-top: 3px double var(--rule);
+  }
+  .prose-news {
+    font-family: var(--font-source-serif);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+  .prose-news p + p {
+    margin-top: 0.9em;
+  }
+  .prose-news a,
+  .link-taxi {
+    text-decoration: underline;
+    text-decoration-color: var(--taxi);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 3px;
+  }
+  .prose-news a:hover,
+  .link-taxi:hover {
+    background: color-mix(in oklch, var(--taxi) 30%, transparent);
+  }
+  /* checkerboard band, like the old Checker cab trim */
+  .checker {
+    background-image:
+      linear-gradient(45deg, var(--foreground) 25%, transparent 25%),
+      linear-gradient(-45deg, var(--foreground) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, var(--foreground) 75%),
+      linear-gradient(-45deg, transparent 75%, var(--foreground) 75%);
+    background-size: 12px 12px;
+    background-position:
+      0 0,
+      0 6px,
+      6px -6px,
+      -6px 0;
+  }
+}
+
+/* MapLibre controls in the site palette */
+.maplibregl-ctrl-group {
+  background: var(--card) !important;
+  border: 1px solid var(--border);
+}
+.maplibregl-ctrl-group button + button {
+  border-top-color: var(--border) !important;
+}
+.dark .maplibregl-ctrl-icon {
+  filter: invert(1);
+}
+/* MapLibre's compact attribution hard-codes black text on white; follow the theme instead */
+.maplibregl-ctrl-attrib,
+.maplibregl-ctrl-attrib.maplibregl-compact {
+  background: color-mix(in oklch, var(--card) 85%, transparent) !important;
+  color: var(--muted-foreground) !important;
+  font-size: 10px;
+}
+.maplibregl-ctrl-attrib a {
+  color: inherit !important;
+}
+.dark .maplibregl-ctrl-attrib-button {
+  filter: invert(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
