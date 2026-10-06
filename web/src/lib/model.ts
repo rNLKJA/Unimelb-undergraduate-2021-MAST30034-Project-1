@@ -55,20 +55,6 @@ export const NUMERIC_FEATURES = [
 
 export type NumericFeature = (typeof NUMERIC_FEATURES)[number];
 
-export const NUMERIC_LABELS: Record<NumericFeature, string> = {
-  precipitation: "Precipitation (in)",
-  snow: "Snowfall (in)",
-  snowDepth: "Snow depth (in)",
-  tavg: "Average temperature (°F)",
-  wt01: "Fog (WT01)",
-  wt02: "Heavy fog (WT02)",
-  wt03: "Thunder (WT03)",
-  wt06: "Glaze or rime (WT06)",
-  wt08: "Smoke or haze (WT08)",
-  events: "Permitted events in the pickup borough",
-  collisions: "Collisions in the pickup borough",
-};
-
 export interface Coefficients {
   label: string;
   intercept: number;
@@ -165,14 +151,4 @@ export function blockTotals(contribs: Contribution[]): Record<BlockName, number>
   const totals = Object.fromEntries(BLOCKS.map((b) => [b.name, 0])) as Record<BlockName, number>;
   for (const c of contribs) totals[c.block] += c.minutes;
   return totals;
-}
-
-/** Coefficient of one level of a one-hot block (0 when the level does not exist). */
-export function levelCoefficient(
-  coef: Pick<Coefficients, "coefficients">,
-  name: BlockName,
-  level: number,
-): number {
-  if (level < 0 || level >= blockSize(name)) return 0;
-  return coef.coefficients[blockStart(name) + level];
 }

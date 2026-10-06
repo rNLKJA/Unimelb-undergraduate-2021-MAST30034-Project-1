@@ -44,11 +44,6 @@ export function hourLabel(h: number): string {
   return h < 12 ? `${h} am` : `${h - 12} pm`;
 }
 
-/** "07:00" */
-export function hourClock(h: number): string {
-  return `${String(h).padStart(2, "0")}:00`;
-}
-
 /** All dates of 2019 as "YYYY-MM-DD". */
 export function datesOf2019(): string[] {
   const out: string[] = [];
