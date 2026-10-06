@@ -33,3 +33,38 @@ export function formatSigned(n: number, digits = 1): string {
 export function formatPct(n: number | null | undefined, digits = 1): string {
   return n === null || n === undefined || Number.isNaN(n) ? "–" : `${formatFixed(n * 100, digits)}%`;
 }
+
+/** "9.47 (9.18 to 9.73)": an estimate with its interval, en-AU number formatting. */
+export function formatInterval(
+  ci: { estimate: number; lower: number; upper: number },
+  digits = 2,
+  unit = "",
+): string {
+  const f = (v: number) => `${formatFixed(v, digits)}${unit}`;
+  return `${f(ci.estimate)} (${f(ci.lower)} to ${f(ci.upper)})`;
+}
+
+/** Signed percentage, "+4.5%" / "−0.6%" with a real minus sign. */
+export function formatSignedPct(n: number, digits = 1): string {
+  return `${formatSigned(n * 100, digits)}%`;
+}
+
+/** "+4.5% (+2.0% to +7.1%)" */
+export function formatPctInterval(
+  ci: { estimate: number; lower: number; upper: number },
+  digits = 1,
+): string {
+  return `${formatSignedPct(ci.estimate, digits)} (${formatSignedPct(ci.lower, digits)} to ${formatSignedPct(ci.upper, digits)})`;
+}
+
+/** p-values: "< 0.001" below a thousandth, otherwise three decimals. */
+export function formatP(p: number): string {
+  if (!Number.isFinite(p)) return "–";
+  return p < 0.001 ? "< 0.001" : formatFixed(p, 3);
+}
+
+/** Axis ticks in percent: whole numbers where exact, one decimal otherwise (so 2.5% never shows as 3%). */
+export function formatPctTick(v: number): string {
+  const pct = Math.round(v * 1000) / 10;
+  return `${formatFixed(pct, Number.isInteger(pct) ? 0 : 1)}%`;
+}
