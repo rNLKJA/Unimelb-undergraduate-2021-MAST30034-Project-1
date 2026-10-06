@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Segmented } from "@/components/controls/segmented";
 import { formatFixed, formatInt, formatPct } from "@/lib/format";
 
@@ -24,10 +24,28 @@ const MIN_LINE_TRIPS = 20_000;
 const Y0 = -40;
 const Y1 = 80;
 
-function Heatmap({ d }: { d: DiagnosticsData }) {
-  const W = 560;
-  const H = 330;
-  const m = { l: 44, r: 12, t: 10, b: 34 };
+/** Font classes for chart text: larger in the narrow layout, which is drawn at about its own size. */
+function fonts(compact: boolean) {
+  return compact
+    ? { tick: "font-mono text-[11px]", label: "text-[12px]" }
+    : { tick: "font-mono text-[10px]", label: "text-[11px]" };
+}
+
+/** A chart in two layouts: a narrow one below the sm breakpoint, so its text stays readable on a phone. */
+function Responsive({ children }: { children: (compact: boolean) => ReactNode }) {
+  return (
+    <>
+      <div className="sm:hidden">{children(true)}</div>
+      <div className="hidden sm:block">{children(false)}</div>
+    </>
+  );
+}
+
+function Heatmap({ d, compact = false }: { d: DiagnosticsData; compact?: boolean }) {
+  const W = compact ? 360 : 560;
+  const H = compact ? 300 : 330;
+  const m = compact ? { l: 40, r: 8, t: 8, b: 34 } : { l: 44, r: 12, t: 10, b: 34 };
+  const f = fonts(compact);
   const sx = (v: number) => m.l + ((v - X0) / (X1 - X0)) * (W - m.l - m.r);
   const sy = (v: number) => m.t + (1 - (v - Y0) / (Y1 - Y0)) * (H - m.t - m.b);
   const visible = d.cells.filter((c) => c.x >= X0 && c.x < X1 && c.y >= Y0 && c.y < Y1);
@@ -46,8 +64,8 @@ function Heatmap({ d }: { d: DiagnosticsData }) {
           `${i ? "L" : "M"}${sx(b.x).toFixed(1)},${sy(Math.max(Y0, Math.min(Y1, b[key]))).toFixed(1)}`,
       )
       .join("");
-  const xt = [0, 10, 20, 30, 40, 50, 60];
-  const yt = [-40, -20, 0, 20, 40, 60, 80];
+  const xt = compact ? [0, 20, 40, 60] : [0, 10, 20, 30, 40, 50, 60];
+  const yt = compact ? [-40, 0, 40, 80] : [-40, -20, 0, 20, 40, 60, 80];
   return (
     <svg
       viewBox={`0 0 ${W} ${H}`}
@@ -65,12 +83,7 @@ function Heatmap({ d }: { d: DiagnosticsData }) {
             className="stroke-border"
             strokeDasharray={v === 0 ? undefined : "2 4"}
           />
-          <text
-            x={m.l - 6}
-            y={sy(v) + 3}
-            textAnchor="end"
-            className="fill-muted-foreground font-mono text-[10px]"
-          >
+          <text x={m.l - 6} y={sy(v) + 3} textAnchor="end" className={`fill-muted-foreground ${f.tick}`}>
             {v}
           </text>
         </g>
@@ -81,7 +94,7 @@ function Heatmap({ d }: { d: DiagnosticsData }) {
           x={sx(v)}
           y={H - m.b + 14}
           textAnchor="middle"
-          className="fill-muted-foreground font-mono text-[10px]"
+          className={`fill-muted-foreground ${f.tick}`}
         >
           {v}
         </text>
@@ -108,18 +121,18 @@ function Heatmap({ d }: { d: DiagnosticsData }) {
         x={(m.l + W - m.r) / 2}
         y={H - 4}
         textAnchor="middle"
-        className="fill-muted-foreground text-[11px]"
+        className={`fill-muted-foreground ${f.label}`}
       >
         Fitted minutes
       </text>
       <text
-        x={12}
+        x={11}
         y={(m.t + H - m.b) / 2}
         textAnchor="middle"
-        transform={`rotate(-90 12 ${(m.t + H - m.b) / 2})`}
-        className="fill-muted-foreground text-[11px]"
+        transform={`rotate(-90 11 ${(m.t + H - m.b) / 2})`}
+        className={`fill-muted-foreground ${f.label}`}
       >
-        Residual (observed − fitted), minutes
+        {compact ? "Residual, minutes" : "Residual (observed − fitted), minutes"}
       </text>
     </svg>
   );
@@ -196,10 +209,11 @@ function QQ({ d }: { d: DiagnosticsData }) {
   );
 }
 
-function HourSpread({ d }: { d: DiagnosticsData }) {
-  const W = 560;
-  const H = 230;
-  const m = { l: 34, r: 8, t: 10, b: 26 };
+function HourSpread({ d, compact = false }: { d: DiagnosticsData; compact?: boolean }) {
+  const W = compact ? 360 : 560;
+  const H = compact ? 200 : 230;
+  const m = compact ? { l: 30, r: 8, t: 10, b: 24 } : { l: 34, r: 8, t: 10, b: 26 };
+  const f = fonts(compact);
   const max = Math.ceil(Math.max(...d.hour.map((h) => h.sd)) / 2) * 2;
   const sx = (h: number) => m.l + (h / 23) * (W - m.l - m.r);
   const sy = (v: number) => m.t + (1 - v / max) * (H - m.t - m.b);
@@ -216,12 +230,7 @@ function HourSpread({ d }: { d: DiagnosticsData }) {
       {[0, max / 2, max].map((v) => (
         <g key={v}>
           <line x1={m.l} x2={W - m.r} y1={sy(v)} y2={sy(v)} className="stroke-border" strokeDasharray="2 4" />
-          <text
-            x={m.l - 5}
-            y={sy(v) + 3}
-            textAnchor="end"
-            className="fill-muted-foreground font-mono text-[10px]"
-          >
+          <text x={m.l - 5} y={sy(v) + 3} textAnchor="end" className={`fill-muted-foreground ${f.tick}`}>
             {v}
           </text>
         </g>
@@ -232,7 +241,7 @@ function HourSpread({ d }: { d: DiagnosticsData }) {
           x={sx(h)}
           y={H - m.b + 13}
           textAnchor="middle"
-          className="fill-muted-foreground font-mono text-[10px]"
+          className={`fill-muted-foreground ${f.tick}`}
         >
           {String(h).padStart(2, "0")}
         </text>
@@ -267,12 +276,12 @@ export function ResidualDiagnostics({ data }: { data: DiagnosticsData[] }) {
       <div className="grid gap-8 lg:grid-cols-[1.6fr_1fr]">
         <figure>
           <h3 className="kicker text-muted-foreground mb-2">Residuals against fitted values</h3>
-          <Heatmap d={d} />
+          <Responsive>{(compact) => <Heatmap d={d} compact={compact} />}</Responsive>
           <figcaption className="text-muted-foreground mt-2 text-xs leading-relaxed">
-            Shading shows trips per cell on a log scale, with the strongest colour for the densest cells.
-            Black lines show the 10th, 50th (solid) and 90th percentile of the residual in each 1-minute band
-            of fitted values with at least 20,000 trips, and the red line the mean residual. Trips outside the
-            plotted window are counted but not drawn.
+            Shading shows trips per cell on a log scale, with the strongest colour for the densest cells. The
+            solid line is the median residual in each 1-minute band of fitted values with at least 20,000
+            trips, the dashed lines the 10th and 90th percentiles, and the red line the mean residual. Trips
+            outside the plotted window are counted but not drawn.
           </figcaption>
         </figure>
         <figure>
@@ -317,7 +326,7 @@ export function ResidualDiagnostics({ data }: { data: DiagnosticsData[] }) {
         </figure>
         <figure>
           <h3 className="kicker text-muted-foreground mb-2">Residual SD by pickup hour (minutes)</h3>
-          <HourSpread d={d} />
+          <Responsive>{(compact) => <HourSpread d={d} compact={compact} />}</Responsive>
           <figcaption className="text-muted-foreground mt-1 text-xs leading-relaxed">
             Borough × hour explains {formatPct(d.summary.eta2, 1)} of the variation in squared residuals
             (Breusch–Pagan-style LM = {formatInt(Math.round(d.summary.bp))} on {d.summary.df} df). At this

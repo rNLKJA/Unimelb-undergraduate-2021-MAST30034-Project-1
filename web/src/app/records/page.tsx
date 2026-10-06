@@ -22,8 +22,10 @@ export default async function RecordsPage() {
           Every chart on this site reads from one read-only SQLite file,{" "}
           <code className="font-mono text-base">web/data/analytics.db</code>, built by{" "}
           <a href={repoPath("scripts/build_analytics.py")}>scripts/build_analytics.py</a> from the cleaned
-          trips. It holds {tables.length} tables and {formatInt(total)} rows of aggregates; no individual trip
-          is stored.
+          trips, with the evidence and data-quality tables added by{" "}
+          <a href={repoPath("scripts/build_evidence_tables.py")}>scripts/build_evidence_tables.py</a>. It
+          holds {tables.length} tables and {formatInt(total)} rows of aggregates; no individual trip is
+          stored.
         </p>
       </PageHeader>
       <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6">

@@ -49,7 +49,8 @@ export default async function DecisionPage({ params }: PageProps<"/methods/decis
         <p className="mt-1 font-serif text-[17px] leading-relaxed">{d.decision}</p>
       </aside>
       <div className="rule-double mt-8" />
-      <Markdown source={body} className="mt-2" />
+      {/* the page's h1 is the record's title, so the record's ## sections are h2 */}
+      <Markdown source={body} className="mt-2" topLevel={1} />
       <nav
         aria-label="Other decision records"
         className="mt-12 flex max-w-4xl flex-wrap justify-between gap-4 border-t pt-4 text-sm"

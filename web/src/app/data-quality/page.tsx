@@ -97,11 +97,11 @@ export default async function DataQualityPage() {
               <tbody className="divide-y font-mono text-[13px]">
                 {files.map((f) => (
                   <tr key={f} className={f === "2019-01" ? "bg-card font-semibold" : undefined}>
-                    <th scope="row" className="py-1.5 pr-3 text-left font-normal">
+                    <th scope="row" className="py-1.5 pr-3 text-left font-normal whitespace-nowrap">
                       {f}
                     </th>
                     <td className="py-1.5 pr-3 text-right">{formatInt(rowsOf(f))}</td>
-                    <td className="py-1.5 pr-3 text-right">
+                    <td className="py-1.5 pr-3 text-right whitespace-nowrap">
                       {formatInt(miss(f, "any column"))}{" "}
                       <span className="text-muted-foreground text-[11px]">
                         ({formatPct(miss(f, "any column") / rowsOf(f), 1)})
@@ -184,7 +184,7 @@ export default async function DataQualityPage() {
                       Step {r.step} · {r.stage}
                     </p>
                     <h3 className="font-semibold">{r.label}</h3>
-                    <code className="text-muted-foreground mt-0.5 block font-mono text-[11px] break-all">
+                    <code className="text-muted-foreground mt-0.5 block font-mono text-[11px] break-words">
                       {r.rule}
                     </code>
                   </div>
@@ -247,7 +247,40 @@ export default async function DataQualityPage() {
           </p>
         }
       >
-        <div className="relative overflow-x-auto">
+        {/* small screens: one card per check, numbers first */}
+        <ul className="grid gap-3 md:hidden">
+          {dq.residual.map((r) => (
+            <li
+              key={r.key}
+              className={`rounded-lg border p-3 ${r.key === "total_excludes_congestion" ? "bg-card" : ""}`}
+            >
+              <p className="font-medium">{r.label}</p>
+              <dl className="mt-2 grid grid-cols-3 gap-2 font-mono text-[13px]">
+                <div>
+                  <dt className="text-muted-foreground font-sans text-[11px]">Trips</dt>
+                  <dd className="whitespace-nowrap">{formatInt(r.rows)}</dd>
+                  <dd className="text-muted-foreground text-[11px] whitespace-nowrap">{share(r.share)}</dd>
+                </div>
+                <div>
+                  <dt className="text-muted-foreground font-sans text-[11px]">Vendor 1</dt>
+                  <dd className="whitespace-nowrap">{formatInt(r.vendor1_rows)}</dd>
+                  <dd className="text-muted-foreground text-[11px] whitespace-nowrap">
+                    {share(r.vendor1_rows / r.vendor1_trips)}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-muted-foreground font-sans text-[11px]">Vendor 2</dt>
+                  <dd className="whitespace-nowrap">{formatInt(r.vendor2_rows)}</dd>
+                  <dd className="text-muted-foreground text-[11px] whitespace-nowrap">
+                    {share(r.vendor2_rows / r.vendor2_trips)}
+                  </dd>
+                </div>
+              </dl>
+              <p className="text-muted-foreground mt-2 font-serif text-[13px] leading-snug">{r.reason}</p>
+            </li>
+          ))}
+        </ul>
+        <div className="relative hidden overflow-x-auto md:block">
           <table className="w-full min-w-[760px] text-sm">
             <caption className="sr-only">Residual plausibility checks by vendor</caption>
             <thead>
@@ -278,17 +311,19 @@ export default async function DataQualityPage() {
                       {r.reason}
                     </span>
                   </th>
-                  <td className="py-2 pr-3 text-right align-top font-mono text-[13px]">
+                  <td className="py-2 pr-3 text-right align-top font-mono text-[13px] whitespace-nowrap">
                     {formatInt(r.rows)}
                   </td>
-                  <td className="py-2 pr-3 text-right align-top font-mono text-[13px]">{share(r.share)}</td>
-                  <td className="py-2 pr-3 text-right align-top font-mono text-[13px]">
+                  <td className="py-2 pr-3 text-right align-top font-mono text-[13px] whitespace-nowrap">
+                    {share(r.share)}
+                  </td>
+                  <td className="py-2 pr-3 text-right align-top font-mono text-[13px] whitespace-nowrap">
                     {formatInt(r.vendor1_rows)}
                     <span className="text-muted-foreground block text-[11px]">
                       {share(r.vendor1_rows / r.vendor1_trips)}
                     </span>
                   </td>
-                  <td className="py-2 text-right align-top font-mono text-[13px]">
+                  <td className="py-2 text-right align-top font-mono text-[13px] whitespace-nowrap">
                     {formatInt(r.vendor2_rows)}
                     <span className="text-muted-foreground block text-[11px]">
                       {share(r.vendor2_rows / r.vendor2_trips)}
