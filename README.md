@@ -6,7 +6,7 @@
 
 Every New York yellow-cab trip of 2019, cleaned with the rules of a 2021 data-science project, joined to weather, permitted events and collisions, mapped by taxi zone and modelled to predict how long a ride takes. Revived in 2026 as an interactive website.
 
-**Live demo:** _coming soon_ (deploys from `web/` on Vercel)
+**Live demo:** [mast30034-nyc-taxi.vercel.app](https://mast30034-nyc-taxi.vercel.app)
 
 [![CI](https://github.com/rNLKJA/Unimelb-undergraduate-2021-MAST30034-Project-1/actions/workflows/ci.yml/badge.svg)](https://github.com/rNLKJA/Unimelb-undergraduate-2021-MAST30034-Project-1/actions/workflows/ci.yml)
 ![Next.js 16](https://img.shields.io/badge/Next.js-16-000?logo=nextdotjs)
@@ -66,7 +66,7 @@ The model is Spark MLlib `LinearRegression(regParam=0.3, elasticNetParam=0.8)` o
 | `/records` | Browse, search, sort and download (CSV) every table of the analytics database |
 | `/api/zones`, `/api/routes`, `/api/route-hourly` | Read-only JSON used by the interactive pages |
 
-Everything is static or served from a bundled read-only SQLite file. There is no backend service, account or API key. Map tiles come from [OpenFreeMap](https://openfreemap.org) (free, no key). If they fail to load, the maps fall back to bundled borough outlines.
+Everything is static or served from a bundled read-only SQLite file. There is no backend service, database server, account or API key. Map tiles come from [OpenFreeMap](https://openfreemap.org) (free, no key). If they fail to load, the maps fall back to bundled borough outlines.
 
 ## Tech stack
 
@@ -129,7 +129,7 @@ No environment variables are needed (see `web/.env.example`). Metadata and Open 
 
 ### Deploying
 
-Point a Vercel project at the `web/` directory. `next.config.ts` traces `data/analytics.db` into every server function (`outputFileTracingIncludes`). On Vercel the file is copied to `/tmp` once per cold start and opened read-only.
+Production runs on Vercel as the project `mast30034-nyc-taxi` ([mast30034-nyc-taxi.vercel.app](https://mast30034-nyc-taxi.vercel.app)), deployed from `web/` with `vercel deploy --prod`. To deploy your own copy, point a Vercel project at the `web/` directory. `next.config.ts` traces `data/analytics.db` into every server function (`outputFileTracingIncludes`). On Vercel the file is copied to `/tmp` once per cold start and opened read-only.
 
 ## How the data artefacts are generated
 
@@ -153,6 +153,14 @@ Sources and provenance:
 - **Permitted events:** NYC Open Data `bkfu-528j`, events starting in 2019. The dataset has been revised since 2021 and is much smaller now. This does not affect the model, which gave events a zero coefficient.
 
 `analytics.db` has 18 tables: zones; zone × weekday × hour; zone × vendor; every zone-to-zone route; hourly profiles of busy routes; borough flows; the daily series and daily × borough; weekday × hour × vendor; weather; events; collisions; the cleaning funnel; model folds, coefficients, regularisation path and zone index; and table descriptions. No individual trip is stored.
+
+### Viewing the records
+
+The site is read-only, so there is no admin login or hosted database: every visitor sees the same bundled `web/data/analytics.db`. Three ways to look inside it:
+
+- **On the website:** [`/records`](https://mast30034-nyc-taxi.vercel.app/records) lists all 18 tables with row counts and descriptions. Each table page has search, sortable columns, pagination and a CSV download.
+- **Locally:** open `web/data/analytics.db` in any SQLite browser (DB Browser for SQLite, Datasette, the `sqlite3` shell). For example: `sqlite3 web/data/analytics.db "select * from routes order by trips desc limit 5"`.
+- **As JSON:** the read-only API routes `/api/zones`, `/api/routes` and `/api/route-hourly` serve the slices the interactive pages use.
 
 ### The cleaning rules, quirks included
 
