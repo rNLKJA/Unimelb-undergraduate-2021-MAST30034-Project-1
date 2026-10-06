@@ -42,13 +42,38 @@ export function SiteFooter() {
             </li>
             <li>
               <Link className="link-taxi" href="/method">
-                Cleaning rules and model
+                Cleaning rules and the 2021 model
+              </Link>
+            </li>
+            <li>
+              <Link className="link-taxi" href="/data-quality">
+                Data-quality report
+              </Link>
+            </li>
+            <li>
+              <Link className="link-taxi" href="/methods#decisions">
+                Decision records
+              </Link>
+            </li>
+            <li>
+              <Link className="link-taxi" href="/methods#model-card">
+                Model card
+              </Link>
+            </li>
+            <li>
+              <Link className="link-taxi" href="/methods#ai-use">
+                AI use statement
+              </Link>
+            </li>
+            <li>
+              <Link className="link-taxi" href="/ai-log">
+                AI audit log
               </Link>
             </li>
           </ul>
           <p className="text-muted-foreground mt-6 text-xs leading-relaxed">
             The original 2021 notebook is preserved unchanged in the repository for reference. This site shows
-            aggregates only; no trip-level records are served.
+            aggregates only and serves no trip-level records. AI features are optional and use your own key.
           </p>
         </div>
       </div>

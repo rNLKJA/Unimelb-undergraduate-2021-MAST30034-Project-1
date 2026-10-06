@@ -12,6 +12,7 @@ Writes
 * web/public/data/boroughs.geojson  borough outlines, the offline basemap
 * web/src/lib/data/hero-map.json    pre-projected SVG paths for the landing page
 * web/src/lib/data/model.json       coefficients + zone indexes for the estimator
+* the evidence tables of build_evidence_tables.py (when scripts/out holds their inputs)
 
 Every number in analytics.db is derived from data-cache/work.duckdb (built by
 pipeline.py from public TLC/NOAA/NYC Open Data files) and scripts/out/*.json.
@@ -29,6 +30,7 @@ from pyproj import CRS, Transformer
 from shapely.geometry import mapping, shape
 from shapely.ops import transform, unary_union
 
+import build_evidence_tables
 from common import ANALYTICS_DB, OUT, PUBLIC_DATA, RAW, WEB, WORK_DB, Timer, write_json
 
 BOROUGHS = ["Manhattan", "Brooklyn", "Queens", "Bronx", "Staten Island", "EWR"]
@@ -464,6 +466,13 @@ def main() -> None:
         "summary": model_report["summary"],
     }
     write_json(WEB / "src" / "lib" / "data" / "model.json", est)
+
+    # rigour, effects and data-quality tables (scripts/rigour.py, effects.py, data_quality.py)
+    if all((OUT / f).exists() for f in ("rigour.json", "effects.json", "data_quality.json")):
+        with Timer("evidence tables"):
+            build_evidence_tables.main()
+    else:
+        print("     skipped the evidence tables: run rigour.py, effects.py and data_quality.py first")
 
 
 if __name__ == "__main__":

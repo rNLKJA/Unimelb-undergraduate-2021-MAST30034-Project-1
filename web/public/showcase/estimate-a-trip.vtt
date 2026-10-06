@@ -1,0 +1,39 @@
+WEBVTT
+
+NOTE Estimate a trip: captions match the on-screen steps.
+
+1
+00:00:00.200 --> 00:00:05.868
+Step 1 of 9. Estimate a trip: the 2021 regression runs in your browser, all 579 features of it.
+
+2
+00:00:05.868 --> 00:00:08.422
+Step 2 of 9. Pick a pickup zone: Penn Station/Madison Sq West.
+
+3
+00:00:08.422 --> 00:00:16.917
+Step 3 of 9. And a drop-off: Times Sq/Theatre District, on Wednesday 9 October 2019 at 5 pm.
+
+4
+00:00:16.917 --> 00:00:22.820
+Step 4 of 9. The 2021 model predicts 14.2 min, with a 90% split-conformal interval of 3.9 to 31.5 min.
+
+5
+00:00:22.820 --> 00:00:27.600
+Step 5 of 9. Riders saw a median of 13.3 min at 5 pm, over 9,856 trips: the dashed blue line.
+
+6
+00:00:27.600 --> 00:00:35.119
+Step 6 of 9. At 95% the interval widens to 3.1 to 36.7 min, and 95.0% of held-out trips like these fell inside.
+
+7
+00:00:35.119 --> 00:00:41.551
+Step 7 of 9. Change the hour to 8 am: 13.2 min, and the interval moves with the prediction.
+
+8
+00:00:41.551 --> 00:00:49.867
+Step 8 of 9. Why that number: a linear model is a sum, and each bar is one part of the trip.
+
+9
+00:00:49.867 --> 00:01:01.560
+Step 9 of 9. How the intervals were checked: coverage on 7.5 million held-out trips, with day-bootstrap CIs.

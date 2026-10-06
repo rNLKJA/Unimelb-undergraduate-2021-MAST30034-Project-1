@@ -1,0 +1,43 @@
+WEBVTT
+
+NOTE What changes trip time: captions match the on-screen steps.
+
+1
+00:00:00.200 --> 00:00:08.314
+Step 1 of 10. What changes trip time? Each trip is compared with its own route and hour.
+
+2
+00:00:08.314 --> 00:00:15.114
+Step 2 of 10. One dot per day: how much longer than usual the day's trips took, against Central Park rain.
+
+3
+00:00:15.114 --> 00:00:22.311
+Step 3 of 10. Rain: the same trips are 3.4% slower on wet days (95% CI 1.9% to 4.8%), over 333 days.
+
+4
+00:00:22.311 --> 00:00:30.628
+Step 4 of 10. Every comparison with its interval: two-sample, regression and rain bins.
+
+5
+00:00:30.628 --> 00:00:38.325
+Step 5 of 10. Permitted events: 31 matched pairs on 16 dates, −0.6% (95% CI −2.8% to +1.8%), no detectable effect.
+
+6
+00:00:38.325 --> 00:00:45.029
+Step 6 of 10. The caveats: observational data, one rain gauge, collisions as a mediator.
+
+7
+00:00:45.029 --> 00:00:51.195
+Step 7 of 10. The data-quality report: what each 2021 cleaning rule removes, and why.
+
+8
+00:00:51.195 --> 00:00:57.793
+Step 8 of 10. Missing values: until 21 January 2019 almost every row lacks the congestion surcharge.
+
+9
+00:00:57.793 --> 00:01:06.201
+Step 9 of 10. Rule by rule: removed in sequence, failing alone and failing only this rule.
+
+10
+00:01:06.201 --> 00:01:16.240
+Step 10 of 10. What got through: vendor 1 leaves the $2.50 surcharge out of the total on 23.4 million trips.

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { formatInt } from "@/lib/format";
 import { effectiveSort, getTable, queryTable, tableParamsSchema, type TableParams } from "@/server/records";
+import { ScrollRegion } from "@/components/scroll-region";
 
 export async function generateMetadata({ params }: PageProps<"/records/[table]">): Promise<Metadata> {
   const { table } = await params;
@@ -85,7 +86,7 @@ export default async function TablePage({ params, searchParams }: PageProps<"/re
         </div>
       </div>
 
-      <div className="relative mt-4 overflow-x-auto rounded-lg border">
+      <ScrollRegion label={`${t.title}, page ${page} of ${pages}`} className="mt-4 rounded-lg border">
         <table className="w-full text-sm">
           <caption className="sr-only">
             {t.name}, page {page} of {pages}
@@ -160,7 +161,7 @@ export default async function TablePage({ params, searchParams }: PageProps<"/re
             ))}
           </tbody>
         </table>
-      </div>
+      </ScrollRegion>
 
       <nav aria-label="Pagination" className="mt-4 flex items-center justify-between text-sm">
         {page > 1 ? (

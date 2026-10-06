@@ -210,6 +210,15 @@ export const getHeadline = cache(async () => {
     manhattanShare: manhattan.share,
     notebookR2: avg(folds.map((f) => f.notebook_r2)),
     notebookRmse: avg(folds.map((f) => f.notebook_rmse)),
+    /** spread across the ten folds: [min, max] */
+    notebookR2Range: [
+      Math.min(...folds.map((f) => f.notebook_r2)),
+      Math.max(...folds.map((f) => f.notebook_r2)),
+    ] as const,
+    notebookRmseRange: [
+      Math.min(...folds.map((f) => f.notebook_rmse)),
+      Math.max(...folds.map((f) => f.notebook_rmse)),
+    ] as const,
     revivedR2: avg(folds.map((f) => f.original_on_revived_r2)),
     revivedRmse: avg(folds.map((f) => f.original_on_revived_rmse)),
     refitR2: avg(folds.map((f) => f.refit_r2)),

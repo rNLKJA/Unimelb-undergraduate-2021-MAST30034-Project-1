@@ -1,5 +1,6 @@
 import { BOROUGHS, BOROUGH_VAR, boroughShort } from "@/lib/boroughs";
 import { formatCompact, formatInt, formatMinutes } from "@/lib/format";
+import { ScrollRegion } from "@/components/scroll-region";
 
 /**
  * Text colour per ramp step so every cell keeps at least 4.5:1 contrast.
@@ -32,7 +33,7 @@ export function BoroughMatrix({
         Rows: pickup borough. Columns: drop-off borough. Cell shade is log-scaled trips; the small figure is
         the median trip in minutes.
       </p>
-      <div className="relative overflow-x-auto">
+      <ScrollRegion label="Trips between boroughs, 2019">
         <table
           className="w-full min-w-[560px] border-separate border-spacing-[3px] text-sm"
           aria-describedby="borough-matrix-note"
@@ -95,7 +96,7 @@ export function BoroughMatrix({
             ))}
           </tbody>
         </table>
-      </div>
+      </ScrollRegion>
     </div>
   );
 }

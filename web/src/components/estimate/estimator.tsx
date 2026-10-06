@@ -8,8 +8,10 @@ import { ZoneSelect } from "@/components/controls/zone-select";
 import { LazyZoneMap } from "@/components/map/lazy-zone-map";
 import { useJson } from "@/hooks/use-json";
 import { useThemeName } from "@/hooks/use-theme-name";
+import { predictionInterval, type ConformalTable } from "@/lib/conformal";
+import conformalJson from "@/lib/data/conformal.json";
 import modelJson from "@/lib/data/model.json";
-import { formatFixed, formatInt, formatMinutes, formatSigned } from "@/lib/format";
+import { formatFixed, formatInt, formatMinutes, formatPct, formatSigned } from "@/lib/format";
 import { arc, haversineMiles } from "@/lib/geo";
 import {
   BLOCKS,
@@ -26,6 +28,8 @@ import { hourLabel, isoToSparkWeekday, isoWeekdayName, isoWeekdayOf } from "@/li
 import { cn } from "@/lib/utils";
 
 const model = modelJson as unknown as ModelArtefact;
+const conformal = conformalJson as unknown as ConformalTable;
+const LEVELS = conformal.levels.map((l) => l.level);
 
 export interface EstimatorZone {
   id: number;
@@ -105,6 +109,7 @@ export function Estimator({
   );
   const [flag, setFlag] = useState("N");
   const [clickSets, setClickSets] = useState<"pickup" | "dropoff">("dropoff");
+  const [level, setLevel] = useState(0.9);
 
   const byId = useMemo(() => new Map(zones.map((z) => [z.id, z])), [zones]);
   const day = conditions.find((c) => c.date === date) ?? conditions[0];
@@ -116,6 +121,14 @@ export function Estimator({
   const iso = isoWeekdayOf(date);
   const removedDay = date <= "2019-01-20";
   const flatFareRoute = isJfkFlatFareRoute(p, d);
+
+  /** Change the trip. Rate code 2 is the Manhattan–JFK flat fare, so it is dropped when the trip stops being one. */
+  const setRoute = (nextPu: number, nextDo: number) => {
+    const stillFlat = isJfkFlatFareRoute(byId.get(nextPu), byId.get(nextDo));
+    if (flatFareRoute && !stillFlat && ratecode === 2) setRatecode(1);
+    setPu(nextPu);
+    setDropoff(nextDo);
+  };
 
   const ctx: TripContext | null =
     p && d
@@ -147,6 +160,7 @@ export function Estimator({
   const features = ctx ? encode(ctx, model) : [];
   const yOrig = predict(model.original, features);
   const yRefit = predict(model.refit, features);
+  const interval = ctx ? predictionInterval(conformal, level, borough, yOrig) : null;
   const contrib = contributions(model.original, features);
   const totals = blockTotals(contrib);
   const unseenPickup = ctx ? !model.pickupZones.includes(ctx.pickupZone) : false;
@@ -196,7 +210,7 @@ export function Estimator({
             zones={zones}
             value={pu}
             allowEmpty={false}
-            onChange={(v) => v !== null && setPu(v)}
+            onChange={(v) => v !== null && setRoute(v, dropoff)}
           />
         </Field>
         <Field label="Drop-off zone" htmlFor="est-do">
@@ -205,7 +219,7 @@ export function Estimator({
             zones={zones}
             value={dropoff}
             allowEmpty={false}
-            onChange={(v) => v !== null && setDropoff(v)}
+            onChange={(v) => v !== null && setRoute(pu, v)}
           />
         </Field>
         <div className="grid grid-cols-2 gap-3">
@@ -342,6 +356,16 @@ export function Estimator({
                   {obsHour.median_min > yOrig ? "below" : "above"} what riders saw at this hour: a single
                   straight line cannot stretch to every route.
                 </p>
+              )}
+              {interval && (
+                <PredictionBand
+                  interval={interval}
+                  level={level}
+                  setLevel={setLevel}
+                  prediction={yOrig}
+                  observed={obsHour?.median_min ?? null}
+                  borough={borough}
+                />
               )}
               {yOrig < 1 && (
                 <p className="mt-2 text-xs">
@@ -482,13 +506,95 @@ export function Estimator({
             focus={stations.map((s) => s.coord)}
             onSelect={(id) => {
               if (id === null || !byId.has(id)) return;
-              if (clickSets === "pickup") setPu(id);
-              else setDropoff(id);
+              if (clickSets === "pickup") setRoute(id, dropoff);
+              else setRoute(pu, id);
             }}
             ariaLabel="Map of the chosen pickup (solid outline) and drop-off (dashed outline) zones"
           />
         </section>
       </div>
+    </div>
+  );
+}
+
+function PredictionBand({
+  interval,
+  level,
+  setLevel,
+  prediction,
+  observed,
+  borough,
+}: {
+  interval: NonNullable<ReturnType<typeof predictionInterval>>;
+  level: number;
+  setLevel: (l: number) => void;
+  prediction: number;
+  observed: number | null;
+  borough: string;
+}) {
+  const max = Math.max(30, Math.ceil((interval.upper * 1.08) / 10) * 10);
+  const pos = (v: number) => `${Math.min(100, Math.max(0, (v / max) * 100))}%`;
+  const cov = interval.test;
+  return (
+    <div className="mt-4 grid gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="text-sm">
+          <span className="font-semibold">{formatPct(level, 0)} prediction interval:</span>{" "}
+          <span className="font-mono tabular-nums">
+            {formatFixed(interval.lower, 1)} to {formatFixed(interval.upper, 1)} min
+          </span>
+        </p>
+        <Segmented
+          className="w-40"
+          label="Interval level"
+          size="sm"
+          value={level}
+          onChange={setLevel}
+          options={LEVELS.map((l) => ({ value: l, label: formatPct(l, 0) }))}
+        />
+      </div>
+      <div
+        className="bg-muted relative h-6 rounded-sm"
+        role="img"
+        aria-label={`Prediction ${formatFixed(prediction, 1)} minutes, ${formatPct(level, 0)} interval ${formatFixed(interval.lower, 1)} to ${formatFixed(interval.upper, 1)} minutes`}
+      >
+        <span
+          className="bg-taxi/60 absolute inset-y-1 rounded-sm"
+          style={{
+            left: pos(interval.lower),
+            width: `calc(${pos(interval.upper)} - ${pos(interval.lower)})`,
+          }}
+        />
+        <span className="bg-foreground absolute inset-y-0 w-0.5" style={{ left: pos(prediction) }} />
+        {observed !== null && (
+          <span
+            className="border-line-blue absolute inset-y-0 w-0 border-l-2 border-dashed"
+            style={{ left: pos(observed) }}
+          />
+        )}
+      </div>
+      <div className="text-muted-foreground flex justify-between font-mono text-[10px]">
+        <span>0</span>
+        <span>{max / 2}</span>
+        <span>{max} min</span>
+      </div>
+      <p className="text-muted-foreground text-xs leading-relaxed">
+        Split-conformal, from {formatInt(interval.nCal)} held-out 2019 trips picked up in {interval.borough}{" "}
+        with a similar prediction (bin {interval.bin + 1} of {interval.bins}).
+        {interval.borough !== borough && ` ${borough} has no calibration trips, so Manhattan's are used.`}
+        {cov && (
+          <>
+            {" "}
+            On {formatInt(cov.trips)} other {interval.borough} trips in the same bin,{" "}
+            {formatPct(cov.covered / cov.trips, 1)} fell inside (95% CI {formatPct(cov.ciLow, 1)} to{" "}
+            {formatPct(cov.ciHigh, 1)}, resampling whole days).
+          </>
+        )}{" "}
+        Solid line: the prediction. Dashed blue line: the observed median at this hour.{" "}
+        <a href="/evaluation#intervals" className="link-taxi">
+          How the intervals are built
+        </a>
+      </p>
     </div>
   );
 }

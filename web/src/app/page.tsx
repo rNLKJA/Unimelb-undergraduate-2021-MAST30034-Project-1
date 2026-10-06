@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Play } from "lucide-react";
 import { GithubIcon } from "@/components/icons";
 import Link from "next/link";
 import { HeroMap } from "@/components/landing/hero-map";
@@ -36,14 +36,35 @@ const SECTIONS = [
     glyph: "E",
     color: "var(--line-purple)",
     title: "Estimate a trip",
-    text: "Run the 2021 regression in your browser. Choose zones, a date and an hour; see the prediction and every term behind it.",
+    text: "Run the 2021 regression in your browser, with every term behind the prediction and an interval that holds its coverage.",
   },
   {
-    href: "/method",
-    glyph: "§",
+    href: "/evaluation",
+    glyph: "±",
     color: "var(--line-orange)",
-    title: "Method",
-    text: "The four cleaning rounds rule by rule, with the notebook's row counts next to the revived pipeline's.",
+    title: "Evaluation",
+    text: "A temporal hold-out, robust standard errors, residual diagnostics and conformal intervals. A lookup table wins.",
+  },
+  {
+    href: "/effects",
+    glyph: "Δ",
+    color: "var(--line-lime)",
+    title: "Rain and events",
+    text: "Do rain and street events slow a taxi down? Like-for-like comparisons with intervals and the caveats that go with them.",
+  },
+  {
+    href: "/ask",
+    glyph: "AI",
+    color: "var(--line-brown)",
+    title: "Ask the data",
+    text: "Optional: bring your own key, ask in plain English, review the SQL before it runs. Every call is labelled and logged.",
+  },
+  {
+    href: "/methods",
+    glyph: "§",
+    color: "var(--line-grey)",
+    title: "Methods and decisions",
+    text: "Data provenance, evaluation design, decision records, the model card, the AI use statement and the cleaning rules.",
   },
   {
     href: "/records",
@@ -104,6 +125,12 @@ export default async function Home() {
               >
                 Estimate a trip
               </Link>
+              <Link
+                href="/tour"
+                className="hover:bg-muted decoration-taxi inline-flex items-center gap-2 rounded-md px-4 py-2.5 font-semibold underline decoration-[3px] underline-offset-4"
+              >
+                <Play className="size-4" aria-hidden /> Watch the guided tour
+              </Link>
             </div>
           </div>
           <figure className="relative">
@@ -135,12 +162,12 @@ export default async function Home() {
           <KeyNumber
             label="Variance explained (R²)"
             value={formatFixed(h.notebookR2, 3)}
-            note="10-fold CV, 2021 notebook"
+            note={`10-fold CV, 2021 notebook · folds ${formatFixed(h.notebookR2Range[0], 3)}–${formatFixed(h.notebookR2Range[1], 3)}`}
           />
           <KeyNumber
             label="Typical error (RMSE)"
             value={`${formatFixed(h.notebookRmse, 2)} min`}
-            note="same folds"
+            note={`same folds · ${formatFixed(h.notebookRmseRange[0], 2)}–${formatFixed(h.notebookRmseRange[1], 2)}`}
           />
         </dl>
       </section>
@@ -194,7 +221,9 @@ export default async function Home() {
           <h2 id="explore-heading" className="font-condensed text-4xl font-extrabold uppercase">
             Explore the lines
           </h2>
-          <p className="text-muted-foreground hidden text-sm sm:block">Six stops, all running on 2019 data</p>
+          <p className="text-muted-foreground hidden text-sm sm:block">
+            Nine stops, all running on 2019 data
+          </p>
         </div>
         <ul className="bg-border grid gap-px overflow-hidden rounded-b-lg border border-t-0 sm:grid-cols-2 lg:grid-cols-3">
           {SECTIONS.map((s) => (
@@ -203,7 +232,7 @@ export default async function Home() {
                 <LineBullet
                   glyph={s.glyph}
                   color={s.color}
-                  className={cn(s.glyph.length > 1 && "text-xs", s.href === "/method" && "text-taxi-ink")}
+                  className={cn(s.glyph.length > 1 && "text-xs", s.href === "/evaluation" && "text-taxi-ink")}
                 />
                 <span>
                   <span className="font-condensed flex items-center gap-1.5 text-2xl font-bold uppercase">

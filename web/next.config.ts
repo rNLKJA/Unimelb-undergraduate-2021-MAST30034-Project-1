@@ -5,9 +5,10 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   // The read-only analytics database is read at runtime by the API routes, the
   // records pages and the CSV export; make sure it ships with every function.
+  // content/ holds the markdown docs rendered on /methods.
   outputFileTracingIncludes: {
     "/": ["./data/analytics.db"],
-    "/**": ["./data/analytics.db"],
+    "/**": ["./data/analytics.db", "./content/**"],
   },
   async headers() {
     return [
@@ -17,7 +18,8 @@ const nextConfig: NextConfig = {
           {
             key: "Content-Security-Policy",
             value: [
-              "connect-src 'self' https://tiles.openfreemap.org https://vercel.live",
+              // the AI providers are called directly from the visitor's browser with their own key
+              "connect-src 'self' https://tiles.openfreemap.org https://vercel.live https://api.anthropic.com https://api.openai.com",
               "img-src 'self' data: blob: https://tiles.openfreemap.org",
               "worker-src 'self' blob:",
               "object-src 'none'",
