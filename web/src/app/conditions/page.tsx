@@ -126,7 +126,7 @@ export default async function ConditionsPage() {
           </p>
         }
       >
-        <div className="overflow-x-auto">
+        <div className="relative overflow-x-auto">
           <table className="w-full min-w-[520px] text-sm">
             <caption className="sr-only">Coefficients of the numeric features, minutes per unit</caption>
             <thead>

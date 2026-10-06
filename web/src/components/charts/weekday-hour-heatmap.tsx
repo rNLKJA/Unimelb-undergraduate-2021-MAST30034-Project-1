@@ -57,7 +57,7 @@ export function WeekdayHourHeatmap({ rows }: { rows: WhvRow[] }) {
           )}
         </p>
       </div>
-      <div className="mt-3 overflow-x-auto">
+      <div className="relative mt-3 overflow-x-auto">
         <table className="w-full min-w-[640px] table-fixed border-separate border-spacing-[2px]">
           <caption className="sr-only">Mean trip minutes by weekday (rows) and pickup hour (columns)</caption>
           <thead>

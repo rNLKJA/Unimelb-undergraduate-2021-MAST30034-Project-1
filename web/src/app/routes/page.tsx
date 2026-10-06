@@ -44,8 +44,8 @@ export default async function RoutesPage({ searchParams }: PageProps<"/routes">)
           The two route charts of the 2021 notebook, which used a 10% sample, recomputed on all{" "}
           {flows.reduce((s, f) => s + f.trips, 0).toLocaleString("en-AU")} cleaned trips.
         </p>
-        <div className="mt-8 grid gap-12 lg:grid-cols-[1fr_1.1fr]">
-          <div>
+        <div className="mt-8 grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
+          <div className="min-w-0">
             <h3 className="kicker text-muted-foreground mb-3">Top 30 zone-to-zone routes</h3>
             <TopRoutes
               routes={top.map((r) => ({
@@ -58,7 +58,7 @@ export default async function RoutesPage({ searchParams }: PageProps<"/routes">)
               }))}
             />
           </div>
-          <div>
+          <div className="min-w-0">
             <h3 className="kicker text-muted-foreground mb-3">Trips between boroughs</h3>
             <BoroughMatrix flows={flows} />
           </div>
