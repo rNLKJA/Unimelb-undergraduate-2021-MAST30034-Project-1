@@ -29,12 +29,18 @@ export async function generateStructured<T>(
   try {
     parsed = JSON.parse(raw.text);
   } catch {
-    throw new AiError("invalid_output", { detail: "The response was not valid JSON." });
+    throw new AiError("invalid_output", {
+      detail: "The response was not valid JSON.",
+      model: raw.model,
+      usage: raw.usage,
+    });
   }
   const checked = schema.safeParse(parsed);
   if (!checked.success) {
     throw new AiError("invalid_output", {
       detail: checked.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; "),
+      model: raw.model,
+      usage: raw.usage,
     });
   }
   return {
@@ -51,7 +57,8 @@ export async function generateStructured<T>(
 /**
  * Run an AI feature and append the call to the audit log, success or failure. The entry
  * records the input (never the key), the output, latency and token usage; the human
- * decision starts as "pending" (or "not_applicable" for evaluation runs).
+ * decision starts as "pending" (or "not_applicable" for evaluation runs), and a failed call is
+ * logged as "no_output" with whatever usage the provider reported (an unusable answer is billed).
  */
 export async function runAudited<T>(
   audit: AuditStore,
@@ -92,14 +99,14 @@ export async function runAudited<T>(
         {
           feature,
           provider: settings.provider,
-          model: requestedModel,
+          model: err.model ?? requestedModel,
           requestedModel,
           input,
           output: null,
           error: `${err.kind}: ${err.message}${err.detail ? ` (${err.detail})` : ""}`,
           latency_ms: Math.round(performance.now() - t0),
-          usage: null,
-          human_decision: "not_applicable",
+          usage: err.usage,
+          human_decision: "no_output",
         },
         secrets,
       );

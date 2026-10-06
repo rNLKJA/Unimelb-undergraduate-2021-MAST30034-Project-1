@@ -271,7 +271,8 @@ export function AskData({ schema }: { schema: SchemaTable[] }) {
                     <button
                       type="button"
                       onClick={() => void reject()}
-                      disabled={busy !== null || decision === "rejected"}
+                      // once a query has run, discarding it would contradict the audit trail
+                      disabled={busy !== null || decision !== null}
                       className="hover:bg-muted inline-flex items-center gap-2 rounded-md border px-3 py-2 text-sm disabled:opacity-50"
                     >
                       <X className="size-4" aria-hidden /> Discard
@@ -381,8 +382,11 @@ export function ResultTable({ result }: { result: SqlResult }) {
       <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
         <span className="text-muted-foreground font-mono">
           {formatInt(result.rows.length)} row{result.rows.length === 1 ? "" : "s"}
-          {result.truncated ? " (first 500 shown)" : ""} · {formatInt(result.elapsedMs)} ms · plan estimate{" "}
-          {formatInt(result.estimatedRows)} rows visited
+          {result.truncated ? " (first 500 shown)" : ""}
+          {result.shortenedCells
+            ? ` · ${formatInt(result.shortenedCells)} long text value${result.shortenedCells === 1 ? "" : "s"} shortened`
+            : ""}{" "}
+          · {formatInt(result.elapsedMs)} ms · plan estimate {formatInt(result.estimatedRows)} rows visited
         </span>
         <button
           type="button"

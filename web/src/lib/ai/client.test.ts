@@ -97,7 +97,22 @@ describe("runAudited", () => {
     ).rejects.toMatchObject({ kind: "invalid_key" });
     expect(audit.entries).toHaveLength(1);
     expect(audit.entries[0].error).toMatch(/^invalid_key/);
-    expect(audit.entries[0].human_decision).toBe("not_applicable");
+    expect(audit.entries[0].human_decision).toBe("no_output");
+  });
+  it("keeps the model and billed tokens of an answer that failed validation", async () => {
+    const audit = memoryAudit();
+    const m = mockFetch([json(200, anthropicMessage('{"b":1}'))]);
+    await expect(
+      runAudited(audit, "f", { q: 1 }, DEFAULT_SETTINGS, FAKE_KEY, req, schema, {
+        fetch: m.fetch,
+        maxRetries: 0,
+      }),
+    ).rejects.toMatchObject({ kind: "invalid_output" });
+    expect(audit.entries[0]).toMatchObject({
+      model: "claude-haiku-4-5",
+      usage: { inputTokens: 812, outputTokens: 64 },
+      human_decision: "no_output",
+    });
   });
   it("does not log a call that never happened (no key)", async () => {
     const audit = memoryAudit();

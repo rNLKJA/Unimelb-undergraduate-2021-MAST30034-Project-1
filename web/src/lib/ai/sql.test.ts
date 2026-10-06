@@ -11,6 +11,7 @@ import {
   compareRuns,
   estimateCostUsd,
   GOLD_QUESTIONS,
+  NOTE_TARGETS,
   summariseRun,
   type EvalItemResult,
 } from "./sql-eval";
@@ -41,6 +42,10 @@ describe("prompt", () => {
     expect(d.system).toContain("Domain notes");
     expect(d.system).toContain("SELECT");
     expect(buildSqlRequest("q", tables, "bare").system).not.toContain("Domain notes");
+    // weekday_hour_vendor has isodow 1-7 only, so the "0 = all days" note must not mention it
+    expect(d.system).not.toMatch(/0 means "all days" in zone_hourly and weekday_hour_vendor/);
+    // reasoning tokens count against the cap
+    expect(d.maxTokens).toBeGreaterThanOrEqual(8000);
     expect(d.jsonSchema).toBe(SQL_ANSWER_JSON_SCHEMA);
   });
   it("keeps the JSON Schema and the zod schema in step", () => {
@@ -167,6 +172,20 @@ describe("run summaries", () => {
     expect(s.inputTokens).toBe(4000);
     expect(s.byDifficulty.find((d) => d.difficulty === "easy")!.n).toBe(4);
   });
+  it("separates questions the domain notes were written for, provider errors and fallback models", () => {
+    const s = summariseRun([
+      item("q09", true, { answeredBy: "claude-sonnet-5-5" }),
+      item("q13", false, { answeredBy: "claude-sonnet-5-5" }),
+      item("q01", true, { answeredBy: "claude-opus-4-8" }),
+      item("q02", false, { outcome: "provider_error", answeredBy: null }),
+    ]);
+    expect(s.targeted).toMatchObject({ n: 2, passes: 1 });
+    expect(s.untargeted).toMatchObject({ n: 2, passes: 1 });
+    expect(s.excludingProviderErrors).toMatchObject({ n: 3, passes: 2 });
+    expect(s.answeredBy).toEqual(["claude-opus-4-8", "claude-sonnet-5-5"]);
+    // every targeted id is a real question
+    for (const id of Object.keys(NOTE_TARGETS)) expect(GOLD_QUESTIONS.some((q) => q.id === id)).toBe(true);
+  });
   it("compares two runs pairwise on the same questions", () => {
     const a = ["a", "b", "c", "d", "e", "f"].map((id, i) => item(id, i < 5));
     const b = ["a", "b", "c", "d", "e", "f"].map((id, i) => item(id, i < 2));
@@ -175,6 +194,10 @@ describe("run summaries", () => {
     expect(c.difference.estimate).toBeCloseTo(0.5, 12);
     expect(c.mcnemarP).toBeCloseTo(0.25, 12);
     expect(compareRuns(a, b).difference).toEqual(c.difference); // seeded
+    // none of these ids has a domain note, so the untargeted comparison is the same
+    expect(c.untargeted).toMatchObject({ n: 6, onlyA: 3, onlyB: 0 });
+    const t = compareRuns([item("q09", true), item("q01", true)], [item("q09", false), item("q01", false)]);
+    expect(t.untargeted).toMatchObject({ n: 1, onlyA: 1, onlyB: 0 });
   });
   it("prices tokens for the Anthropic models it knows", () => {
     expect(estimateCostUsd("claude-haiku-4-5", 1_000_000, 100_000)).toBeCloseTo(1.5, 12);

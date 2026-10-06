@@ -27,8 +27,8 @@ export default async function EvalPage() {
           A language model that writes SQL should be measured, not trusted. This harness asks your chosen
           model the same {questions.length} questions every time, runs its SQL through the same read-only
           guard, and compares the result with a hand-written reference answer. Accuracy comes with a Wilson
-          interval, and two runs are compared question by question. Results stay in your browser, and every
-          call is in the{" "}
+          interval, overall and for the questions the prompt&apos;s domain notes were not written for, and two
+          runs are compared question by question. Results stay in your browser, and every call is in the{" "}
           <Link className="link-taxi" href="/ai-log">
             AI audit log
           </Link>

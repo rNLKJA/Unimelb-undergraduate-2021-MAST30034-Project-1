@@ -20,6 +20,25 @@ export interface GoldQuestion {
   difficulty: Difficulty;
 }
 
+/**
+ * Questions whose answer depends on a fact stated in the "described" prompt's domain notes
+ * (src/lib/ai/sql-assistant.ts). The notes were written with these questions in view, so
+ * accuracy on them is optimistic for new questions; summaries report them separately.
+ */
+export const NOTE_TARGETS: Readonly<Record<string, string>> = {
+  q09: "collisions_hourly.borough is upper case",
+  q10: "route zone ids join to zones.location_id",
+  q11: "route zone ids join to zones.location_id",
+  q13: "isodow 0 and hour 24 mean all days and the whole day in zone_hourly",
+  q14: "isodow numbering (5 = Friday)",
+  q18: "isodow numbering and trip-weighted averages",
+  q19: "vendor 0 means both vendors; trip-weighted averages",
+};
+
+export function targetedByNote(id: string): boolean {
+  return id in NOTE_TARGETS;
+}
+
 export const GOLD_QUESTIONS: readonly GoldQuestion[] = [
   {
     id: "q01",
@@ -306,6 +325,8 @@ export interface EvalItemResult {
   outputTokens: number | null;
   cachedInputTokens?: number | null;
   auditId: string | null;
+  /** the model the provider reports it used (a refusal fallback can differ from the run's model) */
+  answeredBy?: string | null;
 }
 
 export interface EvalRun {
@@ -319,10 +340,19 @@ export interface EvalRun {
   items: EvalItemResult[];
 }
 
+export type Accuracy = Interval & { n: number; passes: number };
+
 export interface RunSummary {
   n: number;
   lenient: Interval & { passes: number };
   strict: Interval & { passes: number };
+  /** lenient accuracy on questions no domain note was written for, and on those that have one */
+  untargeted: Accuracy;
+  targeted: Accuracy;
+  /** lenient accuracy leaving out provider errors (overloaded, truncated, ...), which say nothing about the model's SQL */
+  excludingProviderErrors: Accuracy;
+  /** distinct models that answered, as reported by the provider */
+  answeredBy: string[];
   byDifficulty: { difficulty: Difficulty; n: number; passes: number; ci: Interval }[];
   outcomes: Record<Outcome, number>;
   medianLatencyMs: number | null;
@@ -346,10 +376,18 @@ export function summariseRun(items: readonly EvalItemResult[]): RunSummary {
   } as Record<Outcome, number>;
   for (const i of items) outcomes[i.outcome]++;
   const lat = items.map((i) => i.latencyMs).filter((v): v is number => v !== null);
+  const accuracy = (g: readonly EvalItemResult[]): Accuracy => {
+    const passes = g.filter((i) => i.lenient).length;
+    return { ...wilsonInterval(passes, g.length), n: g.length, passes };
+  };
   return {
     n,
     lenient: { ...wilsonInterval(lp, n), passes: lp },
     strict: { ...wilsonInterval(sp, n), passes: sp },
+    untargeted: accuracy(items.filter((i) => !targetedByNote(i.id))),
+    targeted: accuracy(items.filter((i) => targetedByNote(i.id))),
+    excludingProviderErrors: accuracy(items.filter((i) => i.outcome !== "provider_error")),
+    answeredBy: [...new Set(items.map((i) => i.answeredBy).filter((m): m is string => !!m))].sort(),
     byDifficulty: (["easy", "medium", "hard"] as const).map((d) => {
       const g = items.filter((i) => i.difficulty === d);
       const p = g.filter((i) => i.lenient).length;
@@ -374,6 +412,8 @@ export interface PairedComparison {
   difference: Interval & { B: number; seed: number };
   /** exact McNemar test on the discordant questions */
   mcnemarP: number;
+  /** the same counts and test on questions no domain note was written for */
+  untargeted: { n: number; onlyA: number; onlyB: number; mcnemarP: number };
 }
 
 /** Paired comparison of two runs on the same questions (lenient execution accuracy). */
@@ -383,9 +423,13 @@ export function compareRuns(
   seed = DEFAULT_SEED,
 ): PairedComparison {
   const byId = new Map(b.map((i) => [i.id, i]));
-  const pairs = a
-    .filter((i) => byId.has(i.id))
-    .map((i) => [i.lenient ? 1 : 0, byId.get(i.id)!.lenient ? 1 : 0] as const);
+  const shared = a.filter((i) => byId.has(i.id));
+  const pairs = shared.map((i) => [i.lenient ? 1 : 0, byId.get(i.id)!.lenient ? 1 : 0] as const);
+  const free = shared
+    .filter((i) => !targetedByNote(i.id))
+    .map((i) => [i.lenient, byId.get(i.id)!.lenient] as const);
+  const freeA = free.filter(([x, y]) => x && !y).length;
+  const freeB = free.filter(([x, y]) => !x && y).length;
   const n = pairs.length;
   const onlyA = pairs.filter(([x, y]) => x === 1 && y === 0).length;
   const onlyB = pairs.filter(([x, y]) => x === 0 && y === 1).length;
@@ -412,6 +456,7 @@ export function compareRuns(
     neither: n - bothPass - onlyA - onlyB,
     difference: { estimate: diff.estimate, lower: diff.lower, upper: diff.upper, B, seed },
     mcnemarP: mcnemarExact(onlyA, onlyB),
+    untargeted: { n: free.length, onlyA: freeA, onlyB: freeB, mcnemarP: mcnemarExact(freeA, freeB) },
   };
 }
 

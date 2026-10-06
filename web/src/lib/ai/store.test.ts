@@ -85,6 +85,11 @@ describe("IndexedDB audit log", () => {
     expect(edited!.decided_at).not.toBeNull();
     const rejected = await store.setDecision(b.id, "rejected", { ignored: true });
     expect(rejected!.edited_output).toBeNull();
+    // decisions are appended, never overwritten: a later decision keeps the earlier one
+    const again = await store.setDecision(a.id, "rejected");
+    expect(again!.human_decision).toBe("rejected");
+    expect(again!.decisions!.map((d) => d.decision)).toEqual(["edited", "rejected"]);
+    expect(again!.decisions![0].edited_output).toEqual({ sql: "SELECT 1" });
     expect(await store.setDecision("missing", "accepted")).toBeNull();
     await store.clear();
     expect(await store.list()).toEqual([]);

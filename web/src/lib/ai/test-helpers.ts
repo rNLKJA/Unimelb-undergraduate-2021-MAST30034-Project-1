@@ -1,5 +1,5 @@
 import type { AuditStore, NewAuditEntry } from "./audit-log";
-import { redactSecrets } from "./audit-log";
+import { redactSecrets, withDecision } from "./audit-log";
 import type { AuditEntry } from "./types";
 
 export const FAKE_KEY = "sk-ant-test-0123456789abcdefghijklmnop";
@@ -64,6 +64,7 @@ export function memoryAudit(): AuditStore & { entries: AuditEntry[] } {
           timestamp: new Date(2026, 0, n).toISOString(),
           decided_at: null,
           edited_output: null,
+          decisions: [],
         },
         secrets,
       );
@@ -73,11 +74,7 @@ export function memoryAudit(): AuditStore & { entries: AuditEntry[] } {
     async setDecision(id, decision, edited) {
       const e = entries.find((x) => x.id === id);
       if (!e) return null;
-      Object.assign(e, {
-        human_decision: decision,
-        decided_at: new Date().toISOString(),
-        edited_output: edited ?? null,
-      });
+      Object.assign(e, withDecision(e, decision, edited));
       return e;
     },
     async list() {

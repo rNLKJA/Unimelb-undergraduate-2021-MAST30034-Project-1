@@ -5,7 +5,10 @@ import type { AuditEntry, HumanDecision } from "./types";
  * (the site has no writable server-side database). Viewable and exportable at /ai-log.
  */
 
-export type NewAuditEntry = Omit<AuditEntry, "id" | "timestamp" | "decided_at" | "edited_output">;
+export type NewAuditEntry = Omit<
+  AuditEntry,
+  "id" | "timestamp" | "decided_at" | "edited_output" | "decisions"
+>;
 
 export interface AuditStore {
   add(entry: NewAuditEntry, secrets?: string[]): Promise<AuditEntry>;
@@ -57,6 +60,25 @@ function notify() {
   if (typeof window !== "undefined") window.dispatchEvent(new Event(AUDIT_EVENT));
 }
 
+/**
+ * The entry with one more decision appended. The latest decision is mirrored in human_decision,
+ * decided_at and edited_output; earlier ones stay in `decisions`, so the trail is append-only.
+ */
+export function withDecision(entry: AuditEntry, decision: HumanDecision, editedOutput?: unknown): AuditEntry {
+  const record = {
+    decision,
+    at: new Date().toISOString(),
+    edited_output: decision === "edited" ? (editedOutput ?? null) : null,
+  };
+  return {
+    ...entry,
+    human_decision: decision,
+    decided_at: record.at,
+    edited_output: record.edited_output,
+    decisions: [...(entry.decisions ?? []), record],
+  };
+}
+
 export function indexedDbAuditStore(factory: IDBFactory = globalThis.indexedDB): AuditStore {
   let opened: Promise<IDBDatabase> | null = null;
   const open = () => {
@@ -75,7 +97,14 @@ export function indexedDbAuditStore(factory: IDBFactory = globalThis.indexedDB):
   return {
     async add(entry, secrets = []) {
       const full: AuditEntry = redactSecrets(
-        { ...entry, id: newId(), timestamp: new Date().toISOString(), decided_at: null, edited_output: null },
+        {
+          ...entry,
+          id: newId(),
+          timestamp: new Date().toISOString(),
+          decided_at: null,
+          edited_output: null,
+          decisions: [],
+        },
         secrets,
       );
       const db = await open();
@@ -94,12 +123,7 @@ export function indexedDbAuditStore(factory: IDBFactory = globalThis.indexedDB):
         await done(tx);
         return null;
       }
-      const next: AuditEntry = {
-        ...current,
-        human_decision: decision,
-        decided_at: new Date().toISOString(),
-        edited_output: decision === "edited" ? (editedOutput ?? null) : null,
-      };
+      const next = withDecision(current, decision, editedOutput);
       store.put(next);
       await done(tx);
       notify();

@@ -24,7 +24,9 @@ import {
   compareResults,
   compareRuns,
   estimateCostUsd,
+  NOTE_TARGETS,
   summariseRun,
+  targetedByNote,
   type EvalItemResult,
   type EvalRun,
   type Outcome,
@@ -117,9 +119,11 @@ function itemsCsv(run: EvalRun): string {
       "run_id",
       "provider",
       "model",
+      "answered_by",
       "variant",
       "question_id",
       "difficulty",
+      "targeted_by_note",
       "outcome",
       "lenient",
       "strict",
@@ -134,9 +138,11 @@ function itemsCsv(run: EvalRun): string {
       run_id: run.id,
       provider: run.provider,
       model: run.model,
+      answered_by: i.answeredBy ?? "",
       variant: run.variant,
       question_id: i.id,
       difficulty: i.difficulty,
+      targeted_by_note: targetedByNote(i.id) ? 1 : 0,
       outcome: i.outcome,
       lenient: i.lenient ? 1 : 0,
       strict: i.strict ? 1 : 0,
@@ -202,6 +208,7 @@ export function EvalHarness({ questions, schema }: { questions: EvalQuestion[]; 
         outputTokens: null,
         cachedInputTokens: null,
         auditId: null,
+        answeredBy: null,
       };
       try {
         const { result, entry } = await runAudited(
@@ -221,6 +228,7 @@ export function EvalHarness({ questions, schema }: { questions: EvalQuestion[]; 
           { decision: "not_applicable" },
         );
         item.auditId = entry.id;
+        item.answeredBy = result.model;
         item.latencyMs = result.latencyMs;
         item.inputTokens = result.usage?.inputTokens ?? null;
         item.outputTokens = result.usage?.outputTokens ?? null;
@@ -424,13 +432,28 @@ export function EvalHarness({ questions, schema }: { questions: EvalQuestion[]; 
               }`}
             />
           </dl>
+          {summary.answeredBy.some((m) => m !== shown.model) && (
+            <p className="border-line-orange/40 bg-line-orange/10 rounded-md border px-3 py-2 text-sm">
+              This run mixes models: some answers came from {summary.answeredBy.join(" and ")} after a refusal
+              fallback, so it is not a clean measurement of {shown.model}. The per-question CSV has an
+              answered_by column.
+            </p>
+          )}
+          <p className="text-muted-foreground text-xs">
+            Questions the domain notes were not written for: {summary.untargeted.passes}/
+            {summary.untargeted.n} ({formatPct(summary.untargeted.lower, 0)} to{" "}
+            {formatPct(summary.untargeted.upper, 0)}); questions a note was written for:{" "}
+            {summary.targeted.passes}/{summary.targeted.n}. The first is the fairer guide to new questions.
+            {summary.outcomes.provider_error > 0 &&
+              ` Leaving out ${summary.outcomes.provider_error} provider error${summary.outcomes.provider_error === 1 ? "" : "s"}, which say nothing about the SQL: ${summary.excludingProviderErrors.passes}/${summary.excludingProviderErrors.n} (${formatPct(summary.excludingProviderErrors.lower, 0)} to ${formatPct(summary.excludingProviderErrors.upper, 0)}).`}
+          </p>
           <p className="text-muted-foreground text-xs">
             By difficulty:{" "}
             {summary.byDifficulty
               .filter((d) => d.n)
               .map(
                 (d) =>
-                  `${d.difficulty} ${d.passes}/${d.n} (${formatPct(d.ci.lower, 0)}–${formatPct(d.ci.upper, 0)})`,
+                  `${d.difficulty} ${d.passes}/${d.n} (${formatPct(d.ci.lower, 0)} to ${formatPct(d.ci.upper, 0)})`,
               )
               .join(" · ")}
             . Outcomes:{" "}
@@ -468,7 +491,13 @@ export function EvalHarness({ questions, schema }: { questions: EvalQuestion[]; 
                       <td className="text-muted-foreground px-3 py-2 font-mono text-xs">{i.id}</td>
                       <td className="px-3 py-2">
                         {q?.question}
-                        <span className="text-muted-foreground block text-[11px]">{i.difficulty}</span>
+                        <span className="text-muted-foreground block text-[11px]">
+                          {i.difficulty}
+                          {targetedByNote(i.id) ? " · domain note" : ""}
+                          {i.answeredBy && i.answeredBy !== shown.model
+                            ? ` · answered by ${i.answeredBy}`
+                            : ""}
+                        </span>
                       </td>
                       <td className="px-3 py-2">
                         <span
@@ -581,6 +610,13 @@ export function EvalHarness({ questions, schema }: { questions: EvalQuestion[]; 
                   note="two-sided, discordant questions only"
                 />
               </dl>
+              <p className="text-muted-foreground text-xs">
+                On the {comparison.c.untargeted.n} questions no domain note was written for: only A right{" "}
+                {comparison.c.untargeted.onlyA}, only B right {comparison.c.untargeted.onlyB}, exact McNemar p{" "}
+                {formatP(comparison.c.untargeted.mcnemarP)}. Comparing the described and bare prompts on all
+                questions overstates what the notes are worth, because they were written with these questions
+                in view.
+              </p>
               <button
                 type="button"
                 className="hover:bg-muted inline-flex w-fit items-center gap-1 rounded-md border px-2.5 py-1.5 text-xs font-medium"
@@ -607,7 +643,10 @@ export function EvalHarness({ questions, schema }: { questions: EvalQuestion[]; 
           Written by hand before any model was run, each with a reference query checked against the database
           in the test suite. A model passes when its result contains the reference result: columns are matched
           by value, so aliases and extra columns are fine (strict accuracy also requires no extra columns);
-          rankings must keep their order, and numbers agree to six significant figures. See the{" "}
+          rankings must keep their order, and numbers agree to six significant figures. I wrote the described
+          prompt&apos;s domain notes with these questions in view, so {Object.keys(NOTE_TARGETS).length}{" "}
+          questions depend on a fact a note states. They are marked below, and results are reported with and
+          without them. See the{" "}
           <Link href="/methods#evaluation-design" className="link-taxi">
             evaluation design
           </Link>
@@ -619,6 +658,11 @@ export function EvalHarness({ questions, schema }: { questions: EvalQuestion[]; 
               <summary className="cursor-pointer text-sm">
                 <span className="text-muted-foreground font-mono text-xs">{q.id}</span> {q.question}{" "}
                 <span className="text-muted-foreground text-[11px]">({q.difficulty})</span>
+                {NOTE_TARGETS[q.id] && (
+                  <span className="text-muted-foreground block text-[11px]">
+                    Domain note: {NOTE_TARGETS[q.id]}
+                  </span>
+                )}
               </summary>
               <code className="mt-2 block font-mono text-[12px] break-words whitespace-pre-wrap">
                 {q.sql}

@@ -83,7 +83,7 @@ export const PROMPT_VARIANTS: { value: PromptVariant; label: string; note: strin
 const DOMAIN_NOTES = `Domain notes:
 - Every table holds 2019 aggregates of New York yellow-taxi trips after the 2021 cleaning rules; there are no individual trips.
 - Dates are TEXT 'YYYY-MM-DD'. Trips from 1 to 20 January 2019 were removed by cleaning, so those days have (almost) no trips.
-- isodow is the ISO weekday: 1 = Monday ... 7 = Sunday; 0 means "all days" in zone_hourly and weekday_hour_vendor.
+- isodow is the ISO weekday: 1 = Monday ... 7 = Sunday; in zone_hourly, 0 means "all days".
 - In zone_hourly, hour 24 means "the whole day" and side is 'pickup' or 'dropoff'.
 - routes.pu_id / routes.do_id and route_hourly.pu_id / do_id are zone ids that join to zones.location_id.
 - weekday_hour_vendor.vendor is 1 (Creative Mobile Technologies), 2 (VeriFone) or 0 (both).
@@ -130,6 +130,8 @@ ${describeSchema(tables, variant)}`;
     user: `Question: ${question.trim()}`,
     jsonSchema: SQL_ANSWER_JSON_SCHEMA as unknown as Record<string, unknown>,
     schemaName: "sql_answer",
-    maxTokens: 1500,
+    // reasoning tokens count against this cap (Claude Sonnet 5.5 thinks adaptively, OpenAI's
+    // reasoning models count reasoning in max_completion_tokens); billing is per token used
+    maxTokens: 8000,
   };
 }

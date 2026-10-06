@@ -44,7 +44,18 @@ export interface StructuredRequest {
   maxTokens?: number;
 }
 
-export type HumanDecision = "pending" | "accepted" | "edited" | "rejected" | "not_applicable";
+/**
+ * pending: waiting for the visitor; accepted / edited / rejected: what they did with the output;
+ * no_output: the call failed, so there was nothing to decide; not_applicable: evaluation runs.
+ */
+export type HumanDecision = "pending" | "accepted" | "edited" | "rejected" | "no_output" | "not_applicable";
+
+/** One human decision, kept in order: later decisions never overwrite earlier ones. */
+export interface DecisionRecord {
+  decision: HumanDecision;
+  at: string;
+  edited_output: unknown;
+}
 
 /** One row of the AI audit log (IndexedDB). Never holds the API key. */
 export interface AuditEntry {
@@ -59,8 +70,11 @@ export interface AuditEntry {
   error: string | null;
   latency_ms: number;
   usage: TokenUsage | null;
+  /** the latest decision (the full history is in `decisions`) */
   human_decision: HumanDecision;
   decided_at: string | null;
-  /** what the human ran or kept instead, when they edited the output */
+  /** what the human ran or kept instead, when the latest decision was an edit */
   edited_output: unknown;
+  /** every decision in order (absent on entries logged before the history existed) */
+  decisions?: DecisionRecord[];
 }

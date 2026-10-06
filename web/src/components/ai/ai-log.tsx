@@ -16,6 +16,7 @@ const DECISION_LABEL: Record<HumanDecision, string> = {
   accepted: "Accepted",
   edited: "Edited",
   rejected: "Rejected",
+  no_output: "No output",
   not_applicable: "n/a",
 };
 
@@ -24,6 +25,7 @@ const DECISION_CLASS: Record<HumanDecision, string> = {
   accepted: "bg-line-green/15 text-line-green border-line-green/40",
   edited: "bg-line-blue/10 text-line-blue border-line-blue/40",
   rejected: "bg-line-red/10 text-line-red border-line-red/40",
+  no_output: "bg-muted text-muted-foreground",
   not_applicable: "bg-muted text-muted-foreground",
 };
 
@@ -76,7 +78,7 @@ export function AiLog() {
         <Stat
           k="Human decisions"
           v={formatInt(decided.length)}
-          note={`${shown.filter((e) => e.human_decision === "pending").length} pending, ${shown.filter((e) => e.human_decision === "not_applicable").length} not applicable (evaluation runs)`}
+          note={`${shown.filter((e) => e.human_decision === "pending").length} pending, ${shown.filter((e) => e.human_decision === "no_output").length} with no output to decide on (failed calls), ${shown.filter((e) => e.human_decision === "not_applicable").length} evaluation calls`}
         />
         <Stat
           k="Accepted unchanged"
@@ -206,7 +208,7 @@ export function AiLog() {
                     <td className="px-3 py-2">
                       <span
                         className={cn(
-                          "inline-block rounded-full border px-2 py-0.5 text-[11px] font-semibold",
+                          "inline-block rounded-full border px-2 py-0.5 text-[11px] font-semibold whitespace-nowrap",
                           DECISION_CLASS[e.human_decision],
                         )}
                       >
@@ -227,28 +229,10 @@ export function AiLog() {
                 ];
                 if (isOpen) {
                   rows.push(
-                    <tr key={`${e.id}-d`} className="bg-card">
+                    // on small screens the details render below the table instead, at full width
+                    <tr key={`${e.id}-d`} className="bg-card hidden md:table-row">
                       <td colSpan={8} className="px-3 py-3">
-                        <div className="grid gap-3 lg:grid-cols-2">
-                          <Json title="Input sent (never the key)" value={e.input} />
-                          <div className="grid content-start gap-2">
-                            {e.output !== null && (
-                              <>
-                                <AiBadge model={e.model} className="w-fit" />
-                                <Json title="Output" value={e.output} />
-                              </>
-                            )}
-                            {e.edited_output !== null && (
-                              <Json title="What the human ran instead" value={e.edited_output} />
-                            )}
-                            <p className="text-muted-foreground font-mono text-[11px]">
-                              id {e.id} · provider {e.provider}
-                              {e.decided_at
-                                ? ` · decided ${new Date(e.decided_at).toLocaleString("en-AU")}`
-                                : ""}
-                            </p>
-                          </div>
-                        </div>
+                        <Details e={e} />
                       </td>
                     </tr>,
                   );
@@ -259,6 +243,59 @@ export function AiLog() {
           </table>
         </div>
       )}
+      {shown
+        .filter((e) => e.id === open)
+        .map((e) => (
+          <section
+            key={e.id}
+            aria-label="Details of the selected call"
+            className="bg-card grid gap-3 rounded-lg border p-3 md:hidden"
+          >
+            <div className="flex items-center justify-between gap-2">
+              <p className="font-mono text-xs">
+                {new Date(e.timestamp).toLocaleString("en-AU", { dateStyle: "short", timeStyle: "medium" })}
+              </p>
+              <button type="button" className="link-taxi text-xs" onClick={() => setOpen(null)}>
+                Hide
+              </button>
+            </div>
+            <Details e={e} />
+          </section>
+        ))}
+    </div>
+  );
+}
+
+function Details({ e }: { e: AuditEntry }) {
+  const history = e.decisions ?? [];
+  return (
+    <div className="grid gap-3 lg:grid-cols-2">
+      <Json title="Logged input: your question and the prompt settings (never the key)" value={e.input} />
+      <div className="grid content-start gap-2">
+        {e.output !== null && (
+          <>
+            <AiBadge model={e.model} className="w-fit" />
+            <Json title="Output" value={e.output} />
+          </>
+        )}
+        {e.edited_output !== null && <Json title="What the human ran instead" value={e.edited_output} />}
+        {history.length > 1 && (
+          <div>
+            <p className="kicker text-muted-foreground mb-1">Decision history</p>
+            <ol className="grid gap-0.5 font-mono text-[11px]">
+              {history.map((d) => (
+                <li key={d.at}>
+                  {new Date(d.at).toLocaleString("en-AU")} · {DECISION_LABEL[d.decision]}
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+        <p className="text-muted-foreground font-mono text-[11px] break-words">
+          id {e.id} · provider {e.provider}
+          {e.decided_at ? ` · decided ${new Date(e.decided_at).toLocaleString("en-AU")}` : ""}
+        </p>
+      </div>
     </div>
   );
 }

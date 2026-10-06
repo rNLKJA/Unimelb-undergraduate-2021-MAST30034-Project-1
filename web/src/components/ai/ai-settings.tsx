@@ -25,13 +25,15 @@ export function AiSettingsButton() {
   const [openCount, setOpenCount] = useState(0);
   const has = keyHint[settings.provider] !== null;
   useEffect(() => {
-    const open = () => {
-      setOpenCount((n) => n + 1);
-      dialog.current?.showModal();
-    };
+    const open = () => setOpenCount((n) => n + 1);
     window.addEventListener(OPEN_EVENT, open);
     return () => window.removeEventListener(OPEN_EVENT, open);
   }, []);
+  // open the dialog only after the fresh form has mounted, so showModal() moves focus into it
+  // (opening first and remounting afterwards would remove the focused element)
+  useEffect(() => {
+    if (openCount > 0 && !dialog.current?.open) dialog.current?.showModal();
+  }, [openCount]);
   return (
     <>
       <button
@@ -63,6 +65,15 @@ export function AiSettingsButton() {
       </dialog>
     </>
   );
+}
+
+/** A typed key whose prefix belongs to the other provider. */
+function keyLooksWrong(p: Provider, key: string): boolean {
+  const k = key.trim();
+  if (!k) return false;
+  return p === "anthropic"
+    ? !k.startsWith(KEY_HELP.anthropic.prefix)
+    : k.startsWith(KEY_HELP.anthropic.prefix);
 }
 
 function SettingsForm({ onClose }: { onClose: () => void }) {
@@ -129,7 +140,12 @@ function SettingsForm({ onClose }: { onClose: () => void }) {
         <Segmented<Provider>
           label="AI provider"
           value={p}
-          onChange={(v) => setDraft({ ...draft, provider: v })}
+          onChange={(v) => {
+            setDraft({ ...draft, provider: v });
+            // a key typed for one provider must not be saved under the other
+            setKey("");
+            setShow(false);
+          }}
           options={[
             { value: "anthropic", label: "Anthropic (default)" },
             { value: "openai", label: "OpenAI" },
@@ -201,6 +217,12 @@ function SettingsForm({ onClose }: { onClose: () => void }) {
             {show ? <EyeOff className="size-4" aria-hidden /> : <Eye className="size-4" aria-hidden />}
           </button>
         </div>
+        {keyLooksWrong(p, key) && (
+          <p className="text-line-orange text-xs font-medium" role="status">
+            This does not look like {p === "anthropic" ? "an Anthropic" : "an OpenAI"} key (
+            {p === "anthropic" ? "they start with sk-ant-" : "sk-ant- keys belong to Anthropic"}).
+          </p>
+        )}
         <p className="text-muted-foreground text-xs">
           {keyHint[p]
             ? `A key ending in …${keyHint[p]} is saved ${keyPlace[p] === "device" ? "on this device (localStorage)" : "for this tab (sessionStorage)"}.`

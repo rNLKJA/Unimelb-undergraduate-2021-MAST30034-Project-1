@@ -17,6 +17,7 @@ export const AUDIT_CSV_COLUMNS = [
   "input",
   "output",
   "edited_output",
+  "decision_history",
 ] as const;
 
 const json = (v: unknown) => (v === null || v === undefined ? "" : JSON.stringify(v));
@@ -41,6 +42,7 @@ export function auditToCsv(entries: readonly AuditEntry[]): string {
       input: json(e.input),
       output: json(e.output),
       edited_output: json(e.edited_output),
+      decision_history: json(e.decisions ?? []),
     })),
   );
 }

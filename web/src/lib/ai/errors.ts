@@ -1,3 +1,5 @@
+import type { TokenUsage } from "./types";
+
 /** Errors shown to the visitor. `kind` drives the message; `status` is the HTTP status when there was one. */
 export type AiErrorKind =
   | "no_key"
@@ -36,13 +38,26 @@ export class AiError extends Error {
   readonly kind: AiErrorKind;
   readonly status: number | null;
   readonly detail: string | null;
+  /** when a response arrived but was unusable: the model that answered and the tokens billed */
+  readonly model: string | null;
+  readonly usage: TokenUsage | null;
 
-  constructor(kind: AiErrorKind, opts: { status?: number | null; detail?: string | null } = {}) {
+  constructor(
+    kind: AiErrorKind,
+    opts: {
+      status?: number | null;
+      detail?: string | null;
+      model?: string | null;
+      usage?: TokenUsage | null;
+    } = {},
+  ) {
     super(MESSAGES[kind]);
     this.name = "AiError";
     this.kind = kind;
     this.status = opts.status ?? null;
     this.detail = opts.detail ?? null;
+    this.model = opts.model ?? null;
+    this.usage = opts.usage ?? null;
   }
 }
 
