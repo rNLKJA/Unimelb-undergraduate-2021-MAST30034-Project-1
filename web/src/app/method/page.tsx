@@ -175,7 +175,7 @@ export default async function MethodPage() {
               />
               <Stat
                 k="Zone coefficients, 2021 vs refit"
-                v={`r = ${formatFixed(s.zone_coefficient_correlation, 4)}`}
+                v={`r = ${formatFixed(s.zone_coefficient_correlation, 5)}`}
               />
             </dl>
             <p className="text-muted-foreground font-serif text-[15px] leading-relaxed">

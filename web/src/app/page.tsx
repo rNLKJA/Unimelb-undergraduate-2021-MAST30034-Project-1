@@ -4,6 +4,7 @@ import Link from "next/link";
 import { HeroMap } from "@/components/landing/hero-map";
 import { LineBullet } from "@/components/landing/line-bullet";
 import { formatCompact, formatFixed, formatInt, formatPct } from "@/lib/format";
+import { cn } from "@/lib/utils";
 import { SITE, repoTree } from "@/lib/site";
 import { hourLabel } from "@/lib/time";
 import { getCoefficients, getHeadline, getWeekdayHourVendor } from "@/server/analytics";
@@ -85,9 +86,10 @@ export default async function Home() {
               and how long<span className="text-taxi">.</span>
             </h1>
             <p className="prose-news text-foreground/85 mt-6 max-w-xl text-lg">
-              Every New York yellow-cab ride of 2019, all {formatCompact(h.rawRows)} of them, cleaned with the
-              rules I wrote for a 2021 data-science project, joined to weather, street events and car crashes,
-              and fitted with a regression that predicts how many minutes a trip will take.
+              Every New York yellow-cab ride of 2019 ({formatCompact(h.rawRows)} records in TLC&apos;s current
+              files, {formatCompact(h.rawRowsNotebook)} in the 2021 download), cleaned with the rules I wrote
+              for a 2021 data-science project, joined to weather, street events and car crashes, and fitted
+              with a regression that predicts how many minutes a trip will take.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -123,7 +125,7 @@ export default async function Home() {
           <KeyNumber
             label="Raw trip records"
             value={formatCompact(h.rawRows)}
-            note="12 monthly TLC files, 2019"
+            note={`12 TLC files · notebook: ${formatCompact(h.rawRowsNotebook)}`}
           />
           <KeyNumber
             label="After four cleaning rounds"
@@ -198,7 +200,11 @@ export default async function Home() {
           {SECTIONS.map((s) => (
             <li key={s.href} className="bg-background">
               <Link href={s.href} className="group hover:bg-card flex h-full gap-4 p-6 transition-colors">
-                <LineBullet glyph={s.glyph} color={s.color} className={s.glyph.length > 1 ? "text-xs" : ""} />
+                <LineBullet
+                  glyph={s.glyph}
+                  color={s.color}
+                  className={cn(s.glyph.length > 1 && "text-xs", s.href === "/method" && "text-taxi-ink")}
+                />
                 <span>
                   <span className="font-condensed flex items-center gap-1.5 text-2xl font-bold uppercase">
                     {s.title}
@@ -287,7 +293,7 @@ export default async function Home() {
                   [
                     "Engine",
                     "PySpark 3.1.2 on a laptop under WSL, 32 GB driver",
-                    "DuckDB in uv scripts: minutes on a laptop, not hours",
+                    "The same rules as DuckDB SQL in uv scripts; no JVM or Spark session",
                   ],
                   [
                     "Cleaning",
