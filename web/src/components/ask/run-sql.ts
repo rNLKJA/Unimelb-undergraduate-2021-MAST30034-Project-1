@@ -4,6 +4,8 @@ export interface SqlResult {
   columns: string[];
   rows: Cell[][];
   truncated: boolean;
+  /** text values over 10,000 characters that the server shortened */
+  shortenedCells?: number;
   elapsedMs: number;
   estimatedRows: number;
 }

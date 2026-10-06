@@ -27,11 +27,13 @@ export default async function AskPage() {
           <Note title="Where your data goes">
             Your question and the table descriptions go from your browser to the AI provider you chose, with
             your key. Only the SQL you choose to run is sent to this site&apos;s server, which checks that it
-            is a single read-only query and refuses expensive ones. The key never reaches this site.
+            is a single read-only query, refuses recursive or expensive ones, and stops any query after 3
+            seconds. The key never reaches this site.
           </Note>
           <Note title="Every call is on the record">
             Each AI call is logged in this browser with its input, output, latency, token usage and your
-            decision (accepted, edited or rejected). Review or export it in the{" "}
+            decisions (accepted, edited or rejected), kept in order and never overwritten. Review or export it
+            in the{" "}
             <Link className="link-taxi" href="/ai-log">
               AI audit log
             </Link>

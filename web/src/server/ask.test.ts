@@ -1,7 +1,8 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { compareResults } from "@/lib/ai/sql-eval";
 import { POST } from "@/app/api/sql/route";
 import { getGoldReferences, getPromptSchema } from "./ask";
+import { resetRateLimits, SQL_RATE_LIMIT } from "./rate-limit";
 import { runReadOnly } from "./sql-guard";
 
 describe("evaluation questions against analytics.db", () => {
@@ -62,10 +63,12 @@ describe("evaluation questions against analytics.db", () => {
 });
 
 describe("POST /api/sql", () => {
-  const post = (body: unknown) =>
+  beforeEach(() => resetRateLimits());
+  const post = (body: unknown, ip = "203.0.113.7") =>
     POST(
       new Request("http://localhost/api/sql", {
         method: "POST",
+        headers: { "x-forwarded-for": `${ip}, 10.0.0.1` },
         body: typeof body === "string" ? body : JSON.stringify(body),
       }),
     );
@@ -81,5 +84,15 @@ describe("POST /api/sql", () => {
     expect((await write.json()).error).toMatch(/Only SELECT/);
     expect((await post("not json")).status).toBe(400);
     expect((await post({ query: "SELECT 1" })).status).toBe(400);
+  });
+  it("slows down a client that sends too many queries", async () => {
+    for (let i = 0; i < SQL_RATE_LIMIT.tokens; i++) {
+      expect((await post({ sql: "SELECT 1 AS one" })).status).toBe(200);
+    }
+    const limited = await post({ sql: "SELECT 1 AS one" });
+    expect(limited.status).toBe(429);
+    expect(Number(limited.headers.get("Retry-After"))).toBeGreaterThan(0);
+    // other addresses are unaffected
+    expect((await post({ sql: "SELECT 1 AS one" }, "198.51.100.2")).status).toBe(200);
   });
 });
