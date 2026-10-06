@@ -24,6 +24,7 @@ export const NAV: readonly NavItem[] = [
   { href: "/ask", label: "Ask the data" },
   { href: "/methods", label: "Methods", also: ["/method", "/data-quality", "/ai-log"] },
   { href: "/records", label: "Records" },
+  { href: "/tour", label: "Tour" },
 ];
 
 type Env = Record<string, string | undefined>;

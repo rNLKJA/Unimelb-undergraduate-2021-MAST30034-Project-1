@@ -43,3 +43,9 @@ next-env.d.ts
 
 # MapLibre worker copied from node_modules by tools/copy-maplibre-worker.mjs
 /public/vendor
+
+# showcase tour (pnpm showcase): raw recordings, Playwright output, local ffmpeg shim
+/.showcase
+/.playwright
+/test-results
+/playwright-report

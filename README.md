@@ -17,6 +17,87 @@ Every New York yellow-cab trip of 2019, cleaned with the rules of a 2021 data-sc
 
 ---
 
+## Showcase
+
+<p align="center">
+  <img src="docs/showcase/where-and-when.gif" alt="Where and when walkthrough: scrubbing the hour and weekday on the zone choropleth, opening JFK Airport and following its busiest routes" width="960">
+</p>
+
+**[Take the guided tour](https://mast30034-nyc-taxi.vercel.app/tour)**: three short captioned walkthroughs (MP4 with WebVTT captions and a written transcript) and every screenshot below in a lightbox. All of it was recorded by a reproducible Playwright script, [`web/e2e/showcase.spec.ts`](web/e2e/showcase.spec.ts) (`cd web && pnpm showcase`), which doubles as an end-to-end test: it asserts the figures each step quotes (the hourly pickup totals, JFK's median trip at two hours, the prediction and its conformal interval at two levels, the rain and event effects with their confidence intervals, the data-quality counts), so a broken feature or a changed number fails the recording. Every figure is a full count over the 2019 trips or uses the site's fixed bootstrap seed, 20190101. The walkthroughs use no AI. No real API key was used for the two "Ask the data" screenshots either: the key is a placeholder and the model's reply is a clearly labelled mock, while the SQL it proposes still goes through the real validator and runs on the real read-only database.
+
+### Key features
+
+| | |
+| --- | --- |
+| <img src="docs/showcase/01-landing-light.png" alt="Landing page" width="440"><br>**Landing page.** The question, the key numbers and a map of 2019 pickups by taxi zone. | <img src="docs/showcase/02-landing-dark.png" alt="Landing page, dark mode" width="440"><br>**Landing page, dark mode.** The same page in the asphalt dark theme. |
+| <img src="docs/showcase/03-zone-map.png" alt="Zone map" width="440"><br>**Zone map.** Median minutes by pickup zone at 3 pm, with JFK Airport's 24-hour profile. | <img src="docs/showcase/04-routes.png" alt="Route explorer" width="440"><br>**Route explorer.** JFK Airport's busiest destinations, drawn like subway lines. |
+| <img src="docs/showcase/05-conditions.png" alt="Weather, events, collisions" width="440"><br>**Weather, events, collisions.** Every day of 2019 next to the extra data the 2021 model used. | <img src="docs/showcase/06-estimate.png" alt="Estimate a trip" width="440"><br>**Estimate a trip.** The 2021 regression in the browser, with a split-conformal prediction interval. |
+| <img src="docs/showcase/07-evaluation.png" alt="Evaluation" width="440"><br>**Evaluation.** A temporal hold-out with day-bootstrap intervals: a lookup table beats the regression. | <img src="docs/showcase/08-effects.png" alt="Rain and events" width="440"><br>**Rain and events.** Wet days are 3.4% slower (95% CI 1.9% to 4.8%), with every comparison's interval. |
+| <img src="docs/showcase/09-data-quality.png" alt="Data quality" width="440"><br>**Data quality.** Each cleaning rule: removed in sequence, failing alone and failing only that rule. | <img src="docs/showcase/10-methods.png" alt="Methods and decisions" width="440"><br>**Methods and decisions.** Data provenance, evaluation design, decision records, the model card and the AI use statement. |
+| <img src="docs/showcase/11-ai-settings.png" alt="Bring your own key" width="440"><br>**Bring your own key.** Optional AI settings: Anthropic by default, the key stays in this browser. | <img src="docs/showcase/12-ask-mocked.png" alt="Ask the data (mocked reply)" width="440"><br>**Ask the data (mocked reply).** Proposed SQL labelled AI-generated, run only after a human accepts it. The reply is mocked. |
+| <img src="docs/showcase/13-ask-eval.png" alt="Text-to-SQL evaluation" width="440"><br>**Text-to-SQL evaluation.** 24 questions with reference answers, Wilson intervals and an exact McNemar test. | <img src="docs/showcase/14-ai-log.png" alt="AI audit log" width="440"><br>**AI audit log.** Every AI call from this browser with the human decision; JSON and CSV export. |
+| <img src="docs/showcase/15-records.png" alt="Records" width="440"><br>**Records.** Every table of the read-only analytics database, searchable and downloadable. | <img src="docs/showcase/16-mobile-landing.png" alt="Mobile: landing" width="220"><br>**Mobile: landing.** The landing page on a 390 px phone. |
+| <img src="docs/showcase/17-mobile-map.png" alt="Mobile: zone map" width="220"><br>**Mobile: zone map.** The zone map and its controls on a phone. | <img src="docs/showcase/18-mobile-estimate.png" alt="Mobile: estimate" width="220"><br>**Mobile: estimate.** A prediction and its interval on a phone. |
+
+### Workflow walkthrough
+
+The steps below are the on-screen captions of each recording, in order.
+
+#### 1. Where and when (`/map` → `/routes`)
+
+The zone choropleth of 74.9 million cleaned 2019 trips: scrub the hour, switch the weekday, recolour by median minutes, open JFK Airport's detail and its 24-hour profile, play the day, then follow JFK's busiest routes.
+
+The GIF at the top of this section is this walkthrough.
+
+1. The zone map: 74.9 million cleaned 2019 trips by taxi zone, here pickups from 6 to 7 pm
+2. Scrub the hour: 4 am is the quietest, 558,493 pickups in 2019 against 4.9 million at 6 pm
+3. 8 am: the morning peak starts on the Upper East Side
+4. Saturday, 1 am: the East Village and the Lower East Side lead the night
+5. All days at 3 pm, coloured by median minutes: the airports and the outer zones are slowest
+6. Open JFK Airport: its pickups, median trip, 24-hour profile and vendor split
+7. A JFK pickup takes a median 26.2 min at 1 am and 51.8 min at 3 pm
+8. Play the day: the hour advances and the whole map follows
+9. Routes from JFK Airport: the busiest destinations, drawn like subway lines
+
+*Setup:* Pickups, starting from the map's defaults (all days, 6 pm). No sampling and no randomness: every figure is a full count over the cleaned 2019 trips.
+
+#### 2. Estimate a trip (`/estimate` → `/evaluation`)
+
+The 2021 regression running in the browser: pick a pickup and a drop-off zone, a date and an hour, read the prediction with its split-conformal interval next to what riders actually saw, change the interval level and the hour, see every term of the sum, then check how the intervals were validated.
+
+<img src="docs/showcase/estimate-a-trip.gif" alt="Estimate a trip walkthrough" width="960">
+
+1. Estimate a trip: the 2021 regression runs in your browser, all 579 features of it
+2. Pick a pickup zone: Penn Station/Madison Sq West
+3. And a drop-off: Times Sq/Theatre District, on Wednesday 9 October 2019 at 5 pm
+4. The 2021 model predicts 14.2 min, with a 90% split-conformal interval of 3.9 to 31.5 min
+5. Riders saw a median of 13.3 min at 5 pm, over 9,856 trips: the dashed blue line
+6. At 95% the interval widens to 3.1 to 36.7 min, and 95.0% of held-out trips like these fell inside
+7. Change the hour to 8 am: 13.2 min, and the interval moves with the prediction
+8. Why that number: a linear model is a sum, and each bar is one part of the trip
+9. How the intervals were checked: coverage on 7.5 million held-out trips, with day-bootstrap CIs
+
+*Setup:* Penn Station/Madison Sq West to Times Sq/Theatre District, Wednesday 9 October 2019, 1 passenger, vendor 2, rate code 1. The intervals are fixed quantiles from the calibration fold; their coverage intervals resample whole test days (B = 2,000, seed 20190101).
+
+#### 3. What changes trip time (`/effects` → `/data-quality`)
+
+Does rain or a street event slow a taxi down? A composition-adjusted duration index, the rain regression with bootstrap, HC3 and Newey–West intervals, a matched comparison for permitted events, the caveats, then the data-quality report behind the cleaned data.
+
+<img src="docs/showcase/what-changes-trip-time.gif" alt="What changes trip time walkthrough" width="960">
+
+1. What changes trip time? Each trip is compared with its own route and hour
+2. One dot per day: how much longer than usual the day's trips took, against Central Park rain
+3. Rain: the same trips are 3.4% slower on wet days (95% CI 1.9% to 4.8%), over 333 days
+4. Every comparison with its interval: two-sample, regression and rain bins
+5. Permitted events: 31 matched pairs on 16 dates, −0.6% (95% CI −2.8% to +1.8%), no detectable effect
+6. The caveats: observational data, one rain gauge, collisions as a mediator
+7. The data-quality report: what each 2021 cleaning rule removes, and why
+8. Missing values: until 21 January 2019 almost every row lacks the congestion surcharge
+9. Rule by rule: removed in sequence, failing alone and failing only this rule
+10. What got through: vendor 1 leaves the $2.50 surcharge out of the total on 23.4 million trips
+
+*Setup:* Bootstrap intervals resample days (rain) or dates (events), B = 4,000, seed 20190101. Wet means at least 0.1 inch at Central Park. Data-quality figures are full counts over the 2019 records, not samples.
+
 ## What the project is
 
 Project 1 of MAST30034 was an individual quantitative analysis of the New York Taxi and Limousine Commission (TLC) trip records. Students picked a question, cleaned a very large real dataset, explored it visually and backed the answer with a statistical model.
@@ -108,6 +189,7 @@ Every AI call made on the site is logged in your browser's IndexedDB. Each entry
 | `/methods`, `/methods/decisions/…` | Data provenance, evaluation design, assumptions, limitations, decision records, the model card and the AI use statement |
 | `/method` | The cleaning funnel rule by rule with both sets of counts, the quirks of the 2021 rules, a "would your trip survive?" rule tester, fold-by-fold parity charts and the regularisation path |
 | `/records` | Browse, search, sort and download (CSV) every table of the analytics database |
+| `/tour` | The guided tour: three captioned walkthrough videos with written transcripts, and every screenshot in a lightbox |
 | `/api/zones`, `/api/routes`, `/api/route-hourly` | Read-only JSON used by the interactive pages |
 | `/api/sql` | POST one read-only SQL query and get rows back (validated, cost-checked, stopped after 3 seconds, at most 500 rows, rate-limited) |
 
@@ -140,7 +222,8 @@ Everything is static or served from a bundled read-only SQLite file. There is no
 │   └── requirements.txt  pyproject.toml  init.py  library.py  ...
 ├── docs/                        methods, model card, AI use statement, decision records (rendered on /methods)
 │   ├── methods.md  model-card.md  ai-use-statement.md
-│   └── decisions/DR-001 … DR-004
+│   ├── decisions/DR-001 … DR-004
+│   └── showcase/                README screenshots and walkthrough GIFs (pnpm showcase)
 ├── scripts/                     reproducible data pipeline (uv + DuckDB)
 │   ├── fetch_data.py            raw inputs -> data-cache/ (git-ignored)
 │   ├── pipeline.py              the 2021 cleaning and merge rules -> data-cache/work.duckdb
@@ -159,10 +242,13 @@ Everything is static or served from a bundled read-only SQLite file. There is no
     ├── content/                 copies of docs/ for the website (pnpm docs:sync)
     ├── data/analytics.db        read-only aggregates (built by scripts/build_analytics.py)
     ├── public/data/             zones.geojson, boroughs.geojson
+    ├── public/showcase/         walkthrough MP4s, captions, posters and screenshots for /tour
+    ├── e2e/                     the Playwright guided tour (pnpm showcase), which is also an end-to-end test
+    ├── scripts/                 runs the tour on the system Chrome and encodes the media with ffmpeg and sharp
     ├── tools/                   copies the MapLibre worker and syncs docs/ at dev/build time
     └── src/
         ├── app/                 routes: /, map, routes, conditions, estimate, evaluation, effects, data-quality,
-        │                        ask, ai-log, method, methods, records, api
+        │                        ask, ai-log, method, methods, records, tour, api
         ├── components/          layout/, ai/, ask/, evidence/, map/, explorer/, charts/, controls/, ...
         ├── hooks/               theme, reduced motion, JSON fetch, AI settings
         ├── lib/                 framework-free code: model, cleaning, metrics, holdout, effects, conformal,
@@ -184,6 +270,17 @@ pnpm start -p 3303  # serve the production build
 ```
 
 `pnpm typecheck` runs `next typegen` first, because the global route types (`PageProps`, `LayoutProps`, `RouteContext`) only exist after type generation.
+
+### Recording the showcase
+
+```bash
+cd web
+pnpm showcase                                   # tour the production site, then rebuild docs/showcase/ and public/showcase/
+BASE_URL=http://localhost:3303 pnpm showcase    # tour a local `pnpm build` (the server is started for you)
+pnpm showcase:test                              # the journeys as a quick end-to-end test: no pauses, no video
+```
+
+The tour runs on the system Google Chrome (Playwright channel `chrome`) and the `ffmpeg` on your PATH; no browser or ffmpeg build is downloaded. It writes raw screenshots and recordings to `web/.showcase/` (git-ignored), and `scripts/showcase-media.mjs` turns them into optimised PNGs (under 600 KB), WebP copies, H.264 MP4s and GIFs (under 8 MB each) and WebVTT captions. The captions come from `web/src/lib/showcase.ts`, which `src/lib/showcase.test.ts` checks against the README and the caption files.
 
 No environment variables are needed (see `web/.env.example`), and no AI key is needed to build, test or run the site. AI keys are entered in the browser only. Metadata and Open Graph URLs use `NEXT_PUBLIC_SITE_URL` when it is set; otherwise they follow Next.js's own fallback: the Vercel production domain on production deploys, the branch URL on previews and `http://localhost:$PORT` locally.
 

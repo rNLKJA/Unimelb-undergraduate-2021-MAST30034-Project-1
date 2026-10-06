@@ -9,3 +9,8 @@ next-env.d.ts
 content
 src/lib/stats/__fixtures__
 src/lib/data/conformal.json
+.showcase
+.playwright
+test-results
+playwright-report
+public/showcase

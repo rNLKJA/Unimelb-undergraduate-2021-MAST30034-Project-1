@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Play } from "lucide-react";
 import { GithubIcon } from "@/components/icons";
 import Link from "next/link";
 import { HeroMap } from "@/components/landing/hero-map";
@@ -124,6 +124,12 @@ export default async function Home() {
                 className="hover:bg-muted inline-flex items-center gap-2 rounded-md border px-4 py-2.5 font-semibold"
               >
                 Estimate a trip
+              </Link>
+              <Link
+                href="/tour"
+                className="hover:bg-muted decoration-taxi inline-flex items-center gap-2 rounded-md px-4 py-2.5 font-semibold underline decoration-[3px] underline-offset-4"
+              >
+                <Play className="size-4" aria-hidden /> Watch the guided tour
               </Link>
             </div>
           </div>
