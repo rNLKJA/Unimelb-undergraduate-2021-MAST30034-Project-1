@@ -1,29 +1,41 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
+import localFont from "next/font/local";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { SITE, siteUrl } from "@/lib/site";
 import "./globals.css";
 
+// Self-hosted latin subsets from the @fontsource-variable packages (see
+// src/app/fonts/README.md), so builds never fetch Google Fonts.
+
 /** Archivo with its width axis: condensed (68%) for headlines, normal width for UI. */
-const archivo = Archivo({
+const archivo = localFont({
+  src: "./fonts/archivo-latin-wdth-normal.woff2",
+  weight: "100 900",
+  style: "normal",
   variable: "--font-archivo",
-  subsets: ["latin"],
-  axes: ["wdth"],
+  display: "swap",
+  declarations: [{ prop: "font-stretch", value: "62% 125%" }],
 });
 
-/** Editorial serif for long-form prose. */
-const sourceSerif = Source_Serif_4({
+/** Editorial serif for long-form prose (weight and optical-size axes). */
+const sourceSerif = localFont({
+  src: "./fonts/source-serif-4-latin-opsz-normal.woff2",
+  weight: "200 900",
+  style: "normal",
   variable: "--font-source-serif",
-  subsets: ["latin"],
-  axes: ["opsz"],
+  display: "swap",
+  adjustFontFallback: "Times New Roman",
 });
 
 /** Figures, kickers and code. */
-const jetbrains = JetBrains_Mono({
+const jetbrains = localFont({
+  src: "./fonts/jetbrains-mono-latin-wght-normal.woff2",
+  weight: "100 800",
+  style: "normal",
   variable: "--font-jetbrains",
-  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
