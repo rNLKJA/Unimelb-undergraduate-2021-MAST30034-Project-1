@@ -34,6 +34,8 @@ export default async function DataQualityPage() {
   const miss = (file: string, col: string) =>
     dq.missing.find((m) => m.source_file === file && m.column_name === col)?.missing ?? 0;
   const rowsOf = (file: string) => dq.missing.find((m) => m.source_file === file)?.rows ?? 0;
+  // passenger count, rate code and flag go missing together; their share differs by month
+  const trioShares = files.map((f) => miss(f, "passenger_count") / rowsOf(f));
   const janMax = Math.max(...dq.january.map((d) => d.rows));
   const redundant = dq.rules.filter((r) => r.fails_only_this === 0 && (r.fails_alone ?? 0) > 0);
   const surcharge = dq.residual.find((r) => r.key === "total_excludes_congestion");
@@ -115,8 +117,9 @@ export default async function DataQualityPage() {
               </tbody>
             </table>
             <p className="text-muted-foreground mt-2 text-xs">
-              Passenger count, rate code and store-and-forward flag are always missing together: about 0.4% of
-              each month, the same rows each time.
+              Passenger count, rate code and store-and-forward flag are always missing together, the same rows
+              each time: {formatPct(Math.min(...trioShares), 1)} to {formatPct(Math.max(...trioShares), 1)} of
+              each month, rising towards December.
             </p>
           </ScrollRegion>
           <figure>

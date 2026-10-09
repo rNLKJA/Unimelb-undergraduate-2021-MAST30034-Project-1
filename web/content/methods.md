@@ -9,7 +9,7 @@ This page sets out where the data comes from, what was done to it, how the resul
 | NYC TLC yellow-taxi trip records, 2019 | every trip-level number | TLC's 2022 Parquet re-issue, 12 monthly files, 84,598,444 rows. The 2021 notebook read the original CSVs, which TLC no longer publishes. |
 | NOAA GHCN-Daily, Central Park station | daily weather features and the rain analysis | the file the 2021 notebook used, from the 2021 project snapshot |
 | NYPD motor-vehicle collisions | daily collision counts | a 2021 BigQuery export that ends on 23 December 2019 |
-| NYC Open Data permitted events (`bkfu-528j`) | daily event counts per borough | the current version, which is about ten times smaller than the 2021 export |
+| NYC Open Data permitted events (`bkfu-528j`) | daily event counts per borough | the current version, which is about twelve times smaller than the 2021 export |
 | TLC taxi-zone lookup and shapefile | zone names, boroughs and map polygons | the 2021 snapshot |
 
 `scripts/fetch_data.py` downloads the trips and extracts the other files. `scripts/pipeline.py` applies the 2021 rules and writes a DuckDB work file that is not committed. Five later scripts fit the model, run the rigour, effects and data-quality analyses, and build the database. They write the committed outputs in `scripts/out/` and the read-only database `web/data/analytics.db`, which holds aggregates only and no individual trip. The README lists the order to run them in.
