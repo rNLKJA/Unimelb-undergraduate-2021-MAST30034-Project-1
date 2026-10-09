@@ -203,7 +203,7 @@ Everything is static or served from a bundled read-only SQLite file. There is no
 | Engine | PySpark 3.1.2 under WSL | DuckDB in [uv](https://docs.astral.sh/uv/) scripts with inline (PEP 723) dependencies |
 | Model | Spark MLlib elastic net, `maxIter=10`, manual 10-fold CV | NumPy coordinate descent on exact sufficient statistics, same objective as Spark |
 | Maps | Folium with Stamen tiles (discontinued) | MapLibre GL JS 6 with OpenFreeMap vector tiles and a bundled GeoJSON fallback |
-| App | A 22 MB notebook | Next.js 16 (App Router, Server Components), React 19, TypeScript (strict), Tailwind CSS 4 with shadcn/ui theme tokens, Recharts, next-themes, zod |
+| App | A 23 MB notebook | Next.js 16 (App Router, Server Components), React 19, TypeScript (strict), Tailwind CSS 4 with shadcn/ui theme tokens, Recharts, next-themes, zod |
 | Data at runtime | n/a | `web/data/analytics.db` (16.1 MB, 37 tables of aggregates) read with `@libsql/client`, and with libsql's promise API for visitor SQL so a query can be interrupted |
 | Statistics | Spark's `RegressionEvaluator` | A small TypeScript library (`web/src/lib/stats/`: Wilson, bootstrap, t and normal quantiles, OLS with HC3 and Newey–West, McNemar, effect sizes) tested against scipy, statsmodels and R. HC3 and clustered SEs over 75 million rows in NumPy (`scripts/sparse_ols.py`) |
 | AI (optional) | n/a | Bring your own key: the official Anthropic SDK in browser mode or `fetch` to OpenAI, zod-validated structured output, an IndexedDB audit log |

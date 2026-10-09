@@ -21,7 +21,7 @@ It is not meant for real-time arrival estimates, fare or pricing decisions, disp
 
 - **Trips:** NYC Taxi and Limousine Commission yellow-taxi trip records for 2019. In 2021 these came from TLC's monthly CSVs. The revival uses TLC's 2022 Parquet re-issue of the same months, 84,598,444 raw records.
 - **Cleaning:** four rounds of rules from the 2021 notebook, kept exactly as they ran (see [DR-002](decisions/DR-002-cleaning-thresholds.md) and `/data-quality`). They leave 74,910,889 trips and 74,941,355 model rows, because the shapefile join duplicates two zone names.
-- **Joined data:** NOAA GHCN-Daily weather for Central Park, NYPD motor-vehicle collisions (a 2021 BigQuery export that ends on 23 December 2019) and NYC Open Data permitted events. The events dataset has been revised since 2021 and is now about ten times smaller.
+- **Joined data:** NOAA GHCN-Daily weather for Central Park, NYPD motor-vehicle collisions (a 2021 BigQuery export that ends on 23 December 2019) and NYC Open Data permitted events. The events dataset has been revised since 2021 and is now about twelve times smaller (233,110 permits in 2019 against 2,823,378 rows in the 2021 export).
 - **Personal information:** TLC publishes trips without driver or passenger identifiers, with locations coarsened to 263 taxi zones. The website ships aggregates only and no individual trip.
 
 ## Evaluation

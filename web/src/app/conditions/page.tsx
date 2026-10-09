@@ -69,8 +69,9 @@ export default async function ConditionsPage() {
             <Note title="Revised event records">
               NYC Open Data has revised its historical events dataset since 2021: 2019 now holds{" "}
               {formatInt(side.events)} permits against {formatInt(NOTEBOOK_EVENT_ROWS)} rows in the
-              notebook&apos;s export, so daily counts are about ten times smaller than the model saw. The 2021
-              model gave events a coefficient of zero either way.
+              notebook&apos;s export, so daily counts are about{" "}
+              {Math.round(NOTEBOOK_EVENT_ROWS / side.events)} times smaller than the model saw. The 2021 model
+              gave events a coefficient of zero either way.
             </Note>
             <Note title="Collision coverage">
               The 2021 BigQuery export holds {formatInt(side.collisions)} collisions with a known borough and

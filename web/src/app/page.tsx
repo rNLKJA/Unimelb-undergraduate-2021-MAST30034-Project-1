@@ -339,7 +339,7 @@ export default async function Home() {
                     "Spark MLlib elastic net, maxIter 10, manual 10-fold CV",
                     "2021 coefficients scored on the revived folds, plus a converged refit",
                   ],
-                  ["Delivery", "A 22 MB notebook", "Next.js 16, a 15 MB read-only SQLite file, Vercel"],
+                  ["Delivery", "A 23 MB notebook", "Next.js 16, a 16 MB read-only SQLite file, Vercel"],
                 ].map(([layer, a, b]) => (
                   <tr key={layer}>
                     <th scope="row" className="py-2.5 pr-3 align-top font-medium">
